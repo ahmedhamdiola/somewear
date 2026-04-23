@@ -1,0 +1,106 @@
+import {UserInterface} from "../interfaces/UserInterface";
+import UserRepository from "../repository/UserRepository";
+import { generateToken } from "../utils/jwt";
+import {hashPassword, comparePassword} from "../utils/hash";
+
+export const registerUserService = async (user: UserInterface) => {
+    //validation
+    if (!user.username || user.username.trim()==="") {
+        throw new Error("Username is required");
+    }
+    if (!user.email || user.email.trim()==="") {
+        throw new Error("Email is required");
+    }
+    if (!user.password || user.password.trim()==="") {
+        throw new Error("Password is required");
+    }
+
+
+    const existingUser = UserRepository.getUserByEmail(user.email);
+    if (existingUser) {
+        throw new Error("Email already in use");
+    }
+    const hashedPassword = await hashPassword(user.password);
+    const newUser = UserRepository.createUser({
+    ...user,
+    password: hashedPassword,
+    role: "customer",
+  });
+  const token = generateToken({
+    id: newUser.id,
+    role: newUser.role,
+  });
+  const { password, ...safeUser } = newUser;
+  return { user: safeUser, token };
+};
+
+
+export const loginUserService = async (email: string, password: string) => {
+    if (!email || email.trim()==="") {
+        throw new Error("Email is required");
+    }
+    if (!password || password.trim()==="") {
+        throw new Error("Password is required");
+    }
+    const user = UserRepository.getUserByEmail(email);
+    if (!user) {
+        throw new Error("Invalid email or password");
+    }
+    const isPasswordValid = await comparePassword(password, user.password);
+    if (!isPasswordValid) {
+        throw new Error("Invalid email or password");
+    }
+    const token = generateToken({ id: user.id, role: user.role });
+    const { password: _, ...safeUser } = user;
+    return { user: safeUser, token };
+};
+
+export const getUserByIdService = (id: number) => {
+    if (id <= 0 || !id) {
+        throw new Error("Invalid user ID");
+    }
+    const user = UserRepository.getUserById(id);
+    if (!user) {
+        throw new Error("User not found");
+    }
+    return user;
+}
+
+export const updateUserByIdService = (id: number, user: Partial<UserInterface>) => {
+    if (id <= 0 || !id) {
+        throw new Error("Invalid user ID");
+    }
+    if(user.username && user.username.trim() === "") {
+        throw new Error("Username cannot be empty");
+    }
+    if(user.address && user.address.trim() === "") {
+        throw new Error("Address cannot be empty");
+    }
+    if(user.phone && user.phone.trim() === "") {
+        throw new Error("Phone cannot be empty");
+    }
+    if (user.password) {
+        user.password = hashPassword(user.password) as unknown as string; // Hash the new password
+    }
+    const updatedUser = UserRepository.updateUserById(id, user);
+    if (!updatedUser) {
+        throw new Error("Failed to update user");
+    }
+    return updatedUser;
+}
+    
+export const deleteUserByIdService = (id: number) => {
+    if (id <= 0 || !id) {
+        throw new Error("Invalid user ID");
+    }
+    const result = UserRepository.deleteUserById(id);
+    return result;
+}
+
+export default {
+    registerUserService,
+    loginUserService,
+    getUserByIdService,
+    updateUserByIdService,
+    deleteUserByIdService
+};

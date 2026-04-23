@@ -4,15 +4,21 @@ const db = new Database("store.db");
 
 db.pragma("foreign_keys = ON");
 
-
-const tables = db.prepare(`
+const tables = db
+  .prepare(
+    `
   SELECT name FROM sqlite_master WHERE type='table'
-`).all();
+`,
+  )
+  .all();
 
 console.log(tables);
+
+
 //user
 db.prepare(
   `
+  
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT NOT NULL UNIQUE, 
