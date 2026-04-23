@@ -1,7 +1,7 @@
 import Logo from "../../../assets/logo.svg"
 import { Separator } from "../../../components/ui/separator"
 import CategoriesDropdown from "../../../components/reusableUI/CategoriesDropDown"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { HeartIcon, ShoppingBagIcon, UserIcon } from "lucide-react";
 import SearchBar from "./SearchBar";
 
@@ -30,12 +30,12 @@ const NavBar = () => {
                 </div>
 
                 <div className="flex gap-10 text-sm font-light pb-3">
-                    <Link to="/">HOME</Link>
-                    <Link to="/home">SHOP ALL</Link>
+                    <p onClick={() => navigate('/')} className="cursor-pointer hover:font-medium">HOME</p>
+                    <p onClick={() => navigate('/home')} className="cursor-pointer hover:font-medium">SHOP ALL</p>
                     <CategoriesDropdown mainCategory="SHOP MEN" list={list} />
                     <CategoriesDropdown mainCategory="SHOP WOMEN" list={list} />
                     <CategoriesDropdown mainCategory="SHOP KIDS" list={list} />
-                    <Link to="/contact">CONTACT US</Link>
+                    <p onClick={() => navigate('/contact')} className="cursor-pointer hover:font-medium">CONTACT US</p>
                 </div>
 
             </div>
