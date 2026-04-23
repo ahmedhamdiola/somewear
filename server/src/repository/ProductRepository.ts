@@ -4,7 +4,7 @@ import { ProductInterface } from '../interfaces/ProductInterface';
 
 
 //create product 
- export const createProduct = (product: ProductInterface): ProductInterface => {
+export const createProduct = (product: ProductInterface): ProductInterface => {
   const stmt = db.prepare<
     [
       string,
@@ -35,7 +35,7 @@ import { ProductInterface } from '../interfaces/ProductInterface';
 
 
 //get product by id
-    export const getProductById = (id: number): ProductInterface | null => {
+export const getProductById = (id: number): ProductInterface | null => {
   const res = db.prepare<[number], ProductInterface>(`
     SELECT * FROM products WHERE id = ?
   `);
@@ -49,7 +49,7 @@ import { ProductInterface } from '../interfaces/ProductInterface';
 
 //get all products
 export const getAllProducts = (category?: string,
-  subcategory?: string): ProductInterface[] => {   
+  subcategory?: string): ProductInterface[] => {
   try {
     let query = "SELECT * FROM products";
     const params: (string | undefined)[] = [];
@@ -62,7 +62,7 @@ export const getAllProducts = (category?: string,
       query += " WHERE category = ?";
       params.push(category);
     }
-      else if (subcategory && subcategory.trim() !== "") {
+    else if (subcategory && subcategory.trim() !== "") {
       query += " WHERE subcategory = ?";
       params.push(subcategory);
     }
@@ -71,19 +71,19 @@ export const getAllProducts = (category?: string,
     return stmt.all(...params as string[]);
 
   }
-   catch (error) {
+  catch (error) {
     throw new Error("Error fetching products: " + (error as Error).message);
   }
 };
 
 //update product
-    export const updateProduct = (id: number, product:Partial<ProductInterface>): ProductInterface | null => {
-        
-        const existing = getProductById(id);
-        if(!existing) {
-            throw new Error("Product not found");
-        }
-     const stmt = db.prepare<
+export const updateProduct = (id: number, product: Partial<ProductInterface>): ProductInterface | null => {
+
+  const existing = getProductById(id);
+  if (!existing) {
+    throw new Error("Product not found");
+  }
+  const stmt = db.prepare<
     [
       string,
       string | null,
@@ -115,14 +115,14 @@ export const getAllProducts = (category?: string,
 
 
 //delete product
-    export const deleteProduct = (id: number): {message: string} => {
-    
-        
-    const stmt = db.prepare<[number], void>(`
+export const deleteProduct = (id: number): { message: string } => {
+
+
+  const stmt = db.prepare<[number], void>(`
     DELETE FROM products WHERE id = ?
   `);
 
- const res = stmt.run(id);
+  const res = stmt.run(id);
   if (res.changes > 0) {
     return {
       message: "Product deleted successfully"
@@ -131,11 +131,11 @@ export const getAllProducts = (category?: string,
   throw new Error("Product not found");
 
 };
-    
+
 export default {
-    createProduct : createProduct,
-    getProductById : getProductById,
-    getAllProducts : getAllProducts,
-    updateProduct : updateProduct,
-    deleteProduct : deleteProduct
+  createProduct: createProduct,
+  getProductById: getProductById,
+  getAllProducts: getAllProducts,
+  updateProduct: updateProduct,
+  deleteProduct: deleteProduct
 };

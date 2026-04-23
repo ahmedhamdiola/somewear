@@ -3,13 +3,14 @@ import CartPage from './features/cart/pages/CartPage'
 import FavouritePage from './features/favourites/pages/FavouritePage'
 import HomePage from './features/common/pages/HomePage'
 import SignUpPage from './features/auth/pages/SignUpPage'
+import LandingPage from './features/common/pages/LandingPage'
 function App() {
 
   return (
     <div>
       <Router>
         <Routes>
-          <Route path='/' element={<div className="bg-red-400">HELLO</div>} />
+          <Route path='/' element={<LandingPage />} />
           <Route path='/cart' element={<CartPage />} />
           <Route path='/favourites' element={<FavouritePage />} />
           <Route path='/home' element={<HomePage />} />
