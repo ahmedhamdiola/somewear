@@ -5,7 +5,7 @@ import RoleMiddleware from "../middleware/RoleMiddleWare";
 
 const router = express.Router();
 
-router.post("/prod",AuthMiddleWare,RoleMiddleware("admin"),productcontroller.createProduct,);
+router.post("/products",AuthMiddleWare,RoleMiddleware("admin"),productcontroller.createProduct,);
 router.get("/products/:id", productcontroller.getProductById);
 router.get("/products", productcontroller.getAllProducts);
 router.put("/products/:id",AuthMiddleWare, RoleMiddleware("admin"), productcontroller.updateProduct,);

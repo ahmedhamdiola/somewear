@@ -1,12 +1,14 @@
 import {Request, Response} from 'express';
 import ProductVariantService from '../services/ProductVariantService';
+import { successResponse, errorResponse } from '../utils/response';
+
 
 export const createProductVariantController = (req: Request, res: Response) => {
     try {
         const productVariant = ProductVariantService.createProductVariantService(req.body);    
-        return res.status(201).json(productVariant);
+        return successResponse(res, productVariant, "Product variant created successfully", 201);
     } catch (error) {
-        return res.status(400).json({ error: (error as Error).message });
+        return errorResponse(res, error, "Failed to create product variant", 400);
     }
 };
 
@@ -17,26 +19,25 @@ export const getProductVariantByIdController = (req: Request<{id: string}>, res:
         if (!productVariant) {
             return res.status(404).json({ error: "Product variant not found" });
         }
-        return res.status(200).json(productVariant);
+        return successResponse(res, productVariant, "Product variant found", 200);
   } catch (error) {
-    return res.status(400).json({
-      error: (error as Error).message,
-        });
-    }
-};
+    return errorResponse(res, error, "Failed to get product variant", 400);
+        }
+
+    };
+
+
 
 export const getProductVariantsByProductIdController = (req: Request<{productId: string}>, res: Response) => {
     try {
         const productId = Number(req.params.productId);
         const productVariants = ProductVariantService.getProductVariantsByProductIdService(productId);
-        return res.status(200).json(productVariants);
+        return successResponse(res, productVariants, "Product variants found", 200);
     }
     catch (error) {
-        return res.status(400).json({
-            error: (error as Error).message,
-        });
+        return errorResponse(res, error, "Failed to get product variants", 400);
     }
-};
+    };
 
 export const updateProductVariantController = (req: Request<{id: string}>, res: Response) => {
     try {
@@ -45,11 +46,9 @@ export const updateProductVariantController = (req: Request<{id: string}>, res: 
         if (!updatedVariant) {
             return res.status(404).json({ error: "Product variant not found" });
         }
-        return res.status(200).json(updatedVariant);
+        return successResponse(res, updatedVariant, "Product variant updated successfully", 200);
     } catch (error) {        
-        return res.status(400).json({
-        error: (error as Error).message,
-        });
+        return errorResponse(res, error, "Failed to update product variant", 400);
     }
 };
 
@@ -57,11 +56,9 @@ export const deleteProductVariantController = (req: Request<{id: string}>, res: 
     try {
         const id = Number(req.params.id);
         const result = ProductVariantService.deleteProductVariantService(id);
-        return res.status(200).json(result);
+        return successResponse(res, result, "Product variant deleted successfully", 200);
     } catch (error) {
-        return res.status(400).json({
-            error: (error as Error).message,
-        });
+        return errorResponse(res, error, "Failed to delete product variant", 400);
     }
 };
 
