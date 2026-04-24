@@ -32,7 +32,7 @@ const LandingPage = () => {
                 <ProductCard />
                 <ProductCard />
             </div>
-            <div className="bg-black py-16 px-6">
+            <div className="bg-black py-12 px-6">
                 <div className="max-w-3xl mx-auto text-white text-center space-y-4 leading-relaxed">
 
                     <p>
@@ -51,8 +51,6 @@ const LandingPage = () => {
                     </p>
 
                 </div>
-
-                <Separator className="bg-gray-700 mt-10" />
             </div>
             <FooterBar />
         </div>
