@@ -4,6 +4,7 @@ import { Button } from "../../../components/ui/button"
 import { useNavigate } from "react-router-dom"
 import { Separator } from "../../../components/ui/separator"
 import FooterBar from "../components/FooterBar"
+import ProductCard from "../../product/components/ProductCard"
 const LandingPage = () => {
     const navigate = useNavigate()
     return (
@@ -16,13 +17,42 @@ const LandingPage = () => {
                     <h1 className="text-white font-bold text-3xl">FOR THOSE WHO NEVER FOLLOW THE CROWD!</h1>
                     <Button
                         className="bg-white text-black w-40 mt-5 cursor-pointer font-semibold"
-                        onClick={() => navigate('/home')}
+                        onClick={() => navigate('/home/#')}
                     >SHOP ALL</Button>
                 </div>
             </div>
             <Separator />
-            <div className="h-40 flex items-center">
-                <h1 className="ml-5 text-4xl font-bold">FEATURED PRODUCTS</h1>
+            <div className="mt-15 flex items-center">
+                <h1 className="ml-15 text-3xl font-bold">FEATURED PRODUCTS</h1>
+            </div>
+            <div className="grid grid-cols-5 gap-7 p-5 h-full">
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+            </div>
+            <div className="bg-black py-16 px-6">
+                <div className="max-w-3xl mx-auto text-white text-center space-y-4 leading-relaxed">
+
+                    <p>
+                        SOMEWEAR.. where fashion meets attitude and creativity knows no bounds!
+                    </p>
+
+                    <p>
+                        Our brand was established with a vision to bring a unique and edgy twist
+                        to the fashion world, inspired by the rebellious spirit of street culture.
+                    </p>
+
+                    <p>
+                        Thank you for choosing our brand and being part of our community.
+                        Together, we can redefine what it means to be a fashion rebel and change
+                        the world, one bold and stylish statement at a time.
+                    </p>
+
+                </div>
+
+                <Separator className="bg-gray-700 mt-10" />
             </div>
             <FooterBar />
         </div>

@@ -10,7 +10,7 @@ const NavBar = () => {
     const navigate = useNavigate();
 
     return (
-        <nav className="bg-[#f5f5f5] h-55">
+        <nav className="bg-[#f5f5f5] h-55 shadow-sm">
             <div className="flex justify-center items-center h-full flex-col">
 
                 <div className="flex items-center justify-between w-full px-6 flex-1">
