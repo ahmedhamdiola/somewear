@@ -1,9 +1,10 @@
-import React from "react";
+
 import { useState } from "react";
 import { ErrorMessage, Formik } from "formik";
 import { Form, Field } from "formik";
 import * as Yup from "yup";
 import {Link} from "react-router-dom";
+import CustomInput from "../components/CustomInput";
 
 interface LoginValues {
   email: string;
@@ -49,25 +50,9 @@ const LoginPage= () => {
           >
             {(formik) => (
               <Form>
-                <label
-                  htmlFor="email"
-                  className="text-sm font-bold text-[#999] mb-2 block tracking-[1px]"
-                >
-                  Email
-                </label>
-                <Field
-                  type="email"
-                  name="email"
-                  placeholder="you@email.com"
-                  id="email"
-                  className={`w-full p-3 border border-[#ddd] rounded text-xs outline-none box-border
-                ${formik.errors.email && formik.touched.email ? "mb-1" : "mb-5"}`}
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="text-red-500 text-[14px] mb-2"
-                />
+                <CustomInput name="email" type="email" placeholder="you@email.com" id="email" />
+
+
                 <label
                   htmlFor="password"
                   className="text-sm font-bold text-[#999] mb-2 block tracking-[1px]"

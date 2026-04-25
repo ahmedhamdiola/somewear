@@ -1,6 +1,7 @@
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form,  } from "formik";
 import * as Yup from "yup";
+import CustomInput from '../components/CustomInput';
 
 interface SignupValues {
   name: string;
@@ -55,98 +56,12 @@ const SignUpPage = () => {
         >
           {(formik) => (
             <Form className="space-y-2">
-              <label
-                htmlFor="name"
-                className="text-sm font-bold text-[#999] mb-2 block tracking-[1px]"
-              >
-                Name
-              </label>
-              <Field
-                type="text"
-                name="name"
-                id="name"
-                placeholder="ahmed ali"
-                className="w-full p-3 border border-[#ddd] rounded text-base outline-none box-border"
-              />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-              <label
-                htmlFor="phone"
-                className="text-sm font-bold text-[#999] mb-2 block tracking-[1px]"
-              >
-                Phone
-              </label>
-              <Field
-                type="tel"
-                name="phone"
-                id="phone"
-                placeholder="010xxxxxxxx"
-                className="w-full p-3 border border-[#ddd] rounded text-base outline-none box-border"
-              />
-              <ErrorMessage
-                name="phone"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-              <label
-                htmlFor="email"
-                className="text-sm font-bold text-[#999] mb-2 block tracking-[1px]"
-              >
-                Email
-              </label>
-              <Field
-                type="email"
-                name="email"
-                placeholder="you@email.com"
-                id="email"
-                className={
-                  "w-full p-3 border border-[#ddd] rounded text-base outline-none box-border mb-5"
-                }
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-              <label
-                htmlFor="password"
-                className="text-sm font-bold text-[#999] mb-2 block tracking-[1px]"
-              >
-                Password
-              </label>
-              <Field
-                type="password"
-                name="password"
-                id="password"
-                placeholder="********"
-                className="w-full p-3 border border-[#ddd] rounded text-base outline-none box-border"
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-              <label
-                htmlFor="confirm-password"
-                className="text-sm font-bold text-[#999] mb-2 block tracking-[1px]"
-              >
-                Confirm Password
-              </label>
-              <Field
-                type="password"
-                name="confirmPassword"
-                id="confirm-password"
-                placeholder="********"
-                className="w-full p-3 border border-[#ddd] rounded text-base outline-none box-border"
-              />
-              <ErrorMessage
-                name="confirmPassword"
-                component="div"
-                className="text-red-500 text-xs"
-              />
+              
+              <CustomInput name="name" type="text" placeholder="ahmed salah" id="name"/>
+              <CustomInput name="email" type="email" placeholder="you@email.com" id="email"/>
+              <CustomInput name="phone" type="text" placeholder="0123456789" id="phone"/>
+              <CustomInput name="password" type="password" placeholder="********" id="password"/>
+              <CustomInput name="confirmPassword" type="password" placeholder="********" id="confirm-password"/>
               <button
                 type="submit"
                 disabled={!(formik.isValid && formik.dirty)}
