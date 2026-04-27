@@ -6,6 +6,7 @@ import LandingPage from './features/common/pages/LandingPage'
 import SearchPage from './features/common/pages/SearchPage'
 import CategoryPage from './features/product/pages/CategoryPage'
 import ProductPage from './features/product/pages/ProductPage'
+import LoginPage from './features/auth/pages/LoginPage'
 function App() {
 
   return (
@@ -20,7 +21,7 @@ function App() {
           <Route path='/contact' element={<><h1>hi</h1></>} />
           <Route path='/:products/:product' element={<ProductPage />} />
           <Route path='/:category' element={<CategoryPage />} />
-
+          <Route path='/login' element={<LoginPage />} />
         </Routes>
       </Router>
     </div>
