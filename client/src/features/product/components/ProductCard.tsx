@@ -1,9 +1,16 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card"
 import Product from "../../../assets/Product.png"
-const ProductCard = () => {
+
+interface Props {
+    onClick: () => void
+}
+const ProductCard = ({ onClick }: Props) => {
     return (
-        <Card className="relative mx-auto w-full max-w-sm pt-0 shadow-md cursor-pointer
-select-none">
+        <Card
+            className="relative mx-auto w-full max-w-sm pt-0 shadow-md cursor-pointer
+            select-none"
+            onClick={onClick}
+        >
             <img
                 src={Product}
                 alt="Event cover"

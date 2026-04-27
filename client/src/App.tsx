@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router'
 import CartPage from './features/cart/pages/CartPage'
 import HomePage from './features/home/HomePage'
+import { ToastContainer } from "react-toastify"
 import SignUpPage from './features/auth/pages/SignUpPage'
 import LandingPage from './features/common/pages/LandingPage'
 import SearchPage from './features/common/pages/SearchPage'
@@ -12,6 +13,7 @@ function App() {
   return (
     <div>
       <Router>
+        <ToastContainer />
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='/cart' element={<CartPage />} />
