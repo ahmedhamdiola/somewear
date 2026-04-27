@@ -12,7 +12,7 @@ interface Props {
 const CartItemCard = ({ item, onUpdateQty, onRemove }: Props) => {
     return (
         <Card
-            className="overflow-hidden border border-zinc-200 hover:shadow-md transition-colors"
+            className="overflow-hidden border border-zinc-200 hover:shadow-md transition-colors transition-shadow duration-300"
         >
             <CardContent>
                 <div className="flex">

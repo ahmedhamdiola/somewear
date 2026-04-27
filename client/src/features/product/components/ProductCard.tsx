@@ -8,7 +8,7 @@ const ProductCard = ({ onClick }: Props) => {
     return (
         <Card
             className="relative mx-auto w-full max-w-sm pt-0 shadow-md cursor-pointer
-            select-none"
+            select-none hover:shadow-lg transition-shadow duration-300"
             onClick={onClick}
         >
             <img
