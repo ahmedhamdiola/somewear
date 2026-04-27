@@ -8,7 +8,7 @@ interface Props {
 const CategoriesDropDown = ({ mainCategory, list }: Props) => {
     return (
         <div className="cursor-pointer flex">
-            <Dropdown list={list} >
+            <Dropdown list={list}>
                 <div className="flex">
                     <p className="font-light cursor-pointer hover:font-medium">{mainCategory}</p>
                     <ChevronDownIcon className="size-5 text-gray-600" />

@@ -2,7 +2,7 @@ import Logo from "../../../assets/logo.svg"
 import { Separator } from "../../../components/ui/separator"
 import CategoriesDropdown from "../../../components/reusableUI/CategoriesDropDown"
 import { useNavigate } from "react-router-dom"
-import { HeartIcon, ShoppingBagIcon, UserIcon } from "lucide-react";
+import { ShoppingBagIcon, UserIcon } from "lucide-react";
 import SearchBar from "./SearchBar";
 
 const NavBar = () => {
@@ -23,15 +23,14 @@ const NavBar = () => {
                         onClick={() => navigate('/')}
                     />
                     <div className="flex items-center gap-5">
-                        <UserIcon className="size-8 cursor-pointer" onClick={() => navigate('/profile')} />
-                        <HeartIcon className="size-8 cursor-pointer" onClick={() => navigate('/favourites')} />
-                        <ShoppingBagIcon className="size-8 cursor-pointer" onClick={() => navigate('/cart')} />
+                        <UserIcon className="size-8 cursor-pointer hover:opacity-50" onClick={() => navigate('/profile')} />
+                        <ShoppingBagIcon className="size-8 cursor-pointer hover:opacity-50" onClick={() => navigate('/cart')} />
                     </div>
                 </div>
 
                 <div className="flex gap-10 text-sm font-light pb-3">
                     <p onClick={() => navigate('/')} className="cursor-pointer hover:font-medium">HOME</p>
-                    <p onClick={() => navigate('/home')} className="cursor-pointer hover:font-medium">SHOP ALL</p>
+                    <p onClick={() => navigate('/products')} className="cursor-pointer hover:font-medium">SHOP ALL</p>
                     <CategoriesDropdown mainCategory="SHOP MEN" list={list} />
                     <CategoriesDropdown mainCategory="SHOP WOMEN" list={list} />
                     <CategoriesDropdown mainCategory="SHOP KIDS" list={list} />

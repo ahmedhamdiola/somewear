@@ -17,13 +17,24 @@ const LandingPage = () => {
                     <h1 className="text-white font-bold text-3xl">FOR THOSE WHO NEVER FOLLOW THE CROWD!</h1>
                     <Button
                         className="bg-white text-black w-40 mt-5 cursor-pointer font-semibold"
-                        onClick={() => navigate('/home/#')}
+                        onClick={() => navigate('/products')}
                     >SHOP ALL</Button>
                 </div>
             </div>
             <Separator />
             <div className="mt-15 flex items-center">
                 <h1 className="ml-15 text-3xl font-bold">FEATURED PRODUCTS</h1>
+            </div>
+            <div className="grid grid-cols-5 gap-7 p-5 h-full">
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+            </div>
+            <Separator />
+            <div className="mt-15 flex items-center">
+                <h1 className="ml-15 text-3xl font-bold">BEST SELLER PRODUCTS</h1>
             </div>
             <div className="grid grid-cols-5 gap-7 p-5 h-full">
                 <ProductCard />
