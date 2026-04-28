@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../..
 import Product from "../../../assets/Product.png"
 
 interface Props {
-    onClick: () => void
+    onClick?: () => void
 }
 const ProductCard = ({ onClick }: Props) => {
     return (

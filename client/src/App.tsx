@@ -8,6 +8,7 @@ import SearchPage from './features/common/pages/SearchPage'
 import CategoryPage from './features/product/pages/CategoryPage'
 import ProductPage from './features/product/pages/ProductPage'
 import LoginPage from './features/auth/pages/LoginPage'
+import ProfilePage from './features/user/pages/ProfilePage'
 function App() {
 
   return (
@@ -21,9 +22,10 @@ function App() {
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/contact' element={<><h1>hi</h1></>} />
-          <Route path='/:products/:product' element={<ProductPage />} />
-          <Route path='/:category' element={<CategoryPage />} />
           <Route path='/login' element={<LoginPage />} />
+          <Route path='/profile' element={<ProfilePage />} />
+          <Route path='/products/:product' element={<ProductPage />} />
+          <Route path='/:category' element={<CategoryPage />} />
         </Routes>
       </Router>
     </div>
