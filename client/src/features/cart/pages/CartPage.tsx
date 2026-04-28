@@ -14,7 +14,7 @@ const CartPage = () => {
         <>
             <div className='flex flex-col min-h-screen'>
                 <NavBar />
-                <div className="flex justify-center">
+                <div className="flex justify-center animate-[fadeInUp_0.8s_ease-out_forwards]">
                     <div className="flex-1 max-w-5xl py-10">
                         {/** HEADER */}
                         <div className="flex items-center gap-3 mb-8">
