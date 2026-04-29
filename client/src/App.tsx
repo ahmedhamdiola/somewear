@@ -16,6 +16,7 @@ import   Users  from "./features/admin/pages/Users";
 import OrdersNew  from "./features/admin/pages/OrdersNew";
 import  OrdersCompleted  from "./features/admin/pages/OrdersCompleted";
 import AdminHomePage from "./features/admin/pages/AdminHomePage";
+import ContactUsPage from './features/common/pages/ContactUsPage'
 
 function App() {
 
@@ -24,12 +25,12 @@ function App() {
       <Router>
         <ToastContainer />
         <Routes>
-          <Route path='/' element={<LandingPage />} />
+          <Route path='/' element={<LandingPage />} />  
           <Route path='/cart' element={<CartPage />} />
           <Route path='/products' element={<HomePage />} />
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/search' element={<SearchPage />} />
-          <Route path='/contact' element={<><h1>hi</h1></>} />
+          <Route path='/contact' element={<ContactUsPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/products/:product' element={<ProductPage />} />
