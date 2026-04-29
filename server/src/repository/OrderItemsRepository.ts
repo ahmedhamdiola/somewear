@@ -1,35 +1,63 @@
-import db from "../config/db";
+import db from "../config/db"
 import {OrderItemsInterface} from "../interfaces/OrderItemsInterface";
 
-// get order items by id
-export const getOrderItems = (orderId: number): OrderItemsInterface[] => {
-    const stmt = db.prepare(`SELECT * FROM order_items WHERE orderId = ?`);
-    return stmt.all(orderId) as OrderItemsInterface[];
-}
-
-// create order items
-export const createOrderItems = (orderItems: Omit<OrderItemsInterface, 'id'>): void => {
-    const stmt = db.prepare(
-        `INSERT INTO order_items (orderId, product_variant_id, quantity, price)
-         VALUES (?, ?, ?, ?)`
+//create order item
+export const createOrderItem=(item:OrderItemsInterface): OrderItemsInterface=>{
+     const orderItem=db.prepare<
+    [number,number,number,number],OrderItemsInterface
+    >(
+        `
+         INSERT INTO order_items
+         (orderId,productVariantid,quantity,price) VALUES (?,?,?,?)
+        `
     );
-    stmt.run(
-        orderItems.orderId,
-        orderItems.productId,
-        orderItems.quantity,
-        orderItems.price
+    const result=orderItem.run(
+        item.orderId,
+        item.productVariantId,
+        item.quantity,
+        item.price,
     );
+    return{
+        ...item ,
+        id: Number(result.lastInsertRowid)
+    }
 }
 
-// delete order items by id
-export const deleteOrderItems = (orderItems: Omit<OrderItemsInterface, 'id'>): void => {
-    const stmt = db.prepare(`DELETE FROM order_items WHERE id = ?`);
-    stmt.run(orderItems.id);
+//get order item by id
+export const getOrderItemById=(id:number): OrderItemsInterface | null=>{
+    const orderItem=db.prepare<[number],OrderItemsInterface>(
+        `SELECT * FROM order_items WHERE id=?`
+    );
+    const result=orderItem.get(id);
+    return result || null;
 }
 
 
-export const OrderItemsRepository = {
-    getOrderItems: getOrderItems,
-    createOrderItems: createOrderItems,
-    deleteOrderItems: deleteOrderItems
+//get order items
+export const getOrderItemsByOrderId=(id:number):OrderItemsInterface[]=>{
+    const orderItems=db.prepare<[number],OrderItemsInterface>(
+        `SELECT * FROM order_items WHERE orderId=?`
+    );
+    const result= orderItems.all(id);
+    return result ;
+} 
+
+
+//delete 
+export const deleteOrderItem=(id:number): {message:string} =>{
+    const orderItem=db.prepare<[number],{changes:number}>(
+        `DELETE FROM order_items WHERE id=?`
+    );
+    const result =orderItem.run(id);
+    if(result.changes===0){
+        throw new Error("Order item not found");
+    }
+    return {message:" Order item deleted successfully"}
+}
+
+export default{
+    createOrderItem,
+    getOrderItemById,
+    getOrderItemsByOrderId,
+    deleteOrderItem
 }

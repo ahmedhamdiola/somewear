@@ -1,31 +1,51 @@
-import { OrderItemsInterface } from "../interfaces/OrderItemsInterface";
-import {OrderItemsRepository} from "../repository/OrderItemsRepository";
+import { OrderItemsInterface } from "../interfaces/OrderItemsInterface"
+import OrderItemsRepository from "../repository/OrderItemsRepository"
+import OrderRepository from "../repository/OrderRepository";
 
-
-export const getOrderItems = (orderId: number): OrderItemsInterface[] => {
-    if(!orderId) {
-        throw new Error("Order ID is required");
+export const createOrderItemService=(item:OrderItemsInterface):OrderItemsInterface=>{
+    if(!item.orderId || item.orderId<=0){
+        throw new Error ("Invalid order ID ")
     }
-    return OrderItemsRepository.getOrderItems(orderId);
-}
-
-export const createOrderItems = (orderItems: OrderItemsInterface, id: number): void => {
-    if(!orderItems.orderId) {
-        throw new Error("Order ID is required");
+     if(!item.price || item.price<=0){
+        throw new Error ("Price must be greater than 0")
+    } if(!item.productVariantId || item.productVariantId<=0){
+        throw new Error ("Invalid product variant ID ")
+    } if(!item.quantity || item.quantity<=0){
+        throw new Error ("Quantity must be greater than 0")
     }
-    return OrderItemsRepository.createOrderItems(orderItems);
-}
-
-export const deleteOrderItems = (orderItems: OrderItemsInterface, id: number): void => {
-    if(!orderItems.id) {
-        throw new Error("Order Item ID is required");
+    const order=OrderRepository.getOrderById(item.orderId)
+    if(!order){
+     throw new Error ("Order not found")   
     }
-    return OrderItemsRepository.deleteOrderItems(orderItems);
-}
+    return OrderItemsRepository.createOrderItem(item);
+};
 
 
-export const OrderItemsService = {
-    getOrderItems: getOrderItems,
-    createOrderItems: createOrderItems,
-    deleteOrderItems: deleteOrderItems
+export const getOrderItemByIdService=(id:number):OrderItemsInterface | null=>{
+    if(!id || id<=0){
+         throw new Error ("Invalid order item ID ")
+    }
+    return OrderItemsRepository.getOrderItemById(id);
+};
+
+export const getOrderItemsByOrderIdService=(orderId:number):OrderItemsInterface[]=>{
+    if(!orderId || orderId<=0){
+         throw new Error ("Invalid order ID ")
+    }
+    return OrderItemsRepository.getOrderItemsByOrderId(orderId);
+};
+
+
+export const deleteOrderItemService=(id:number):{message:string}=>{
+    if(!id || id<=0){
+         throw new Error ("Invalid order item ID ")
+    }
+    return OrderItemsRepository.deleteOrderItem(id);
+};
+
+export default{
+    createOrderItemService,
+    getOrderItemByIdService,
+    getOrderItemsByOrderIdService,
+    deleteOrderItemService
 }

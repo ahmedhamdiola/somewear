@@ -4,32 +4,25 @@ import { ProductInterface } from '../interfaces/ProductInterface';
 
 
 //create product 
-export const createProduct = (product: ProductInterface): ProductInterface => {
-  const stmt = db.prepare<
-    [
-      string,
-      string | null,
-      number,
-      string | null,
-      string | null,
-      string | null
-    ],
-    ProductInterface
-  >(`
-    INSERT INTO products ( name, description, price, imageUrl, category, subcategory)
-    VALUES (?, ?, ?, ?, ?, ?)
+type CreateProductInput = Omit<ProductInterface, "id">;
+export const createProduct = (product: CreateProductInput): ProductInterface => {
+  const stmt = db.prepare(`
+    INSERT INTO products ( name, description, price, imageUrl, category, subcategory, createdAt, soldAmount)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `);
   const result = stmt.run(
     product.name,
-    product.description ?? null,
+    product.description,
     product.price,
-    product.imageUrl ?? null,
-    product.category ?? null,
-    product.subcategory ?? null
+    product.imageUrl ,
+    product.category ,
+    product.subcategory ,
+    product.createdAt || new Date().toISOString(),
+    product.soldAmount || 0
   );
   return {
-    id: result.lastInsertRowid as number,
-    ...product
+    id: Number(result.lastInsertRowid),
+    ...product,
   };
 };
 
@@ -44,13 +37,10 @@ export const getProductById = (id: number): ProductInterface | null => {
 };
 
 
-
-
-
 //get all products
 export const getAllProducts = (category?: string,
   subcategory?: string): ProductInterface[] => {
-  try {
+  
     let query = "SELECT * FROM products";
     const params: (string | undefined)[] = [];
 
@@ -58,54 +48,58 @@ export const getAllProducts = (category?: string,
       query += " WHERE category = ? AND subcategory = ?";
       params.push(category, subcategory);
     }
-    else if (category && category.trim() !== "") {
-      query += " WHERE category = ?";
-      params.push(category);
-    }
-    else if (subcategory && subcategory.trim() !== "") {
-      query += " WHERE subcategory = ?";
-      params.push(subcategory);
-    }
-
+    
     const stmt = db.prepare<string[], ProductInterface>(query);
     return stmt.all(...params as string[]);
 
-  }
-  catch (error) {
-    throw new Error("Error fetching products: " + (error as Error).message);
-  }
+  
 };
 
-//update product
-export const updateProduct = (id: number, product: Partial<ProductInterface>): ProductInterface | null => {
+//get category and subcategory
+export const getCategoriesAndSubcategories = (): { category: string, subcategory: string }[] => {
+  const res = db.prepare<[], { category: string, subcategory: string }>(`
+    SELECT DISTINCT category, subcategory FROM products
+  `);
+  return res.all();
+};
 
-  const existing = getProductById(id);
-  if (!existing) {
-    throw new Error("Product not found");
-  }
-  const stmt = db.prepare<
-    [
-      string,
-      string | null,
-      number,
-      string | null,
-      string | null,
-      string | null,
-      number
-    ],
-    void
-  >(`
+
+//get featured products
+export const getFeaturedProducts = (): ProductInterface[] => {
+    const Feature = db.prepare<string[], ProductInterface>(
+      "SELECT * FROM products ORDER BY createdAt DESC LIMIT 5"
+    );
+    return Feature.all();  
+};
+
+
+
+//get best sellers products
+export const getBestSellersProducts = (): ProductInterface[]=>{
+  const BestSellers = db.prepare<string[], ProductInterface>(
+      "SELECT * FROM products ORDER BY soldAmount DESC LIMIT 5"
+    );
+    return BestSellers.all();  
+}
+
+
+//update product
+type UpdateProductInput = Omit<ProductInterface, "id">;
+
+export const updateProduct = (id: number, product: Partial<UpdateProductInput>): ProductInterface | null => {
+const exisitingProduct=getProductById(id)
+  const stmt = db.prepare(`
     UPDATE products
-    SET name = ?, description = ?, price = ?, imageUrl = ?, category = ?, subcategory = ?
+    SET name = ?, description = ?, price = ?, imageUrl = ?, category = ?, subcategory = ?, soldAmount = ?
     WHERE id = ?
   `);
   stmt.run(
-    product.name ?? existing.name,
-    product.description ?? existing.description ?? null,
-    product.price ?? existing.price,
-    product.imageUrl ?? existing.imageUrl ?? null,
-    product.category ?? existing.category ?? null,
-    product.subcategory ?? existing.subcategory ?? null,
+    product.name ?? exisitingProduct?.name,
+    product.description ?? exisitingProduct?.description,
+    product.price ?? exisitingProduct?.price ,
+    product.imageUrl  ?? exisitingProduct?.imageUrl,
+    product.category ?? exisitingProduct?.category ,
+    product.subcategory ?? exisitingProduct?.subcategory ,
     id
   );
   return getProductById(id);
@@ -115,27 +109,27 @@ export const updateProduct = (id: number, product: Partial<ProductInterface>): P
 
 
 //delete product
-export const deleteProduct = (id: number): { message: string } => {
+export const deleteProduct = (id: number): boolean => {
 
-
-  const stmt = db.prepare<[number], void>(`
+  const stmt = db.prepare<[number], {changes:number}>(`
     DELETE FROM products WHERE id = ?
   `);
 
   const res = stmt.run(id);
-  if (res.changes > 0) {
-    return {
-      message: "Product deleted successfully"
-    };
+  if (res.changes === 0) {
+    return false;
   }
-  throw new Error("Product not found");
+  return true;
 
 };
 
 export default {
-  createProduct: createProduct,
-  getProductById: getProductById,
-  getAllProducts: getAllProducts,
-  updateProduct: updateProduct,
-  deleteProduct: deleteProduct
+   createProduct,
+   getProductById,
+   getAllProducts,
+   getCategoriesAndSubcategories,
+   getFeaturedProducts,
+   getBestSellersProducts,
+   updateProduct,
+   deleteProduct
 };

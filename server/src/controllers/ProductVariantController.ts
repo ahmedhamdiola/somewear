@@ -16,9 +16,6 @@ export const getProductVariantByIdController = (req: Request<{id: string}>, res:
     try {
         const id = Number(req.params.id);
         const productVariant = ProductVariantService.getProductVariantByIdService(id);
-        if (!productVariant) {
-            return res.status(404).json({ error: "Product variant not found" });
-        }
         return successResponse(res, productVariant, "Product variant found", 200);
   } catch (error) {
     return errorResponse(res, error, "Failed to get product variant", 400);
@@ -43,9 +40,6 @@ export const updateProductVariantController = (req: Request<{id: string}>, res: 
     try {
         const id = Number(req.params.id);
         const updatedVariant = ProductVariantService.updateProductVariantService(id, req.body);
-        if (!updatedVariant) {
-            return res.status(404).json({ error: "Product variant not found" });
-        }
         return successResponse(res, updatedVariant, "Product variant updated successfully", 200);
     } catch (error) {        
         return errorResponse(res, error, "Failed to update product variant", 400);

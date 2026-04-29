@@ -29,6 +29,13 @@ export const createProductService = (product: ProductInterface): ProductInterfac
         throw new Error("Image URL cannot be empty");
     }
 
+    if (product.createdAt && isNaN(Date.parse(product.createdAt))) {
+        throw new Error("Invalid createdAt date format");
+    }
+    if (product.soldAmount !== undefined && (isNaN(product.soldAmount) || product.soldAmount < 0)) {
+        throw new Error("Sold amount must be a non-negative number");
+    }
+    
   return ProductRepository.createProduct(product);
 }
 
@@ -53,45 +60,63 @@ export const getAllProductsService = ( category?: string,
   return ProductRepository.getAllProducts(category, subcategory);
 }
 
-export const updateProductService = (id: number, product: ProductInterface): ProductInterface | null => {
+export const getCategoriesAndSubcategoriesService = (): { category: string, subcategory: string }[] => {
+    return ProductRepository.getCategoriesAndSubcategories();
+}
+
+export const getFeaturedProductService = (): ProductInterface[] => {
+    return ProductRepository.getFeaturedProducts();
+}
+
+export const getBestSellersProductService = (): ProductInterface[] => {
+    return ProductRepository.getBestSellersProducts();
+}
+
+
+export const updateProductService = (id: number, product: Partial<ProductInterface>): ProductInterface | null => {
     if( !id || id <= 0) {
         throw new Error("Invalid product ID");
     }
     
-        if (product.name !== undefined && product.name.trim() === "") {
+        if (product.name  && product.name.trim() === "") {
         throw new Error("Name cannot be empty");
     }
-    if (product.price !== undefined && product.price <= 0) {
+    if (product.price  && product.price <= 0) {
         throw new Error("Price must be greater than zero");
     }
-    if (product.category !== undefined && product.category !== null && product.category.trim() === "") {
+    if (product.category  && product.category.trim() === "") {
         throw new Error("Category cannot be empty");
     }
-    if (product.subcategory !== undefined && product.subcategory !== null && product.subcategory.trim() === "") {
+    if (product.subcategory && product.subcategory.trim() === "") {
         throw new Error("Subcategory cannot be empty");
     }
-    if (product.description !== undefined && product.description !== null && product.description.trim() === "") {
+    if (product.description && product.description.trim() === "") {
         throw new Error("Description cannot be empty");
     }
-    if (product.imageUrl !== undefined && product.imageUrl !== null && product.imageUrl.trim() === "") {
+    if (product.imageUrl && product.imageUrl.trim() === "") {
         throw new Error("Image URL cannot be empty");
     }
 
   return ProductRepository.updateProduct(id, product);
 }
 
-export const deleteProductService = (id: number): { message: string } => {
+export const deleteProductService = (id: number): boolean => {
     if (!id || id <= 0) {
         throw new Error("Invalid product ID");
     }
-    
-  return ProductRepository.deleteProduct(id);
+    if(!ProductRepository.deleteProduct(id)){
+        throw new Error ("Product not found")
+    }
+  return true;
 }
 
 export default {
-  createProduct: createProductService,
-  getProductById: getProductByIdService,
-  getAllProducts: getAllProductsService,
-  updateProduct: updateProductService,
-  deleteProduct: deleteProductService
+   createProductService ,
+   getProductByIdService,
+   getAllProductsService,
+   getCategoriesAndSubcategoriesService,
+   getFeaturedProductService,
+   getBestSellersProductService,
+   updateProductService,
+   deleteProductService
 };
