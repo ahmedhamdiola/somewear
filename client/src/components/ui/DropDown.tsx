@@ -6,12 +6,15 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "./dropdown-menu"
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     list: string[],
     children: ReactNode
+
 }
 export function Dropdown({ list, children }: Props) {
+    const navigate = useNavigate();
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -20,7 +23,10 @@ export function Dropdown({ list, children }: Props) {
             <DropdownMenuContent className="w-40">
                 <DropdownMenuGroup>
                     {list?.map((category) => (
-                        <DropdownMenuItem className="text-sm font-light cursor-pointer">{category.toUpperCase()}</DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="text-sm font-light cursor-pointer"
+                            onClick={() => navigate(`/${category.toLowerCase()}`)}
+                        >{category.toUpperCase()}</DropdownMenuItem>
                     ))}
                 </DropdownMenuGroup>
             </DropdownMenuContent>
