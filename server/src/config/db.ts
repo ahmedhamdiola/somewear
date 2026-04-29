@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS products (
     imageUrl TEXT NOT NULL,
     category TEXT NOT NULL,
     subcategory TEXT NOT NULL,
-    createdAt  NOT NULL DEFAULT (datetime('now')),
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
     soldAmount INTEGER NOT NULL DEFAULT 0
 
 );
@@ -68,13 +68,13 @@ db.prepare(
 CREATE TABLE IF NOT EXISTS orders (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userId INTEGER NOT NULL,
-    TotalPrice REAL NOT NULL,
-    ShippingFees REAL NOT NULL,
+    totalPrice REAL NOT NULL,
+    shippingFees REAL NOT NULL,
     city TEXT NOT NULL,
     address TEXT NOT NULL,
     phone TEXT NOT NULL,
-    status TEXT NOT NULL,
-    createdAt NOT NULL DEFAULT (datetime('now')),
+    status TEXT NOT NULL DEFAULT "pending",
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
     FOREIGN KEY (userId) REFERENCES users(id)
 );
 `,
@@ -95,27 +95,15 @@ CREATE TABLE IF NOT EXISTS order_items (
 `,
 ).run();
 
-//cart
-db.prepare(
-  `
-CREATE TABLE IF NOT EXISTS carts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT ,
-    userId INTEGER NOT NULL,
-    FOREIGN KEY (userId) REFERENCES users(id)
-
-);
-`,
-).run();
-
 //cartitems
 db.prepare(
   `
 CREATE TABLE IF NOT EXISTS cart_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT ,
-    cartId INTEGER NOT NULL,
+    userId INTEGER NOT NULL,
     productVariantId INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
-    FOREIGN KEY (cartId) REFERENCES carts(id),
+    FOREIGN KEY (userId) REFERENCES users(id),
     FOREIGN KEY (productVariantId) REFERENCES product_variants(id)
 );
 `,

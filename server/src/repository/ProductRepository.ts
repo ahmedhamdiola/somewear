@@ -5,7 +5,7 @@ import { ProductInterface } from '../interfaces/ProductInterface';
 
 //create product 
 type CreateProductInput = Omit<ProductInterface, "id">;
-export const createProduct = (product: CreateProductInput): ProductInterface => {
+export const createProduct = (product: ProductInterface): ProductInterface => {
   const stmt = db.prepare(`
     INSERT INTO products ( name, description, price, imageUrl, category, subcategory, createdAt, soldAmount)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -14,15 +14,15 @@ export const createProduct = (product: CreateProductInput): ProductInterface => 
     product.name,
     product.description,
     product.price,
-    product.imageUrl ,
-    product.category ,
-    product.subcategory ,
+    product.imageUrl,
+    product.category,
+    product.subcategory,
     product.createdAt || new Date().toISOString(),
     product.soldAmount || 0
   );
   return {
     id: Number(result.lastInsertRowid),
-    ...product,
+    ...product
   };
 };
 
@@ -40,19 +40,19 @@ export const getProductById = (id: number): ProductInterface | null => {
 //get all products
 export const getAllProducts = (category?: string,
   subcategory?: string): ProductInterface[] => {
-  
-    let query = "SELECT * FROM products";
-    const params: (string | undefined)[] = [];
 
-    if (category && subcategory) {
-      query += " WHERE category = ? AND subcategory = ?";
-      params.push(category, subcategory);
-    }
-    
-    const stmt = db.prepare<string[], ProductInterface>(query);
-    return stmt.all(...params as string[]);
+  let query = "SELECT * FROM products";
+  const params: (string | undefined)[] = [];
 
-  
+  if (category && subcategory) {
+    query += " WHERE category = ? AND subcategory = ?";
+    params.push(category, subcategory);
+  }
+
+  const stmt = db.prepare<string[], ProductInterface>(query);
+  return stmt.all(...params as string[]);
+
+
 };
 
 //get category and subcategory
@@ -66,20 +66,20 @@ export const getCategoriesAndSubcategories = (): { category: string, subcategory
 
 //get featured products
 export const getFeaturedProducts = (): ProductInterface[] => {
-    const Feature = db.prepare<string[], ProductInterface>(
-      "SELECT * FROM products ORDER BY createdAt DESC LIMIT 5"
-    );
-    return Feature.all();  
+  const Feature = db.prepare<string[], ProductInterface>(
+    "SELECT * FROM products ORDER BY createdAt DESC LIMIT 5"
+  );
+  return Feature.all();
 };
 
 
 
 //get best sellers products
-export const getBestSellersProducts = (): ProductInterface[]=>{
+export const getBestSellersProducts = (): ProductInterface[] => {
   const BestSellers = db.prepare<string[], ProductInterface>(
-      "SELECT * FROM products ORDER BY soldAmount DESC LIMIT 5"
-    );
-    return BestSellers.all();  
+    "SELECT * FROM products ORDER BY soldAmount DESC LIMIT 5"
+  );
+  return BestSellers.all();
 }
 
 
@@ -87,7 +87,7 @@ export const getBestSellersProducts = (): ProductInterface[]=>{
 type UpdateProductInput = Omit<ProductInterface, "id">;
 
 export const updateProduct = (id: number, product: Partial<UpdateProductInput>): ProductInterface | null => {
-const exisitingProduct=getProductById(id)
+  const exisitingProduct = getProductById(id)
   const stmt = db.prepare(`
     UPDATE products
     SET name = ?, description = ?, price = ?, imageUrl = ?, category = ?, subcategory = ?, soldAmount = ?
@@ -96,10 +96,11 @@ const exisitingProduct=getProductById(id)
   stmt.run(
     product.name ?? exisitingProduct?.name,
     product.description ?? exisitingProduct?.description,
-    product.price ?? exisitingProduct?.price ,
-    product.imageUrl  ?? exisitingProduct?.imageUrl,
-    product.category ?? exisitingProduct?.category ,
-    product.subcategory ?? exisitingProduct?.subcategory ,
+    product.price ?? exisitingProduct?.price,
+    product.imageUrl ?? exisitingProduct?.imageUrl,
+    product.category ?? exisitingProduct?.category,
+    product.subcategory ?? exisitingProduct?.subcategory,
+    product.soldAmount ?? exisitingProduct?.soldAmount,
     id
   );
   return getProductById(id);
@@ -111,7 +112,7 @@ const exisitingProduct=getProductById(id)
 //delete product
 export const deleteProduct = (id: number): boolean => {
 
-  const stmt = db.prepare<[number], {changes:number}>(`
+  const stmt = db.prepare<[number], { changes: number }>(`
     DELETE FROM products WHERE id = ?
   `);
 
@@ -124,12 +125,12 @@ export const deleteProduct = (id: number): boolean => {
 };
 
 export default {
-   createProduct,
-   getProductById,
-   getAllProducts,
-   getCategoriesAndSubcategories,
-   getFeaturedProducts,
-   getBestSellersProducts,
-   updateProduct,
-   deleteProduct
+  createProduct,
+  getProductById,
+  getAllProducts,
+  getCategoriesAndSubcategories,
+  getFeaturedProducts,
+  getBestSellersProducts,
+  updateProduct,
+  deleteProduct
 };

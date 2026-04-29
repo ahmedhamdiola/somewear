@@ -6,7 +6,7 @@ import productRoutes from "./routes/ProductRoutes";
 import productVariantRoutes from "./routes/ProductVariantRoutes";
 import OrderRoutes from "./routes/OrderRoutes";
 import OrderItemsRoutes from "./routes/OrderItemsRoutes"
-import cartRoutes from "./routes/CartRoutes";
+import cartItemsRoutes from "./routes/CartItemsRoutes"
 // import cart
 
 
@@ -17,9 +17,9 @@ app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/products", productRoutes);
 app.use("/variants", productVariantRoutes);
-app.use("/order", cartRoutes);
-app.use("/orderItem",OrderItemsRoutes);
-app.use("/cart", cartRoutes);
+app.use("/order", OrderRoutes);
+app.use("/orderItem", OrderItemsRoutes);
+app.use("/cart", cartItemsRoutes);
 
 
 app.get("/", (req, res) => {

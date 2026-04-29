@@ -2,17 +2,16 @@ import db from "../config/db";
 import { ProductVariantInterface } from "../interfaces/ProductVariantInterface";
 
 //create product variant
-
 export const createProductVariant = (variant: ProductVariantInterface): ProductVariantInterface => {
-    const stmt = db.prepare (
+    const stmt = db.prepare(
         "INSERT INTO product_variants (productId, size, stock) VALUES (?, ?, ?)"
     );
     const res = stmt.run(
         variant.productId,
-        variant.size ,
+        variant.size,
         variant.stock
     );
-    return { ...variant, id: Number(res.lastInsertRowid ) };
+    return { id: Number(res.lastInsertRowid), ...variant };
 };
 
 //get product variant by id
@@ -33,28 +32,28 @@ export const getProductVariantsByProductId = (productId: number): ProductVariant
 };
 
 //update product variant
-export const updateProductVariant = (id: number, variant:Partial<ProductVariantInterface>): ProductVariantInterface | null => {
+export const updateProductVariant = (id: number, variant: Partial<ProductVariantInterface>): ProductVariantInterface | null => {
     const existingVariant = getProductVariantById(id);
-    const stmt = db.prepare (
+    const stmt = db.prepare(
         "UPDATE product_variants SET productId = ?, size = ?, stock = ? WHERE id = ?"
-    );  
-    const res = stmt.run(
+    );
+    stmt.run(
         variant.productId ?? existingVariant?.productId,
         variant.size ?? existingVariant?.size,
         variant.stock ?? existingVariant?.stock,
         id
     );
-    return  getProductVariantById(id);
+    return getProductVariantById(id);
 };
 
 //delete product variant    
 export const deleteProductVariant = (id: number): boolean => {
-    const stmt = db.prepare<[number], {changes :number}>(
+    const stmt = db.prepare<[number], { changes: number }>(
         "DELETE FROM product_variants WHERE id = ?"
     );
     const res = stmt.run(id);
     if (res.changes === 0) {
-        throw new Error("Product variant not found");
+        return false
     }
     return true;
 };

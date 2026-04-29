@@ -5,13 +5,13 @@ import RoleMiddleware from "../middleware/RoleMiddleWare";
 
 const router = express.Router();
 
-router.post("/",authMiddleWare,RoleMiddleware("admin"),productcontroller.createProductController,);
-router.get("/:id", productcontroller.getProductByIdController,);
-router.get("/",productcontroller.getAllProductsController,);
+router.post("/", authMiddleWare, RoleMiddleware("admin"), productcontroller.createProductController,);
+router.get("/product/:id", productcontroller.getProductByIdController,);
+router.get("/", productcontroller.getAllProductsController,);
 router.get("/category", productcontroller.getCategoriesAndSubcategoriesController,);
-router.get("/featured",productcontroller.getFeaturedProductsController);
-router.get("/best-sellers",productcontroller.getBestSellersProductsController);
-router.put("/:id",authMiddleWare, RoleMiddleware("admin"), productcontroller.updateProductController,);
-router.delete("/:id",authMiddleWare,RoleMiddleware("admin"),productcontroller.deleteProductController,);
+router.get("/featured", productcontroller.getFeaturedProductsController);
+router.get("/best-sellers", productcontroller.getBestSellersProductsController);
+router.put("/:id", authMiddleWare, RoleMiddleware("admin"), productcontroller.updateProductController,);
+router.delete("/:id", authMiddleWare, RoleMiddleware("admin"), productcontroller.deleteProductController,);
 
 export default router;

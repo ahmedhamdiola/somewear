@@ -1,6 +1,6 @@
 
 import { ProductInterface } from '../interfaces/ProductInterface';
-import  ProductRepository from '../repository/ProductRepository';
+import ProductRepository, { getProductById } from '../repository/ProductRepository';
 
 
 export const createProductService = (product: ProductInterface): ProductInterface => {
@@ -9,46 +9,46 @@ export const createProductService = (product: ProductInterface): ProductInterfac
         throw new Error("Name is required");
     }
 
-    if ( !product.price || product.price <= 0) {
+    if (!product.price || product.price <= 0) {
         throw new Error("Price must be greater than zero");
     }
 
-    if( product.category && product.category.trim() === "") {
+    if (product.category && product.category.trim() === "") {
         throw new Error("Category cannot be empty");
     }
 
-    if( product.subcategory && product.subcategory.trim() === "") {
+    if (product.subcategory && product.subcategory.trim() === "") {
         throw new Error("Subcategory cannot be empty");
     }
 
-    if( product.description && product.description.trim() === "") {
+    if (product.description && product.description.trim() === "") {
         throw new Error("Description cannot be empty");
     }
 
-    if( product.imageUrl && product.imageUrl.trim() === "") {
+    if (product.imageUrl && product.imageUrl.trim() === "") {
         throw new Error("Image URL cannot be empty");
     }
 
     if (product.createdAt && isNaN(Date.parse(product.createdAt))) {
         throw new Error("Invalid createdAt date format");
     }
-    if (product.soldAmount !== undefined && (isNaN(product.soldAmount) || product.soldAmount < 0)) {
+    if (product.soldAmount && (isNaN(product.soldAmount) || product.soldAmount < 0)) {
         throw new Error("Sold amount must be a non-negative number");
     }
-    
-  return ProductRepository.createProduct(product);
+
+    return ProductRepository.createProduct(product);
 }
 
 export const getProductByIdService = (id: number): ProductInterface | null => {
-    if( !id || id <= 0) {
+    if (!id || id <= 0) {
         throw new Error("Invalid product ID");
     }
-    
-  return ProductRepository.getProductById(id);
+
+    return ProductRepository.getProductById(id);
 }
 
-export const getAllProductsService = ( category?: string,
-  subcategory?: string): ProductInterface[] => {
+export const getAllProductsService = (category?: string,
+    subcategory?: string): ProductInterface[] => {
     // validation
     if (category && category.trim() === "") {
         throw new Error("Category cannot be empty");
@@ -56,8 +56,8 @@ export const getAllProductsService = ( category?: string,
     if (subcategory && subcategory.trim() === "") {
         throw new Error("Subcategory cannot be empty");
     }
-    
-  return ProductRepository.getAllProducts(category, subcategory);
+
+    return ProductRepository.getAllProducts(category, subcategory);
 }
 
 export const getCategoriesAndSubcategoriesService = (): { category: string, subcategory: string }[] => {
@@ -74,17 +74,17 @@ export const getBestSellersProductService = (): ProductInterface[] => {
 
 
 export const updateProductService = (id: number, product: Partial<ProductInterface>): ProductInterface | null => {
-    if( !id || id <= 0) {
+    if (!id || id <= 0) {
         throw new Error("Invalid product ID");
     }
-    
-        if (product.name  && product.name.trim() === "") {
+
+    if (product.name && product.name.trim() === "") {
         throw new Error("Name cannot be empty");
     }
-    if (product.price  && product.price <= 0) {
+    if (product.price && product.price <= 0) {
         throw new Error("Price must be greater than zero");
     }
-    if (product.category  && product.category.trim() === "") {
+    if (product.category && product.category.trim() === "") {
         throw new Error("Category cannot be empty");
     }
     if (product.subcategory && product.subcategory.trim() === "") {
@@ -97,26 +97,30 @@ export const updateProductService = (id: number, product: Partial<ProductInterfa
         throw new Error("Image URL cannot be empty");
     }
 
-  return ProductRepository.updateProduct(id, product);
+    return ProductRepository.updateProduct(id, product);
 }
 
 export const deleteProductService = (id: number): boolean => {
     if (!id || id <= 0) {
         throw new Error("Invalid product ID");
     }
-    if(!ProductRepository.deleteProduct(id)){
-        throw new Error ("Product not found")
+    const product = getProductById(id);
+    if (!product) {
+        throw new Error("ID not found");
     }
-  return true;
+    if (!ProductRepository.deleteProduct(id)) {
+        return false
+    }
+    return true;
 }
 
 export default {
-   createProductService ,
-   getProductByIdService,
-   getAllProductsService,
-   getCategoriesAndSubcategoriesService,
-   getFeaturedProductService,
-   getBestSellersProductService,
-   updateProductService,
-   deleteProductService
+    createProductService,
+    getProductByIdService,
+    getAllProductsService,
+    getCategoriesAndSubcategoriesService,
+    getFeaturedProductService,
+    getBestSellersProductService,
+    updateProductService,
+    deleteProductService
 };
