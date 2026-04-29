@@ -9,6 +9,14 @@ import CategoryPage from './features/product/pages/CategoryPage'
 import ProductPage from './features/product/pages/ProductPage'
 import LoginPage from './features/auth/pages/LoginPage'
 import ProfilePage from './features/user/pages/ProfilePage'
+/////////////
+import AdminLayout from "./features/admin/pages/AdminLayout";
+import  Products  from "./features/admin/pages/Products";
+import   Users  from "./features/admin/pages/Users";
+import OrdersNew  from "./features/admin/pages/OrdersNew";
+import  OrdersCompleted  from "./features/admin/pages/OrdersCompleted";
+import AdminHomePage from "./features/admin/pages/AdminHomePage";
+
 function App() {
 
   return (
@@ -26,6 +34,15 @@ function App() {
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/products/:product' element={<ProductPage />} />
           <Route path='/:category' element={<CategoryPage />} />
+
+          <Route path="/admin" element={<AdminLayout />}>  
+            <Route index element={<AdminHomePage/>} />
+            <Route path="products" element={<Products />} />
+            <Route path="users" element={<Users />} />
+            <Route path="orders-new" element={<OrdersNew />} />
+            <Route path="orders-completed" element={<OrdersCompleted />} />
+          </Route>
+          
         </Routes>
       </Router>
     </div>

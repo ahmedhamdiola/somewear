@@ -1,11 +1,12 @@
-import React from 'react'
+
 
 const AdminHomePage = () => {
-    return (
-        <div>
+  return (
+    <div className="flex justify-center items-center">
 
-        </div>
-    )
-}
+      <h1 className="text-[140px]">dashboard</h1>
+    </div>
+  )
+};
 
-export default AdminHomePage
+export default AdminHomePage;
