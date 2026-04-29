@@ -52,7 +52,7 @@ export const loginUserService = async (email: string, password: string) => {
     }
     const token = generateToken({ id: user.id, role: user.role });
     const { password: _, ...safeUser } = user;
-    return { user: safeUser, token };
+    return {  safeUser, token };
 };
 
 export const getUserByIdService = (id: number) => {
@@ -63,10 +63,11 @@ export const getUserByIdService = (id: number) => {
     if (!user) {
         throw new Error("User not found");
     }
-    return user;
+    const {password,...safeUser}=user
+    return safeUser;
 }
 
-export const updateUserByIdService = (id: number, user: Partial<UserInterface>) => {
+export const updateUserByIdService = async (id: number, user: Partial<UserInterface>) => {
     if (id <= 0 || !id) {
         throw new Error("Invalid user ID");
     }
@@ -80,13 +81,14 @@ export const updateUserByIdService = (id: number, user: Partial<UserInterface>) 
         throw new Error("Phone cannot be empty");
     }
     if (user.password) {
-        user.password = hashPassword(user.password) as unknown as string; // Hash the new password
+        user.password =await hashPassword(user.password) ; //new pass hashed
     }
     const updatedUser = UserRepository.updateUserById(id, user);
     if (!updatedUser) {
-        throw new Error("Failed to update user");
+        throw new Error("User not found");
     }
-    return updatedUser;
+    const {password,...safeUser}=updatedUser
+    return safeUser;
 }
     
 export const deleteUserByIdService = (id: number) => {

@@ -2,9 +2,11 @@
 export interface ProductInterface {
   id?: number ;
   name: string;
-  description?: string| null;
+  description: string;
   price: number;
-  category?: string | null;
-  subcategory?: string | null;
-  imageUrl?: string | null;
+  category: string ;
+  subcategory: string ;
+  imageUrl: string ;
+  createdAt: string;
+  soldAmount: number;
 }

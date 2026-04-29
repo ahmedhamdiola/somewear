@@ -1,13 +1,12 @@
 import {  Request, Response} from "express";
-import { UserInterface } from "../interfaces/UserInterface";
+// import { UserInterface } from "../interfaces/UserInterface";
 import {successResponse, errorResponse} from "../utils/response";
-
 import UserService from "../services/UserService";
+import { AuthRequest } from "../middleware/AuthMiddleWare";
 
 export const registerUserController = async (req: Request, res: Response) => {
     try {
-        const user: UserInterface = req.body;
-        const result = await  UserService.registerUserService(user);
+        const result = await  UserService.registerUserService(req.body);
         return successResponse(res, result, "User registered successfully", 201);
     } catch (error) {
         return errorResponse(res, error, "Failed to register user", 400);
@@ -24,9 +23,12 @@ export const loginUserController = async (req: Request, res: Response) => {
     }
 };
 
-export const getUserByIdController = (req: Request, res: Response) => {
+export const getUserByIdController = (req: AuthRequest, res: Response) => {
     try {
         const id = Number(req.params.id);
+        if(req.user!.id !==id && req.user?.role!=="admin"){
+            return errorResponse(res,null,"Forbidden",403)
+        }
         const result = UserService.getUserByIdService(id);
         return successResponse(res, result, "User retrieved successfully");
     } catch (error) {
@@ -34,20 +36,25 @@ export const getUserByIdController = (req: Request, res: Response) => {
     }
 };
 
-export const updateUserByIdController = (req: Request<{ id: string }>, res: Response) => {
+export const updateUserByIdController =async(req: AuthRequest, res: Response)=> {
     try {
         const id = Number(req.params.id);
-        const userUpdates: Partial<UserInterface> = req.body;
-        const result = UserService.updateUserByIdService(id, userUpdates);
+        if(req.user!.id !==id && req.user?.role!=="admin"){
+            return errorResponse(res,null,"Forbidden",403)
+        }
+        const result = await UserService.updateUserByIdService(id, req.body);
         return successResponse(res, result, "User updated successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to update user", 400);
     }
 };
     
-export const deleteUserByIdController = (req: Request<{ id: string }>, res: Response) => {
+export const deleteUserByIdController = (req: AuthRequest, res: Response) => {
     try {
         const id = Number(req.params.id);
+        if(req.user!.id !==id && req.user?.role!=="admin"){
+            return errorResponse(res,null,"Forbidden",403)
+        }
         const result = UserService.deleteUserByIdService(id);
         return successResponse(res, result, "User deleted successfully");
     }

@@ -9,10 +9,7 @@ export const createProductVariantService = (variant: ProductVariantInterface): P
     if (variant.stock < 0 || variant.stock === undefined) {
         throw new Error("Stock must be a non-negative number");
     }
-    if( variant.color  && variant.color.trim() === "") {
-        throw new Error("Color cannot be empty");
-    }
-    if( variant.size  && variant.size.trim() === "") {
+    if(  variant.size.trim() === "") {
         throw new Error("Size cannot be empty");
     }
 
@@ -40,10 +37,7 @@ export const updateProductVariantService = (id: number, variant: Partial<Product
     if (variant.stock !== undefined && variant.stock < 0) {
         throw new Error("Stock cannot be negative");
     }
-    if( variant.color !== undefined && variant.color !== null && variant.color.trim() === "") {
-        throw new Error("Color cannot be empty");
-    }
-    if( variant.size !== undefined && variant.size !== null && variant.size.trim() === "") {
+    if(  variant.size?.trim() === "") {
         throw new Error("Size cannot be empty");
     }
     return ProductVariantRepository.updateProductVariant(id, variant);

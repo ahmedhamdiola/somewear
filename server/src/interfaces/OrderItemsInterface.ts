@@ -1,7 +1,17 @@
 export interface OrderItemsInterface{
-    id: number;
-    orderId: number;
-    productId: number;
-    quantity: number;
-    price: number;
+    id?:number;
+    orderId:number;
+    productVariantId:number;
+    quantity:number;
+    price:number;
 }
+
+
+
+
+
+
+
+
+
+

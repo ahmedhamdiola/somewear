@@ -1,14 +1,17 @@
 import productcontroller from "../controllers/ProductController";
 import express from "express";
-import AuthMiddleWare from "../middleware/AuthMiddleWare";
+import authMiddleWare from "../middleware/AuthMiddleWare";
 import RoleMiddleware from "../middleware/RoleMiddleWare";
 
 const router = express.Router();
 
-router.post("/products",AuthMiddleWare,RoleMiddleware("admin"),productcontroller.createProduct,);
-router.get("/products/:id", productcontroller.getProductById);
-router.get("/products", productcontroller.getAllProducts);
-router.put("/products/:id",AuthMiddleWare, RoleMiddleware("admin"), productcontroller.updateProduct,);
-router.delete("/products/:id",AuthMiddleWare,RoleMiddleware("admin"),productcontroller.deleteProduct,);
+router.post("/",authMiddleWare,RoleMiddleware("admin"),productcontroller.createProductController,);
+router.get("/:id", productcontroller.getProductByIdController,);
+router.get("/",productcontroller.getAllProductsController,);
+router.get("/category", productcontroller.getCategoriesAndSubcategoriesController,);
+router.get("/featured",productcontroller.getFeaturedProductsController);
+router.get("/best-sellers",productcontroller.getBestSellersProductsController);
+router.put("/:id",authMiddleWare, RoleMiddleware("admin"), productcontroller.updateProductController,);
+router.delete("/:id",authMiddleWare,RoleMiddleware("admin"),productcontroller.deleteProductController,);
 
 export default router;

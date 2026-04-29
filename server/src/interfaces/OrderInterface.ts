@@ -1,10 +1,11 @@
 export interface OrderInterface{
-    id: number;
+    id?: number;
     userId: number;
-    TotalPrice: number;
-    ShippingFees: number;
+    totalPrice: number;
+    shippingFees: number;
     city: string;
     address: string;
     phone: string;
     status: string;
+    createdAt: string;
 }

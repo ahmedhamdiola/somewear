@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS users (
   username TEXT NOT NULL UNIQUE, 
   password TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
-  address TEXT,
-  phone TEXT ,
+  address TEXT NOT NULL,
+  phone TEXT NOT NULL,
   role TEXT NOT NULL DEFAULT 'customer'
 );
 `,
@@ -36,12 +36,15 @@ db.prepare(
   `
 CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    description TEXT,
+    name TEXT NOT NULL UNIQUE,
+    description TEXT NOT NULL,
     price REAL NOT NULL,
-    imageUrl TEXT,
-    category TEXT,
-    subcategory TEXT
+    imageUrl TEXT NOT NULL,
+    category TEXT NOT NULL,
+    subcategory TEXT NOT NULL,
+    createdAt  NOT NULL DEFAULT (datetime('now')),
+    soldAmount INTEGER NOT NULL DEFAULT 0
+
 );
 `,
 ).run();
@@ -52,8 +55,7 @@ db.prepare(
 CREATE TABLE IF NOT EXISTS product_variants (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     productId INTEGER NOT NULL,
-    size TEXT,
-    color TEXT,
+    size TEXT NOT NULL,
     stock INTEGER NOT NULL,
     FOREIGN KEY (productId) REFERENCES products(id) on DELETE CASCADE
 );
@@ -72,6 +74,7 @@ CREATE TABLE IF NOT EXISTS orders (
     address TEXT NOT NULL,
     phone TEXT NOT NULL,
     status TEXT NOT NULL,
+    createdAt NOT NULL DEFAULT (datetime('now')),
     FOREIGN KEY (userId) REFERENCES users(id)
 );
 `,
@@ -83,11 +86,11 @@ db.prepare(
 CREATE TABLE IF NOT EXISTS order_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     orderId INTEGER NOT NULL,
-    product_variant_id INTEGER NOT NULL,
+    productVariantId INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     price REAL NOT NULL,
     FOREIGN KEY (orderId) REFERENCES orders(id),
-    FOREIGN KEY (product_variant_id) REFERENCES product_variants(id)
+    FOREIGN KEY (productVariantId) REFERENCES productVariants(id)
 );
 `,
 ).run();
@@ -96,7 +99,7 @@ CREATE TABLE IF NOT EXISTS order_items (
 db.prepare(
   `
 CREATE TABLE IF NOT EXISTS carts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT ,
     userId INTEGER NOT NULL,
     FOREIGN KEY (userId) REFERENCES users(id)
 
@@ -108,12 +111,12 @@ CREATE TABLE IF NOT EXISTS carts (
 db.prepare(
   `
 CREATE TABLE IF NOT EXISTS cart_items (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT ,
     cartId INTEGER NOT NULL,
-    product_variant_id INTEGER NOT NULL,
+    productVariantId INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     FOREIGN KEY (cartId) REFERENCES carts(id),
-    FOREIGN KEY (product_variant_id) REFERENCES product_variants(id)
+    FOREIGN KEY (productVariantId) REFERENCES product_variants(id)
 );
 `,
 ).run();
