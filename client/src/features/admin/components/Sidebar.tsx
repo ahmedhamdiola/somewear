@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-  import {FaBox,FaUsers,FaShoppingCart,FaCheckCircle,FaHome,} from "react-icons/fa";
+import { FaBox, FaUsers, FaShoppingCart, FaCheckCircle, FaHome } from "react-icons/fa";
 import Logo from "../../../assets/LogoWhite.svg";
 
 const Sidebar = () => {
@@ -8,7 +8,7 @@ const Sidebar = () => {
       <div>
         <img src={Logo} className="h-14 object-contain cursor-pointer " />
       </div>
-      <nav className="flex flex-col gap-2 "> 
+      <nav className="flex flex-col gap-2 ">
         <NavLink
           className={({ isActive }) =>
             isActive
@@ -17,7 +17,7 @@ const Sidebar = () => {
           }
           to="/admin" end
         >
-          <FaHome /> 
+          <FaHome />
           admin
         </NavLink>
         <NavLink
@@ -28,7 +28,7 @@ const Sidebar = () => {
           }
           to="/admin/products"
         >
-          <FaBox /> 
+          <FaBox />
           products
         </NavLink>
         <NavLink
@@ -39,7 +39,7 @@ const Sidebar = () => {
           }
           to="/admin/users"
         >
-          <FaUsers /> 
+          <FaUsers />
           users
         </NavLink>
         <NavLink
@@ -50,7 +50,7 @@ const Sidebar = () => {
           }
           to="/admin/orders-new"
         >
-          <FaShoppingCart /> 
+          <FaShoppingCart />
           new orders
         </NavLink>
         <NavLink
@@ -61,7 +61,7 @@ const Sidebar = () => {
           }
           to="/admin/orders-completed"
         >
-          <FaCheckCircle /> 
+          <FaCheckCircle />
           completed orders
         </NavLink>
       </nav>
