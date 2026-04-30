@@ -1,30 +1,48 @@
 import { useEffect, useState } from "react";
-import {getProducts,deleteProduct,updateProduct,addProduct,type Product,} from "../services/products";
+import {
+  getProducts,
+  deleteProduct,
+  updateProduct,
+  addProduct,
+  type Product,
+} from "../services/products";
 import { toast } from "react-toastify";
 
-import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "../../../components/ui/table";
-
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../../components/ui/table";
 import { Button } from "../../../components/ui/button";
-
-import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogFooter} from "../../../components/ui/dialog";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "../../../components/ui/dialog";
 import { Input } from "../../../components/ui/input";
+
 export const Products = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [openDialog, setDialogOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
 
-  const[products,setProducts] = useState<Product[]>([]);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [current, setCurrent] = useState<Product | null>(null);
   const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [stock, setStock] = useState("");
-
+  const [price, setPrice] = useState<number>(0);
+  const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     const load = async () => {
       try {
-        const data = await getProducts();
-        setProducts(data);
+        const response = await getProducts();
+        setProducts(response);
       } catch (error) {
         console.log(error);
         toast.error("Failed to load products");
@@ -33,169 +51,171 @@ export const Products = () => {
     load();
   }, []);
 
-  const handleOpenEdit=(p:Product)=>{
-    setCurrent(p);
-    setName(p.name);
-    setPrice(p.price.toString());
-    setDescription(p.description);
-    setStock(p.stock.toString());
+  const handleEditProduct = (pro: Product) => {
+    setCurrentProduct(pro); //curent
+    setName(pro.name);
+    setDescription(pro.description);
+    setPrice(pro.price);
+    setCategory(pro.category);
+    setSubcategory(pro.subcategory);
+    setImageUrl(pro.imageUrl);
     setDialogOpen(true);
-  }
- 
-  const handleAdd = () => {
-    setCurrent(null);
+  };
+  const handleAddProduct = () => {
+    setCurrentProduct(null);
     setName("");
-    setPrice("");
     setDescription("");
-    setStock("");
+    setPrice(0);
+    setCategory("");
+    setSubcategory("");
+    setImageUrl("");
     setDialogOpen(true);
   };
-
-  const validationDialog =()=> {
-    if (!name || !price|| !stock || !description){
-  
-    toast.error("All fields required");
-    return false;
-  }
-  if(parseFloat(price)<=0 || parseInt(stock)<=0)
-  {
-    toast.error("Invalid number");
-    return false;
-  }
-  return true;
-  }
-
-const handleSave =async()=>{
-    
-  if(!validationDialog()) return;
-
-
-  
-  if(current) {
-  const updated: Product = {
-    ...current,
-    name,
-    price:parseFloat(price),
-    description,
-    stock:parseInt(stock),
+  const validationDialog = () => {
+    if (!name ||!price ||!description ||!category ||!subcategory ||!imageUrl) {
+      toast.error("All fields are required");
+      return false;
+    }
+    if (price <= 0) {
+      toast.error("Invalid price");
+      return false;
+    }
+    return true;
   };
-    await updateProduct(updated);
-}
-else {
 
-  const newProduct: Product = {
-          id: Date.now().toString(),
+  const handleSaveProduct = async () => {
+    if (!validationDialog()) return;
+
+    try {
+      if (currentProduct) {
+        const updated: Product = {
+          id: currentProduct.id,
           name,
-          price: +price,
           description,
-          stock: +stock,
+          price,
+          category,
+          subcategory,
+          imageUrl,
+        };
+        await updateProduct(updated);
+        toast.success("product updated successfully");
+      } else {
+        const newProduct = {
+          name,
+          price,
+          description,
+          category,
+          subcategory,
+          imageUrl,
         };
         await addProduct(newProduct);
-}
-
-    const fresh = await getProducts();
-    setProducts(fresh);
-    setDialogOpen(false);
-    setCurrent(null);
-    toast.success("Saved!");
-  
- 
-
-}
-
-const handleDelete=async(id:string)=>{
-  try {
-    await deleteProduct(id);
-    const fresh = await getProducts();
-    setProducts(fresh);
-    toast.success("Deleted!");
-  } catch (error) {
-    console.log(error)
-    toast.error("Error");
-  }
-}
-
+        toast.success("Product added successfully!");
+      }
+      const fresh = await getProducts();
+      setProducts(fresh);
+      setDialogOpen(false);
+      setCurrentProduct(null);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to save product");
+    }
+  };
+  const handleDelete = async (id: number) => {
+    try {
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+      await deleteProduct(id);
+      toast.success("Deleted successfully!");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data?.message || "Error deleting product");
+      const fresh = await getProducts();
+      setProducts(fresh);
+    }
+  };
 
   return (
-    <div >
-
-      <div className="flex justify-between items-center">
-      <h1 className="text-[24px] mb-4">Products</h1>
-        <Button onClick={handleAdd} >Add Product</Button>
+    <div className="">
+      <div className="flex item-center justify-between mb-5">
+        <h1 className="text-[24px] font-bold ">manage products</h1>
+        <Button onClick={handleAddProduct}>Add products</Button>
       </div>
-
-     <Table>
-    
-    <TableHeader>
-      <TableRow>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>image</TableHead>
             <TableHead>name</TableHead>
+            <TableHead>category</TableHead>
+            <TableHead>subcategory</TableHead>
             <TableHead>price</TableHead>
-            <TableHead>description</TableHead>
-            <TableHead>stock</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>actions</TableHead>
           </TableRow>
-    </TableHeader>
-
-    <TableBody>
-      {products.map((p)=>(
-        <TableRow key={p.id}>
-          <TableCell>{p.name}</TableCell>
-          <TableCell>{p.price}</TableCell>
-
-          <TableCell
-                className="max-w-[150px] truncate"
-                title={p.description}
-              >
-                {p.description}
+        </TableHeader>
+        <TableBody>
+          {products.map((pro) => (
+            <TableRow>
+              <TableCell>
+                <img
+                  src={pro.imageUrl}
+                  alt={pro.name}
+                  className="w-16 h-16 object-cover rounded-md shadow-sm border border-gray-200"
+                />
               </TableCell>
-          <TableCell>{p.stock}</TableCell>
-          <TableCell>
-            <Button onClick={() => handleOpenEdit(p)} className="me-2">Edit</Button>
-            <Button onClick={() => handleDelete(p.id)}  variant="destructive" >Delete</Button>
-          </TableCell>
-        </TableRow>
-      ))}
-    </TableBody> 
-     </Table>
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-         <DialogContent>
-          <DialogHeader>
-            
-            <DialogTitle>{current ? "Edit Product" : "Add Product"}</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-2">
-            <label>Name</label>
-            <Input value={name} onChange={(e) => setName(e.target.value) } placeholder="name" />
-          </div>
-          <div className="grid gap-2">
-            <label>Price</label>
-            <Input value={price} onChange={(e) => setPrice(e.target.value)} placeholder="price" />
-          </div>
-          <div className="grid gap-2">
-            <label>Description</label>
-            <Input
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="description"
-            />
-          </div>
-          <div className="grid gap-2">
-            <label>Stock</label>
-            <Input value={stock} onChange={(e) => setStock(e.target.value)}
-            placeholder="stock" />
-          </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setDialogOpen(false)}>
-              Cancel
-            </Button>
+              <TableCell>{pro.name}</TableCell>
+              <TableCell>{pro.category}</TableCell>
+              <TableCell>{pro.subcategory}</TableCell>
+              <TableCell>{pro.price}</TableCell>
+              <TableCell>
+                <Button onClick={() => handleEditProduct(pro) } variant="outline" className="mx-2">Edit</Button>
+                <Button onClick={() => handleDelete(pro.id)} variant="destructive">
+                  Delete
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
 
-            <Button onClick={handleSave}>Save</Button>
-        </DialogFooter>
+
+       <Dialog open={openDialog} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>{currentProduct ? "Edit Product" : "Add Product"}</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-3 py-4">
+            <div className="grid gap-1">
+              <label className="text-sm font-medium">Name</label>
+              <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Product Name" />
+            </div>
+            <div className="grid gap-1">
+              <label className="text-sm font-medium">Price</label>
+              <Input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} placeholder="Price" /> 
+            </div>
+            <div className="grid gap-1">
+              <label className="text-sm font-medium">Description</label>
+              <Input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
+            </div>
+            <div className="grid gap-1">
+              <label className="text-sm font-medium">Category</label>
+              <Input value={category} onChange={(e) => setCategory(e.target.value)} placeholder=" Men, Women, Kids" />
+            </div>
+            <div className="grid gap-1">
+              <label className="text-sm font-medium">Subcategory</label>
+              <Input value={subcategory} onChange={(e) => setSubcategory(e.target.value)} placeholder=" Shirts, Pants" />
+            </div>
+            <div className="grid gap-1">
+              <label className="text-sm font-medium">Image URL</label>
+              <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://..." />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
+            <Button onClick={handleSaveProduct}>Save</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
 
+    </div>
+  );
+};
 
-      </div>
-  ) ;
-} 
 export default Products;

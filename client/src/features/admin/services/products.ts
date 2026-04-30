@@ -1,58 +1,48 @@
+import axios from "axios";
+
 export type Product = {
-  id: string;
+  id: number;
   name: string;
   price: number;
   description: string;
-  stock: number;
+  category: string;
+  subcategory: string;
+  imageUrl: string;
+  soldAmount?: number;
+  createdAt?: string;
 };
 
+const API_URL = "http://localhost:3000/products"; // Base URL for products
 
-let products: Product[] = [
-  {
-    id: "1",
-    name: "Hoodie",
-    price: 300,
-    description: "Oversized hoodie",
-    stock: 10,
-  },
-  {
-    id: "2",
-    name: "T-shirt",
-    price: 200,
-    description: "Basic cotton t-shirt",
-    stock: 5,
-  },
-];
+// Helper to get auth header
+const getAuthHeaders = () => {
+  const token = localStorage.getItem("token") || "";
+  return {
+    headers: {  
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
 
 // GET
 export const getProducts = async (): Promise<Product[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(products), 300);
-  });
+  const response = await axios.get(API_URL);
+  // Backend returns { success: true, message: "...", data: [...] }
+  return response.data.data;
 };
 
 // DELETE
-export const deleteProduct = async (id: string): Promise<void> => {
-  return new Promise((resolve) => {
-    products = products.filter((p) => p.id !== id);
-    setTimeout(() => resolve(), 200);
-  });
+export const deleteProduct = async (id: number): Promise<void> => {
+  await axios.delete(`${API_URL}/${id}`, getAuthHeaders());
 };
 
 // UPDATE
 export const updateProduct = async (updated: Product): Promise<void> => {
-  return new Promise((resolve) => {
-    products = products.map((p) =>
-      p.id === updated.id ? updated : p
-    );
-    setTimeout(() => resolve(), 200);
-  });
+  await axios.put(`${API_URL}/${updated.id}`, updated, getAuthHeaders());
 };
 
 // ADD
-export const addProduct = async (newProduct: Product): Promise<void> => {
-  return new Promise((resolve) => {
-    products.push(newProduct);
-    setTimeout(() => resolve(), 200);
-  });
+export const addProduct = async (newProduct: Omit<Product, 'id' | 'soldAmount' | 'createdAt'>): Promise<Product> => {
+  const response = await axios.post(API_URL, newProduct, getAuthHeaders());
+  return response.data.data;
 };
