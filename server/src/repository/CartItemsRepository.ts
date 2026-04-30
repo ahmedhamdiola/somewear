@@ -56,20 +56,35 @@ export const updateCartItemQuantity = (id: number, quantity: number): CartItemsI
 
 //delete 
 export const deleteCartItem = (id: number): boolean => {
-    const orderItem = db.prepare<[number], { changes: number }>(
+    const cartItem = db.prepare<[number], { changes: number }>(
         `DELETE FROM cart_items WHERE id=?`
     );
-    const result = orderItem.run(id);
+    const result = cartItem.run(id);
     if (result.changes === 0) {
         return false
     }
     return true
 }
 
+//delet all cart items by userid
+export const deleteCartItemsByUserId = (userId: number): boolean => {
+    const cartItem = db.prepare<[number], { changes: number }>(
+        `DELETE FROM cart_items WHERE userId=?`
+    );
+    const result = cartItem.run(userId);
+    if (result.changes === 0) {
+        return false
+    }
+    return true
+}
+
+
+
 export default {
     createCartItem,
     getCartItemById,
     getCartItemsByUserId,
     updateCartItemQuantity,
-    deleteCartItem
+    deleteCartItem,
+    deleteCartItemsByUserId
 }

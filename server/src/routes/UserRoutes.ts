@@ -10,5 +10,6 @@ router.post("/login", UserController.loginUserController);
 router.get("/:id", authMiddleware, UserController.getUserByIdController);
 router.put("/:id", authMiddleware, UserController.updateUserByIdController);
 router.delete("/:id", authMiddleware, RoleMiddleware("admin"), UserController.deleteUserByIdController);
+router.post("/logout",authMiddleware,UserController.logoutController)
 
 export default router;

@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     quantity INTEGER NOT NULL,
     price REAL NOT NULL,
     FOREIGN KEY (orderId) REFERENCES orders(id),
-    FOREIGN KEY (productVariantId) REFERENCES productVariants(id)
+    FOREIGN KEY (productVariantId) REFERENCES product_variants(id)
 );
 `,
 ).run();

@@ -18,8 +18,8 @@ export const createOrderItem=(item:OrderItemsInterface): OrderItemsInterface=>{
         item.price,
     );
     return{
-        ...item ,
-        id: Number(result.lastInsertRowid)
+        id: Number(result.lastInsertRowid),
+        ...item 
     }
 }
 

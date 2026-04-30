@@ -2,6 +2,8 @@ import CartItemsService from "../services/CartItemsService";
 import { Response } from "express";
 import { successResponse, errorResponse } from "../utils/response";
 import { AuthRequest } from "../middleware/AuthMiddleWare";
+import CartItemsRepository from "../repository/CartItemsRepository";
+import OrderService from "../services/OrderService";
 
 export const createCartItemController = async (req: AuthRequest, res: Response) => {
     try {
@@ -27,7 +29,7 @@ export const getCartItemByIdController = (req: AuthRequest, res: Response) => {
 
 export const getCartItemsByUserIdController = (req: AuthRequest, res: Response) => {
     try {
-        const UserId = Number(req.params.id)
+        const UserId = Number(req.params.userId)
         // check authenticity
         if (req.user!.id !== UserId && req.user?.role !== "admin") {
             return errorResponse(res, null, "Forbidden", 403)
@@ -88,11 +90,31 @@ export const deleteCartItemController = (req: AuthRequest, res: Response) => {
     }
 }
 
+export const deleteCartItemsByUserIdController=(req:AuthRequest,res:Response)=>{
+    try{
+    const userId=Number(req.params.userId);
+
+    // check authenticity
+        if (req.user?.id !== userId && req.user?.role !== "admin") {
+            return errorResponse(res, null, "Forbidden", 403);
+        }
+
+    const result=CartItemsRepository.deleteCartItemsByUserId(userId)
+    return successResponse(res,result,"Cart items deleted successully")
+    }catch(error){
+        return errorResponse(res,error,"Failed to delete cart items",400)
+    }
+
+}
+
+
+
 
 export default {
     createCartItemController,
     getCartItemByIdController,
     getCartItemsByUserIdController,
     updateCartItemQuantityController,
-    deleteCartItemController
+    deleteCartItemController,
+    deleteCartItemsByUserIdController
 }

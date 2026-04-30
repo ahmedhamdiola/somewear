@@ -98,10 +98,16 @@ export const deleteUserByIdService = (id: number) => {
     return result;
 }
 
+
+export const logoutService=()=>{
+    return{message:"Logged out successfully"}
+}
+
 export default {
     registerUserService,
     loginUserService,
     getUserByIdService,
     updateUserByIdService,
-    deleteUserByIdService
+    deleteUserByIdService,
+    logoutService
 };

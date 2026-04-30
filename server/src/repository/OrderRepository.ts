@@ -33,11 +33,11 @@ export const getOrderById = (id: number): OrderInterface | null => {
 }
 
 //get order by user id
-export const getOrderByUserId = (userId: number): OrderInterface | null => {
+export const getOrderByUserId = (userId: number): OrderInterface [] => {
     const res = db.prepare<[number], OrderInterface>(`
     SELECT * FROM orders WHERE userId = ?
     `);
-    const orderData = res.get(userId);
+    const orderData = res.all(userId);
     return orderData || null;
 };
 

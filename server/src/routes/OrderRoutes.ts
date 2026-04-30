@@ -8,10 +8,11 @@ const router = express.Router();
 
 router.post("/", authMiddleware, OrderController.createOrderController);
 router.get("/:id", authMiddleware, RoleMiddleware("admin"), OrderController.getOrderByIdController);
-router.get("/order/:userId", authMiddleware, OrderController.getOrderByUserIdController);
+router.get("/order/:userId", authMiddleware, OrderController.getOrdersByUserIdController);
 router.get("/", authMiddleware, RoleMiddleware("admin"), OrderController.getAllOrdersController);
 router.patch("/cancel/:id", authMiddleware, OrderController.cancelOrderController)
 router.patch("/status/:id", authMiddleware, RoleMiddleware("admin"), OrderController.updateOrderStatusController);
 router.delete("/:id", authMiddleware, RoleMiddleware("admin"), OrderController.deleteOrderController);
+router.post("/checkout",authMiddleware,OrderController.checkoutController)
 
 export default router;

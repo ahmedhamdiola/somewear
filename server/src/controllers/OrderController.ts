@@ -23,13 +23,13 @@ export const getOrderByIdController = (req: Request, res: Response) => {
     }
 }
 
-export const getOrderByUserIdController = (req: AuthRequest, res: Response) => {
+export const getOrdersByUserIdController = (req: AuthRequest, res: Response) => {
     try {
         const userId = Number(req.params.userId);
         if (req.user!.id !== userId && req.user?.role !== "admin") {
             return errorResponse(res, null, "Forbidden", 403)
         }
-        const orders = OrderService.getOrderByUserIdService(userId);
+        const orders = OrderService.getOrdersByUserIdService(userId);
         return successResponse(res, orders, "User orders retrieved successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to get user orders", 400);
@@ -91,12 +91,23 @@ export const deleteOrderController = (req: Request, res: Response) => {
     }
 };
 
+export const checkoutController=(req:AuthRequest,res:Response)=>{
+    try{
+        const userId=req.user!.id
+        const order=OrderService.checkoutService(userId,req.body)
+        successResponse(res,order,"Checkout completed successfully")
+    }catch(error){
+        errorResponse(res,error,"Failed to checkout",400)
+    }
+}
+
 export default {
     createOrderController,
     getOrderByIdController,
-    getOrderByUserIdController,
+    getOrdersByUserIdController,
     getAllOrdersController,
     cancelOrderController,
     updateOrderStatusController,
-    deleteOrderController
+    deleteOrderController,
+    checkoutController
 };

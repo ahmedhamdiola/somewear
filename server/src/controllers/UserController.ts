@@ -64,10 +64,20 @@ export const deleteUserByIdController = (req: AuthRequest, res: Response) => {
 };
 
 
+export const logoutController=(req:Request,res:Request)=>{
+    try{
+        const result=UserService.logoutService()
+        successResponse(res,result,"User logged ot successfully")
+    }catch(error){
+        errorResponse(res,error,"Failed to logout",400)
+    }
+}
+
 export default {
     registerUserController,
     loginUserController,
     getUserByIdController,
     updateUserByIdController,
-    deleteUserByIdController
+    deleteUserByIdController,
+    logoutController
 };

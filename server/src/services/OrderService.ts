@@ -1,5 +1,9 @@
 import { OrderInterface } from "../interfaces/OrderInterface";
 import OrderRepository from "../repository/OrderRepository";
+import ProductRepository from "../repository/ProductRepository";
+import ProductVariantRepository from "../repository/ProductVariantRepository";
+import CartItemsRepository from "../repository/CartItemsRepository";
+import OrderItemsRepository from "../repository/OrderItemsRepository";
 
 export const createOrderService = (order: OrderInterface): OrderInterface => {
     // validation
@@ -35,7 +39,7 @@ export const getOrderByIdService = (id: number): OrderInterface | null => {
     return OrderRepository.getOrderById(id);
 };
 
-export const getOrderByUserIdService = (userId: number): OrderInterface |null => {
+export const getOrdersByUserIdService = (userId: number): OrderInterface [] => {
     if (!userId || userId <= 0) {
         throw new Error("Invalid user ID");
     }
@@ -100,12 +104,90 @@ export const deleteOrderService = (id: number): {message: string} => {
     return OrderRepository.deleteOrderById(id);
 };
 
+
+export const checkoutService = (
+  userId: number,
+  orderData: {
+    shippingFees: number;
+    city: string;
+    address: string;
+    phone: string;
+  },
+): OrderInterface => {
+
+  if (!userId || userId <= 0) {
+    throw new Error("Invalid userId");
+  }
+
+  const cartItems = CartItemsRepository.getCartItemsByUserId(userId);
+
+  if (cartItems.length === 0) {
+    throw new Error("Cart is empty");
+  }
+
+  let totalPrice = 0;
+
+  // ENRICH CART ITEMS ONCE
+  const enrichedItems = cartItems.map((item) => {
+    const variant = ProductVariantRepository.getProductVariantById(
+      item.productVariantId
+    );
+
+    if (!variant) {
+      throw new Error("Product variant not found");
+    }
+
+    const product = ProductRepository.getProductById(variant.productId);
+
+    if (!product) {
+      throw new Error("Product not found");
+    }
+
+    const itemTotal = product.price * item.quantity;
+
+    totalPrice += itemTotal;
+
+    return {
+      ...item,
+      price: product.price,
+    };
+  });
+
+  // CREATE ORDER
+  const order = OrderRepository.createOrder({
+    userId,
+    totalPrice,
+    shippingFees: orderData.shippingFees,
+    city: orderData.city,
+    address: orderData.address,
+    phone: orderData.phone,
+    createdAt: new Date().toISOString(),
+    status: "pending",
+  });
+
+  // CREATE ORDER ITEMS (NO EXTRA DB CALLS)
+  for (const item of enrichedItems) {
+    OrderItemsRepository.createOrderItem({
+      orderId: order.id!,
+      productVariantId: item.productVariantId,
+      price: item.price,
+      quantity: item.quantity,
+    });
+  }
+
+  //CLEAR CART
+  CartItemsRepository.deleteCartItemsByUserId(userId);
+
+  return order;
+};
+
 export default {
     createOrderService,
     getOrderByIdService,
-    getOrderByUserIdService,
+    getOrdersByUserIdService,
     getAllOrdersService,
     cancelOrderService,
     updateOrderStatusService,
-    deleteOrderService
+    deleteOrderService,
+    checkoutService
 };
