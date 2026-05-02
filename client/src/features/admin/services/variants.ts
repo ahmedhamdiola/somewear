@@ -9,33 +9,30 @@ export type ProductVariant = {
 
 const API_URL = "http://localhost:3000/variants";
 
-const getAuthHeaders = () => {
-  const token = localStorage.getItem("token") || "";
+const getAuthHeaders=()=>{
+  const token = localStorage.getItem("token")|| "";
   return {
-    headers: {
+    headers:{
       Authorization: `Bearer ${token}`,
     },
   };
 };
 
-// GET variants for a specific product
-export const getProductVariants = async (productId: number): Promise<ProductVariant[]> => {
+export const getProductVariants=async(productId:number):Promise<ProductVariant[]> => {
   const response = await axios.get(`${API_URL}/variants/${productId}`);
   return response.data.data;
 };
 
-// ADD variant
-export const addProductVariant = async (newVariant: Omit<ProductVariant, "id">): Promise<ProductVariant> => {
+export const addProductVariant = async (newVariant: Omit<ProductVariant,"id">): Promise<ProductVariant> =>{
   const response = await axios.post(API_URL, newVariant, getAuthHeaders());
   return response.data.data;
 };
 
-// DELETE variant
-export const deleteProductVariant = async (id: number): Promise<void> => {
-  await axios.delete(`${API_URL}/${id}`, getAuthHeaders());
-};
+// // DELETE variant
+// export const deleteProductVariant = async (id: number): Promise<void> => {
+//   await axios.delete(`${API_URL}/${id}`, getAuthHeaders());
+// };
 
-// UPDATE variant stock
-export const updateProductVariant = async (id: number, stock: number): Promise<void> => {
+export const updateProductVariant = async (id: number, stock: number): Promise<void>=>{
   await axios.put(`${API_URL}/${id}`, { stock }, getAuthHeaders());
 };

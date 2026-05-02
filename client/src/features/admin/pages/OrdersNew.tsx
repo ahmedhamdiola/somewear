@@ -23,8 +23,8 @@ export const OrdersNew = () => {
 
 
   const[orders,setOrders] = useState<Order[]>([]);
-  useEffect(()=>{
-  
+
+
   const load = async () => {
     try {
       const data = await getOrders() 
@@ -37,33 +37,32 @@ export const OrdersNew = () => {
       console.log(error);
       toast.error("Failed to load orders");
     }
+  }
+  useEffect(()=>{
+     const fetchloadOrder = async () => {
+    try {
+      const data = await getOrders() 
+        const active = data.filter(
+          (or) => or.status !== "delivered"
+        );
+      setOrders(active);
+
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to load orders");
+    }
   };
-  load();
-  
+    fetchloadOrder()
   },[])
  
   const handleNext = async(order:Order)=>{
-     let newStatus: Order["status"];
-
-    if (order.status === "pending") newStatus = "shipped";
-    else if (order.status === "shipped") newStatus = "delivered";
-    else return;
-    
      try {
-      await updateOrderStatus(order.id, newStatus);
-
-  
-      const data = await getOrders();
-      const active = data.filter(
-        (ord) => ord.status !== "delivered"
-      );
-
-      setOrders(active);         
-
-      toast.success("Status updated ");
+        await updateOrderStatus(order.id, "delivered");
+      await load();         
+      toast.success("Order marked as delivered ");
     } catch (error) {
       console.log(error);
-      toast.error("Failed to update");
+      toast.error("Failed to update status");
     }
 
   }
@@ -74,14 +73,14 @@ export const OrdersNew = () => {
       <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Order ID</TableHead>
           <TableHead>Customer Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Phone</TableHead>
-          <TableHead>Date</TableHead>
+          <TableHead>Date</TableHead> 
           <TableHead>Address</TableHead>
           <TableHead>Total</TableHead>
-          <TableHead>Status</TableHead>
+          <TableHead>Status</TableHead> 
+          <TableHead>actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -92,15 +91,17 @@ export const OrdersNew = () => {
               <TableCell>{ord.email}</TableCell>
               <TableCell>{ord.phone}</TableCell>
               <TableCell>{ord.address}</TableCell>
-              <TableCell>{ord.total} EGP</TableCell>
-              <TableCell>{ord.status}</TableCell>
+              <TableCell className="font-bold text-green-600">{ord.total} EGP</TableCell>
+              <TableCell><span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
+                    {ord.status}
+                  </span></TableCell>
+              
               <TableCell> 
-                <Button onClick={()=> handleNext(ord)}>next status</Button>
-
+                <Button onClick={()=> handleNext(ord)} className="bg-black hover:bg-green-600 text-white">next status</Button>
                 </TableCell>
       </TableRow> 
     
-    ))} 
+    ))}
 
 
 

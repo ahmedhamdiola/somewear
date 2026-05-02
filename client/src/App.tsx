@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import CartPage from './features/cart/pages/CartPage'
 import HomePage from './features/home/HomePage'
 import { ToastContainer } from "react-toastify"
@@ -11,6 +11,7 @@ import LoginPage from './features/auth/pages/LoginPage'
 import ProfilePage from './features/user/pages/ProfilePage'
 /////////////
 import AdminLayout from "./features/admin/pages/AdminLayout";
+import AdminGuard from "./features/admin/components/AdminGuard";
 import  Products  from "./features/admin/pages/Products";
 import   Users  from "./features/admin/pages/Users";
 import OrdersNew  from "./features/admin/pages/OrdersNew";
@@ -36,12 +37,14 @@ function App() {
           <Route path='/products/:product' element={<ProductPage />} />
           <Route path='/:category' element={<CategoryPage />} />
 
-          <Route path="/admin" element={<AdminLayout />}>  
-            <Route index element={<AdminHomePage/>} />
-            <Route path="products" element={<Products />} />
-            <Route path="users" element={<Users />} />
-            <Route path="orders-new" element={<OrdersNew />} />
-            <Route path="orders-completed" element={<OrdersCompleted />} />
+          <Route path="/admin" element={<AdminGuard />}>
+            <Route element={<AdminLayout />}>
+              <Route index element={<AdminHomePage/>} />
+              <Route path="products" element={<Products />} />
+              <Route path="users" element={<Users />} />
+              <Route path="orders-new" element={<OrdersNew />} />
+              <Route path="orders-completed" element={<OrdersCompleted />} />
+            </Route>
           </Route>
           
         </Routes>

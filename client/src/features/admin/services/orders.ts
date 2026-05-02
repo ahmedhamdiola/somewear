@@ -1,65 +1,32 @@
+import axios from "axios";
+
 export type Order = {
-  id: string;
-  customerName: string;
+  id:string;
+  customerName:string;
   email: string;
-  phone: string;
-  date: string; // 
-    address: string; //
-  total: number;
-  
-  status: "pending" | "shipped" | "delivered";
+  phone:string
+  date: string
+  address: string
+  total: number
+  status: "pending" |"delivered" |"cancelled";
 };
 
-let orders: Order[] = [
-  {
-    id: "1",
-    customerName: "Ziad",
-    email: "ziad@gmail.com",
-    phone: "01012345678",
-    date: "2024-06-01",
-    address: "Cairo, Nasr City, Street 10", // 🔥
-    total: 500,
-    status: "pending",
-  },
-  {
-    id: "2",
-    customerName: "Ahmed",
-    email: "ahmed@gmail.com",
-    phone: "01198765432",
-    date: "2024-06-02",
-    address: "Giza, Haram, Street 5",
-    total: 300,
-    status: "shipped",
-  },
-  {
-    id: "3",
-    customerName: "Ali",
-    email: "ali@gmail.com",
-    phone: "01255555555",
-    date: "2024-06-03",
-    address: "Alexandria, Miami, Street 3",
-    total: 700,
-    status: "delivered",
-  },
-];
+const API_URL ="http://localhost:3000";
+const getAuthHeaders=()=>{
+  const token = localStorage.getItem("token")||"";
+  return { headers:{ Authorization: `Bearer ${token}`} };
+};
 
 // GET all orders
 export const getOrders = async (): Promise<Order[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(orders), 300);
-  });
+  const res = await axios.get(`${API_URL}/order`, getAuthHeaders());
+  return res.data.data;
 };
 
-//  UPDATE status
+// UPDATE order status
 export const updateOrderStatus = async (
   id: string,
   status: Order["status"]
 ): Promise<void> => {
-  return new Promise((resolve) => {
-    orders = orders.map((o) =>
-      o.id === id ? { ...o, status } : o
-    );
-
-    setTimeout(() => resolve(), 200);
-  });
+  await axios.patch(`${API_URL}/order/status/${id}`, { status }, getAuthHeaders());
 };

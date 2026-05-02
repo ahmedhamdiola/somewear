@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  getUsers,
-  deleteUser,
-  type User,
-} from "../services/users";
+import { getUsers, deleteUser, type User } from "../services/users";
 import { toast } from "react-toastify";
 
 import {
@@ -35,17 +31,17 @@ export const Users = () => {
   },[]);
 
   const handleDelete=async(id:string)=>{
-    const oldu =users 
+    const oldu =users
 
-    setUsers(prev => prev.filter(u => u.id !== id));
+    setUsers(prev=> prev.filter(u => u.id !== id));
 
     try {
       await deleteUser(id);
 
-     
+
       toast.success("Deleted!");
     } catch (error) {
-       setUsers(oldu);
+      setUsers(oldu);
       console.log(error);
       toast.error("Error");
     }
@@ -65,21 +61,19 @@ export const Users = () => {
         </TableHeader>
         <TableBody>
           { users.map((u)=>(
-
-              <TableRow>
-                <TableCell>{u.name}</TableCell>
-                <TableCell>{u.email}</TableCell>
-                <TableCell>{u.phone}</TableCell>
-                <TableCell>
-                  <Button onClick={()=>handleDelete(u.id)} variant="destructive">
-                    Delete
-                  </Button>
-                </TableCell>
-              </TableRow>  
-
- 
+            <TableRow>
+              <TableCell>{u.name}</TableCell>
+              <TableCell>{u.email}</TableCell>
+              <TableCell>{u.phone}</TableCell>
+              <TableCell>
+                <Button
+                  onClick={() => handleDelete(u.id)} variant="destructive">
+                  Delete
+                </Button>
+              </TableCell>
+            </TableRow>
           ) )
-
+          
           }
         </TableBody>
       </Table>

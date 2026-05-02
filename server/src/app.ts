@@ -7,7 +7,7 @@ import productVariantRoutes from "./routes/ProductVariantRoutes";
 import OrderRoutes from "./routes/OrderRoutes";
 import OrderItemsRoutes from "./routes/OrderItemsRoutes"
 import cartItemsRoutes from "./routes/CartItemsRoutes"
-// import cart
+import contactUsRoutes from "./routes/ContactUsRoutes"
 
 
 const app = express();
@@ -20,6 +20,7 @@ app.use("/variants", productVariantRoutes);
 app.use("/order", OrderRoutes);
 app.use("/orderItem", OrderItemsRoutes);
 app.use("/cart", cartItemsRoutes);
+app.use("/contact", contactUsRoutes);
 
 
 app.get("/", (req, res) => {
