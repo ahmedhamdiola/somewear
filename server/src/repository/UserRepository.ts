@@ -59,11 +59,18 @@ export const deleteUserById = (id: number): boolean => {
     return true
 };
 
+// get all users
+export const getAllUsers = (): Omit<UserInterface, "password">[] => {
+    const stmt = db.prepare<[], UserInterface>(`SELECT id, username, email, phone, address, role FROM users`);
+    return stmt.all();
+};
+
 
 export default {
     createUser,
     getUserByEmail,
     getUserById,
     updateUserById,
-    deleteUserById
+    deleteUserById,
+    getAllUsers
 };

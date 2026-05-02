@@ -1,27 +1,27 @@
+import axios from "axios";
+
 export type User = {
   id: string;
-  name: string;
+  username: string;
   email: string;
-    phone: string; 
+  phone: string;
+  role: string;
 };
 
-// fake DB
-let users: User[] = [
-  { id: "1", name: "Ziad", email: "ziad@gmail.com" , phone: "01012345678" },
-  { id: "2", name: "Ahmed", email: "ahmed@gmail.com", phone: "01123456789" },
-];
+const API_URL = "http://localhost:3000";
 
-// GET
+const getAuthHeaders = () => {
+  const token = localStorage.getItem("token") || "";
+  return { headers: { Authorization: `Bearer ${token}` } };
+};
+
+// GET all users
 export const getUsers = async (): Promise<User[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(users), 300);
-  });
+  const res = await axios.get(`${API_URL}/users`, getAuthHeaders());
+  return res.data.data;
 };
 
-// DELETE
+// DELETE user
 export const deleteUser = async (id: string): Promise<void> => {
-  return new Promise((resolve) => {
-    users = users.filter((u) => u.id !== id);
-    setTimeout(() => resolve(), 200);
-  });
+  await axios.delete(`${API_URL}/users/${id}`, getAuthHeaders());
 };

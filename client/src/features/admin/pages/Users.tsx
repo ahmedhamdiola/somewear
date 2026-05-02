@@ -20,7 +20,8 @@ export const Users = () => {
     const load =async()=>{
       try{
         const data = await getUsers();
-        setUsers(data);
+        const userdata =data.filter((u)=>u.role!== "admin")
+        setUsers(userdata);
       }
       catch (error){
         console.log(error);
@@ -61,19 +62,20 @@ export const Users = () => {
         </TableHeader>
         <TableBody>
           { users.map((u)=>(
-            <TableRow>
-              <TableCell>{u.name}</TableCell>
-              <TableCell>{u.email}</TableCell>
-              <TableCell>{u.phone}</TableCell>
+            <TableRow key={u.id }>
+              <TableCell>{u.username }</TableCell>
+              <TableCell>{u.email }</TableCell>
+              <TableCell>{u.phone }</TableCell>
+              
               <TableCell>
                 <Button
-                  onClick={() => handleDelete(u.id)} variant="destructive">
+                  onClick={()=> handleDelete(u.id)} variant="destructive">
                   Delete
                 </Button>
               </TableCell>
             </TableRow>
-          ) )
-          
+          )
+          )
           }
         </TableBody>
       </Table>

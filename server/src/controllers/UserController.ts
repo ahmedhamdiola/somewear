@@ -64,6 +64,15 @@ export const deleteUserByIdController = (req: AuthRequest, res: Response) => {
 };
 
 
+export const getAllUsersController = (req: AuthRequest, res: Response) => {
+    try {
+        const result = UserService.getAllUsersService();
+        return successResponse(res, result, "Users retrieved successfully");
+    } catch (error) {
+        return errorResponse(res, error, "Failed to retrieve users", 400);
+    }
+};
+
 export const logoutController=(req:Request,res:Request)=>{
     try{
         const result=UserService.logoutService()
@@ -79,5 +88,6 @@ export default {
     getUserByIdController,
     updateUserByIdController,
     deleteUserByIdController,
+    getAllUsersController,
     logoutController
 };

@@ -99,6 +99,10 @@ export const deleteUserByIdService = (id: number) => {
 }
 
 
+export const getAllUsersService = () => {
+    return UserRepository.getAllUsers();
+}
+
 export const logoutService=()=>{
     return{message:"Logged out successfully"}
 }
@@ -109,5 +113,6 @@ export default {
     getUserByIdService,
     updateUserByIdService,
     deleteUserByIdService,
+    getAllUsersService,
     logoutService
 };
