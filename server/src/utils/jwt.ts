@@ -1,5 +1,5 @@
 import jwt, { JwtPayload }  from "jsonwebtoken";
-const secret= "secretkey";
+const secret= "El3alamy";
 
 export const generateToken = (payload: object): string => {
     return jwt.sign(payload, secret, { expiresIn: '1d' });

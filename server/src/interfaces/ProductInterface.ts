@@ -7,6 +7,7 @@ export interface ProductInterface {
   category: string ;
   subcategory: string ;
   imageUrl: string ;
+  imageId:string;
   createdAt: string;
   soldAmount: number;
 }

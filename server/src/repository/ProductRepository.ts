@@ -7,14 +7,15 @@ import { ProductInterface } from '../interfaces/ProductInterface';
 type CreateProductInput = Omit<ProductInterface, "id">;
 export const createProduct = (product: ProductInterface): ProductInterface => {
   const stmt = db.prepare(`
-    INSERT INTO products ( name, description, price, imageUrl, category, subcategory, createdAt, soldAmount)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO products ( name, description, price, imageUrl, imageId, category, subcategory, createdAt, soldAmount)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
   const result = stmt.run(
     product.name,
     product.description,
     product.price,
     product.imageUrl,
+    product.imageId,
     product.category,
     product.subcategory,
     product.createdAt || new Date().toISOString(),
@@ -90,7 +91,7 @@ export const updateProduct = (id: number, product: Partial<UpdateProductInput>):
   const exisitingProduct = getProductById(id)
   const stmt = db.prepare(`
     UPDATE products
-    SET name = ?, description = ?, price = ?, imageUrl = ?, category = ?, subcategory = ?, soldAmount = ?
+    SET name = ?, description = ?, price = ?, imageUrl = ?, imageId=? , category = ?, subcategory = ?, soldAmount = ?
     WHERE id = ?
   `);
   stmt.run(
@@ -98,6 +99,7 @@ export const updateProduct = (id: number, product: Partial<UpdateProductInput>):
     product.description ?? exisitingProduct?.description,
     product.price ?? exisitingProduct?.price,
     product.imageUrl ?? exisitingProduct?.imageUrl,
+    product.imageId ?? exisitingProduct?.imageId,
     product.category ?? exisitingProduct?.category,
     product.subcategory ?? exisitingProduct?.subcategory,
     product.soldAmount ?? exisitingProduct?.soldAmount,

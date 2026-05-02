@@ -143,6 +143,13 @@ export const checkoutService = (
       throw new Error("Product not found");
     }
 
+    if (variant.stock < item.quantity) {
+    throw new Error(`Insufficient stock for product variant ${item.productVariantId}`);
+    }
+
+    ProductVariantRepository.updateStock(item.productVariantId,variant.stock - item.quantity);
+
+
     const itemTotal = product.price * item.quantity;
 
     totalPrice += itemTotal;

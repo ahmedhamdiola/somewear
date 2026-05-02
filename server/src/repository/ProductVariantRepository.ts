@@ -31,6 +31,27 @@ export const getProductVariantsByProductId = (productId: number): ProductVariant
     return stmt.all(productId);
 };
 
+
+
+//update stock
+export const updateStock=(id:number, newStock:number):ProductVariantInterface =>{
+    const stmt = db.prepare(`
+    UPDATE product_variants
+    SET stock = ?
+    WHERE id = ?
+  `);
+
+  const result = stmt.run(newStock, id);
+   if (result.changes === 0) {
+    throw new Error("Failed to update stock");
+  }
+
+    return getProductVariantById(id)!;
+
+}
+
+
+
 //update product variant
 export const updateProductVariant = (id: number, variant: Partial<ProductVariantInterface>): ProductVariantInterface | null => {
     const existingVariant = getProductVariantById(id);
@@ -63,5 +84,6 @@ export default {
     getProductVariantById,
     getProductVariantsByProductId,
     updateProductVariant,
+    updateStock,
     deleteProductVariant
 };

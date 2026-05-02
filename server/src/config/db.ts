@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS products (
     description TEXT NOT NULL,
     price REAL NOT NULL,
     imageUrl TEXT NOT NULL,
+    imageId TEXT NOT NULL,
     category TEXT NOT NULL,
     subcategory TEXT NOT NULL,
     createdAt TEXT NOT NULL DEFAULT (datetime('now')),
