@@ -64,9 +64,9 @@ export const getTotalAmountByUserId = (userId: number) => {
 
 //get all orders
 export const getAllOrders = (): OrderInterface[] => {
+     //SELECT * FROM orders  
+        ////////////////////////////// edit by bassam //////////////////////
     const res = db.prepare<[], OrderInterface>(`
-        //SELECT * FROM orders  
-        ////////////////////////////// edit by bassam //////////////////////////
         SELECT orders.id,
                orders.status,
                orders.phone,
@@ -77,7 +77,6 @@ export const getAllOrders = (): OrderInterface[] => {
                users.email
         FROM orders
         JOIN users ON orders.userId = users.id
-        ///////////////////////////////////////////////////////////////////
     `);
     const ordersData = res.all();
     return ordersData || [];
