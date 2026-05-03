@@ -1,8 +1,8 @@
 import {v2 as cloudinary} from"cloudinary"
 cloudinary.config({
-    cloud_name:"Mido",
-    api_key:"Elbes",
-    api_secret:"Hamdiola"
+    cloud_name:process.env.cloud_name!,
+    api_key:process.env.cloud_key!,
+    api_secret:process.env.cloud_secret!,
 })
 
 export default cloudinary

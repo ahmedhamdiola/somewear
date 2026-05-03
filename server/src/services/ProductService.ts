@@ -48,7 +48,7 @@ export const getProductByIdService = (id: number): ProductInterface | null => {
 }
 
 export const getAllProductsService = (category?: string,
-    subcategory?: string): ProductInterface[] => {
+    subcategory?: string, page?:number,limit?:number): ProductInterface[] => {
     // validation
     if (category && category.trim() === "") {
         throw new Error("Category cannot be empty");
@@ -56,8 +56,18 @@ export const getAllProductsService = (category?: string,
     if (subcategory && subcategory.trim() === "") {
         throw new Error("Subcategory cannot be empty");
     }
+    if(!page || page<=0){
+        page=1
+    }
+    if(!limit ||limit <=0){
+        limit =10
+    }
+    if(limit>20){
+        limit =20
+    }
 
-    return ProductRepository.getAllProducts(category, subcategory);
+
+    return ProductRepository.getAllProducts(category, subcategory,page,limit);
 }
 
 export const getCategoriesAndSubcategoriesService = (): { category: string, subcategory: string }[] => {

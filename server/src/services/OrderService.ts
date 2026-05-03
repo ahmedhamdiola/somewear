@@ -127,7 +127,7 @@ export const checkoutService = (
 
   let totalPrice = 0;
 
-  // ENRICH CART ITEMS ONCE
+  // enrich cart items
   const enrichedItems = cartItems.map((item) => {
     const variant = ProductVariantRepository.getProductVariantById(
       item.productVariantId
@@ -147,20 +147,21 @@ export const checkoutService = (
     throw new Error(`Insufficient stock for product variant ${item.productVariantId}`);
     }
 
-    ProductVariantRepository.updateStock(item.productVariantId,variant.stock - item.quantity);
-
-
+    
+    
     const itemTotal = product.price * item.quantity;
 
     totalPrice += itemTotal;
 
     return {
-      ...item,
+        ...item,
       price: product.price,
+      productId:product.id!,
+      currStock:variant.stock
     };
   });
 
-  // CREATE ORDER
+  //create order
   const order = OrderRepository.createOrder({
     userId,
     totalPrice,
@@ -170,11 +171,11 @@ export const checkoutService = (
     phone: orderData.phone,
     createdAt: new Date().toISOString(),
     status: "pending",
-  });
+});
 
-  // CREATE ORDER ITEMS (NO EXTRA DB CALLS)
+  //create order items
   for (const item of enrichedItems) {
-    OrderItemsRepository.createOrderItem({
+      OrderItemsRepository.createOrderItem({
       orderId: order.id!,
       productVariantId: item.productVariantId,
       price: item.price,
@@ -182,9 +183,14 @@ export const checkoutService = (
     });
   }
 
-  //CLEAR CART
-  CartItemsRepository.deleteCartItemsByUserId(userId);
+  for(const item of enrichedItems){
+  ProductVariantRepository.updateStock(item.productVariantId,item.currStock - item.quantity);
+  ProductRepository.incrementSoldAmount(item.productId,item.quantity)
+  }
 
+  //clear cart
+  CartItemsRepository.deleteCartItemsByUserId(userId);
+  
   return order;
 };
 
