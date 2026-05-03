@@ -34,14 +34,14 @@ export const getProductVariantsByProductId = (productId: number): ProductVariant
 
 
 //update stock
-export const updateStock=(id:number, newStock:number):ProductVariantInterface =>{
+export const updateStock=(id:number, stock:number):ProductVariantInterface =>{
     const stmt = db.prepare(`
     UPDATE product_variants
     SET stock = ?
     WHERE id = ?
   `);
 
-  const result = stmt.run(newStock, id);
+  const result = stmt.run(stock, id);
    if (result.changes === 0) {
     throw new Error("Failed to update stock");
   }
