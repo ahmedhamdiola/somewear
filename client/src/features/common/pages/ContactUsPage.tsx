@@ -8,7 +8,7 @@ import {
   FaThumbsUp,
 } from "react-icons/fa6";
 import { toast } from "react-toastify";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/navbar/NavBar";
 import FooterBar from "../components/FooterBar";
 import { sendContactMessage } from "../services/contactUs";
 
@@ -27,7 +27,7 @@ export const ContactUsPage = () => {
               we'd like to hear from you!
             </h2>
 
-             <p className="text-gray-500 text-[14px] leading-relaxed mb-25">
+            <p className="text-gray-500 text-[14px] leading-relaxed mb-25">
               if you have any quistions or suggestions or just want to <br /> say
               hi, please fill the contact form <br /> we will get back to you as
               soon as possible us
@@ -76,12 +76,12 @@ export const ContactUsPage = () => {
           <div className="p-10 max-w-[600px] flex flex-col justify-center items-center mt-12 ">
             <Formik
               initialValues={{ name: "", email: "", phone: "", message: "" }}
-              onSubmit={async (values,{setSubmitting, resetForm })=>{
+              onSubmit={async (values, { setSubmitting, resetForm }) => {
                 try {
                   await sendContactMessage(values);
                   toast.success("Message sent successfully!");
                   resetForm();
-                } catch 
+                } catch
                 (error) {
                   console.log(error);
                   toast.error("Failed to send message",

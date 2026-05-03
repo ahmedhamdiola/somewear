@@ -1,2 +1,2 @@
 -- 
-SELECT * FROM orders
+SELECT * FROM products

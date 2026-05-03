@@ -1,10 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card"
-import Product from "../../../assets/Product.png"
+import type { Product as ProductType } from "../utils"
 
 interface Props {
     onClick?: () => void
+    product?: ProductType
 }
-const ProductCard = ({ onClick }: Props) => {
+const ProductCard = ({ onClick, product }: Props) => {
     return (
         <Card
             className="relative mx-auto w-full max-w-sm pt-0 shadow-md cursor-pointer
@@ -12,18 +13,17 @@ const ProductCard = ({ onClick }: Props) => {
             onClick={onClick}
         >
             <img
-                src={Product}
+                src={product?.imageUrl}
                 alt="Event cover"
                 className="pt-3"
             />
             <CardHeader>
-                <CardTitle>Oversized hoodie</CardTitle>
+                <CardTitle>{product?.name}</CardTitle>
                 <CardDescription>
-                    A practical talk on component APIs, accessibility, and shipping
-                    faster.
+                    {product?.description}
                 </CardDescription>
                 <div className="flex">
-                    <CardTitle>Price: $349.99</CardTitle>
+                    <CardTitle>Price: ${product?.price}</CardTitle>
                 </div>
                 <CardContent>
                 </CardContent>

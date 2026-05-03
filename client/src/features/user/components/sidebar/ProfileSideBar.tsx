@@ -21,7 +21,11 @@ const ProfileSideBar = ({ selected, setSelected }: Props) => {
                             const Icon = option.Icon
                             return (
                                 <SidebarMenuItem key={i} className='cursor-pointer'>
-                                    <ProfileSideBarButton title={option.title} onClick={() => setSelected(option.title)} isSelected={selected == option.title}>
+                                    <ProfileSideBarButton
+                                        title={option.title}
+                                        onClick={() => setSelected(option.title)}
+                                        isSelected={selected == option.title}
+                                    >
                                         <Icon />
                                     </ProfileSideBarButton>
                                 </SidebarMenuItem>

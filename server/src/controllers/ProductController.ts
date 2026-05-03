@@ -4,17 +4,17 @@ import { successResponse, errorResponse } from '../utils/response';
 import { AuthRequest } from '../middleware/AuthMiddleWare';
 import cloudinary from '../utils/cloudinary';
 
-export const createProductController = async(req: Request, res: Response) => {
+export const createProductController = async (req: Request, res: Response) => {
     try {
-        let imageUrl=""
-        let imageId=""  
+        let imageUrl = ""
+        let imageId = ""
 
-        if(req.file){
-            const res= await cloudinary.uploader.upload(req.file.path)
-            imageUrl=res.secure_url
-            imageId=res.public_id
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path)
+            imageUrl = result.secure_url
+            imageId = result.public_id
         }
-        const product = ProductService.createProductService({...req.body,imageUrl,imageId});
+        const product = ProductService.createProductService({ ...req.body, imageUrl, imageId });
         return successResponse(res, product, "Product created successfully", 201);
     } catch (error) {
         return errorResponse(res, error, "Failed to create product", 400);
@@ -77,44 +77,44 @@ export const getBestSellersProductsController = (req: Request, res: Response) =>
 
 }
 
-export const updateProductController = async(req: Request, res: Response) => {
+export const updateProductController = async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
-        const existing =ProductService.getProductByIdService(id)
-        if(!existing){
-            return errorResponse(res,null,"Product not found",404)
+        const existing = ProductService.getProductByIdService(id)
+        if (!existing) {
+            return errorResponse(res, null, "Product not found", 404)
         }
-        let imageUrl=existing.imageUrl
-        let imageId=existing.imageId
+        let imageUrl = existing.imageUrl
+        let imageId = existing.imageId
 
-        if(req.file){
+        if (req.file) {
             //del.old
-            if(existing.imageId){
+            if (existing.imageId) {
                 await cloudinary.uploader.destroy(existing.imageId)
             }
             //up new
-            const res =await cloudinary.uploader.upload(req.file.path)
+            const result = await cloudinary.uploader.upload(req.file.path)
 
-            imageUrl=res.secure_url
-            imageId=res.public_id
+            imageUrl = result.secure_url
+            imageId = result.public_id
         }
 
-        const product = ProductService.updateProductService(id,{... req.body,imageUrl,imageId});
+        const product = ProductService.updateProductService(id, { ...req.body, imageUrl, imageId });
         return successResponse(res, product, "Product updated successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to update product", 400);
     }
 };
 
-export const deleteProductController =async (req: Request, res: Response) => {
+export const deleteProductController = async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
-        const existing =ProductService.getProductByIdService(id)
-        if(!existing){
-            return errorResponse(res,null,"Product not found",404)
+        const existing = ProductService.getProductByIdService(id)
+        if (!existing) {
+            return errorResponse(res, null, "Product not found", 404)
         }
         //del(cloud)
-        if(existing.imageId){
+        if (existing.imageId) {
             await cloudinary.uploader.destroy(existing.imageId)
 
         }

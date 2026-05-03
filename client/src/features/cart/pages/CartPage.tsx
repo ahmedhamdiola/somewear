@@ -1,4 +1,4 @@
-import NavBar from '../../common/components/NavBar'
+import NavBar from '../../common/components/navbar/NavBar'
 import FooterBar from '../../common/components/FooterBar'
 import { ShoppingBag, ShoppingBagIcon } from 'lucide-react'
 import { Badge } from '../../../components/ui/badge'

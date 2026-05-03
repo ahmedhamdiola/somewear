@@ -1,4 +1,4 @@
-import { ChartPieIcon, Settings, ShoppingBasketIcon } from 'lucide-react'
+import { ChartPieIcon, LogOutIcon, Settings, ShoppingBasketIcon } from 'lucide-react'
 
 interface optionsAttributes {
     title: string,
@@ -18,5 +18,9 @@ export const options: optionsAttributes[] = [
         title: "My Orders",
         Icon: ShoppingBasketIcon
     },
+    {
+        title: "Log Out",
+        Icon: LogOutIcon
+    }
 
 ]

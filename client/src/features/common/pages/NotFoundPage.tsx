@@ -1,4 +1,4 @@
-import NavBar from '../components/NavBar'
+import NavBar from '../components/navbar/NavBar'
 import FooterBar from '../components/FooterBar'
 import { ExclamationTriangleIcon } from '@heroicons/react/16/solid'
 

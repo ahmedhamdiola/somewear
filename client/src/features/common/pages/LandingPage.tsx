@@ -1,12 +1,16 @@
-import NavBar from "../components/NavBar"
+import NavBar from "../components/navbar/NavBar"
 import CoverPage from "../../../assets/coverPage.jpg"
 import { Button } from "../../../components/ui/button"
 import { useNavigate } from "react-router-dom"
 import { Separator } from "../../../components/ui/separator"
 import FooterBar from "../components/FooterBar"
 import ProductCard from "../../product/components/ProductCard"
+import useFeaturedProducts from "../../product/hooks/useFeaturedProducts"
+import useBestSellerProducts from "../../product/hooks/useBestSellerProducts"
 const LandingPage = () => {
     const navigate = useNavigate()
+    const { featuredProducts, error, loading } = useFeaturedProducts()
+    const { bestSellerProducts, bestError, bestLoading } = useBestSellerProducts()
     return (
         <div>
             <NavBar />
@@ -26,22 +30,28 @@ const LandingPage = () => {
                 <h1 className="ml-15 text-3xl font-bold">FEATURED PRODUCTS</h1>
             </div>
             <div className="grid grid-cols-5 gap-7 p-5 h-full">
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
+                {error && <p>{error}</p>}
+                {loading && <p>{loading}</p>}
+                {featuredProducts.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                    />
+                ))}
             </div>
             <Separator />
             <div className="mt-15 flex items-center">
                 <h1 className="ml-15 text-3xl font-bold">BEST SELLER PRODUCTS</h1>
             </div>
             <div className="grid grid-cols-5 gap-7 p-5 h-full">
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
+                {bestError && <p>{bestError}</p>}
+                {bestLoading && <p>{bestLoading}</p>}
+                {bestSellerProducts.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                    />
+                ))}
             </div>
             <div className="bg-black py-12 px-6">
                 <div className="max-w-3xl mx-auto text-white text-center space-y-4 leading-relaxed">

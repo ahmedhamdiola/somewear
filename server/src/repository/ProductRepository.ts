@@ -46,7 +46,7 @@ export const getAllProducts = (category?: string,
   const params: (string | undefined)[] = [];
 
   if (category && subcategory) {
-    query += " WHERE category = ? AND subcategory = ?";
+    query += " WHERE LOWER(TRIM(category)) = ? AND LOWER(TRIM(subcategory)) = ?";
     params.push(category, subcategory);
   }
 

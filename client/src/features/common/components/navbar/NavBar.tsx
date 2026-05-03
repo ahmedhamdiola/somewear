@@ -1,13 +1,27 @@
-import Logo from "../../../assets/logo.svg"
-import { Separator } from "../../../components/ui/separator"
-import CategoriesDropdown from "../../../components/reusableUI/CategoriesDropDown"
+import Logo from "../../../../assets/logo.svg"
+import { Separator } from "../../../../components/ui/separator"
+import CategoriesDropdown from "../../../../components/reusableUI/CategoriesDropDown"
 import { useNavigate } from "react-router-dom"
 import { ShoppingBagIcon, UserIcon } from "lucide-react";
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar";
+import useCategories from "./hooks/useCategories";
 
 const NavBar = () => {
-    const list = ["Jackets", "Hoodies", "Pants", "T-shirts", "Shorts", "Swimwear"];
+    const { categories } = useCategories()
+
+    const menCategories = categories
+        .filter((cat) => cat.category.trim() === "Men")
+        .map((cat) => cat.subcategory);
+
+    const womenCategories = categories
+        .filter((cat) => cat.category.trim() === "Women")
+        .map((cat) => cat.subcategory);
+
+    const kidsCategories = categories
+        .filter((cat) => cat.category.trim() === "Kids")
+        .map((cat) => cat.subcategory);
     const navigate = useNavigate();
+
 
     return (
         <nav className="bg-[#f5f5f5] h-55 shadow-sm">
@@ -31,9 +45,9 @@ const NavBar = () => {
                 <div className="flex gap-10 text-sm font-light pb-3">
                     <p onClick={() => navigate('/')} className="cursor-pointer hover:font-medium">HOME</p>
                     <p onClick={() => navigate('/products')} className="cursor-pointer hover:font-medium">SHOP ALL</p>
-                    <CategoriesDropdown mainCategory="SHOP MEN" list={list} />
-                    <CategoriesDropdown mainCategory="SHOP WOMEN" list={list} />
-                    <CategoriesDropdown mainCategory="SHOP KIDS" list={list} />
+                    <CategoriesDropdown mainCategory="SHOP MEN" list={menCategories} />
+                    <CategoriesDropdown mainCategory="SHOP WOMEN" list={womenCategories} />
+                    <CategoriesDropdown mainCategory="SHOP KIDS" list={kidsCategories} />
                     <p onClick={() => navigate('/contact')} className="cursor-pointer hover:font-medium">CONTACT US</p>
                 </div>
 

@@ -1,7 +1,6 @@
 import FooterBar from "../../common/components/FooterBar"
-import NavBar from "../../common/components/NavBar"
+import NavBar from "../../common/components/navbar/NavBar"
 import FeedbackSection from "../../feedback/components/FeedbackSection"
-import Product from "../../../assets/Product.png"
 import { toast } from 'react-toastify';
 import { Button } from "../../../components/ui/button"
 import { Card, CardContent } from "../../../components/ui/card"
@@ -9,6 +8,8 @@ import { ToggleGroup, ToggleGroupItem } from "../../../components/ui/toggle-grou
 import SizeSpecsHoodies from "../../../assets/sizeSpecs_Hoodies.png"
 import SizeSpecsPants from "../../../assets/sizeSpecs_Pants.png"
 import { useState } from "react"
+import { useParams } from "react-router-dom";
+import useProduct from "../hooks/useProduct";
 
 const ProductPage = () => {
     const [size, setSize] = useState("")
@@ -16,25 +17,27 @@ const ProductPage = () => {
     const categoryPants = false
     //////////////////////////////////////
 
+    const { id } = useParams();
+    const { product, loading, error } = useProduct(id);
+
     return (
         <div className="min-h-screen ">
             <NavBar />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-10">
+            {error && <p>{error}</p>}
+            {loading && <p>{loading}</p>}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-10 animate-[fadeInUp_0.8s_ease-out_forwards]">
                 {/* IMAGE */}
                 <Card className="bg-transparent border-none">
                     <CardContent className="p-0">
-                        <img src={Product} className="w-full rounded-xl" />
+                        <img src={product?.imageUrl} className="w-full rounded-xl" />
                     </CardContent>
                 </Card>
                 {/* INFO */}
                 <div className="flex flex-col gap-6">
-                    <h1 className="text-3xl font-bold">Baby Blue Textured Top
+                    <h1 className="text-3xl font-bold">{product?.name}
                     </h1>
                     <p className="text-muted-foreground mt-4 leading-relaxed">
-                        Stay effortlessly cool with this textured crop top, designed with a relaxed fit, soft stretch fabric, and subtle crinkle detailing.
-                        It's made to turn heads without even trying. Rock it with baggy jeans, cargos, or layered under a jacket, it's the ultimate throw-on-and-go piece.
-                        Comes in 7 fire colors to match every mood.
-                        MODEL IS 168 CM WEARING SIZE S
+                        {product?.description}
                     </p>
                     {/* SIZE */}
                     <div>
@@ -84,7 +87,7 @@ const ProductPage = () => {
                         </Button>
                     </div>
                     {/* PRICE */}
-                    <p className="text-3xl font-semibold">100 EGP</p>
+                    <p className="text-3xl font-semibold">${product?.price}</p>
                     <img src={categoryPants ? SizeSpecsPants : SizeSpecsHoodies} />
                 </div>
             </div>

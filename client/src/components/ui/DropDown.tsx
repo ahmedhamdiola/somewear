@@ -11,9 +11,9 @@ import { useNavigate } from "react-router-dom";
 interface Props {
     list: string[],
     children: ReactNode
-
+    mainCategory: string
 }
-export function Dropdown({ list, children }: Props) {
+export function Dropdown({ list, children, mainCategory }: Props) {
     const navigate = useNavigate();
     return (
         <DropdownMenu>
@@ -25,7 +25,7 @@ export function Dropdown({ list, children }: Props) {
                     {list?.map((category) => (
                         <DropdownMenuItem
                             className="text-sm font-light cursor-pointer"
-                            onClick={() => navigate(`/${category.toLowerCase()}`)}
+                            onClick={() => navigate(`/${mainCategory}/${category.toLowerCase()}`)}
                         >{category.toUpperCase()}</DropdownMenuItem>
                     ))}
                 </DropdownMenuGroup>
