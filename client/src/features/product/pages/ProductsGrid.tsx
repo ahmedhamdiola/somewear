@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import type { Product } from '../utils'
 
@@ -8,7 +7,6 @@ interface Props {
     products?: Product[]
 }
 const ProductsGrid = ({ title, marginLeft, products }: Props) => {
-    const navigate = useNavigate()
 
     return (
         <div className="min-h-screen opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
@@ -21,7 +19,7 @@ const ProductsGrid = ({ title, marginLeft, products }: Props) => {
                     <ProductCard
                         key={product.id}
                         product={product}
-                        onClick={() => navigate(`/products/${product.id}`)} />
+                    />
                 ))}
             </div>
         </div>

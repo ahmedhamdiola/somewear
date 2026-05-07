@@ -10,11 +10,11 @@ const NavBar = () => {
     const { categories } = useCategories()
 
     const menCategories = categories
-        .filter((cat) => cat.category.trim() === "Men")
+        .filter((cat) => cat.category.trim().toLowerCase() === "men")
         .map((cat) => cat.subcategory);
 
     const womenCategories = categories
-        .filter((cat) => cat.category.trim() === "Women")
+        .filter((cat) => cat.category.trim().toLowerCase() === "women")
         .map((cat) => cat.subcategory);
 
     const kidsCategories = categories

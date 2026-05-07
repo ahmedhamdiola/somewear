@@ -10,6 +10,7 @@ import SizeSpecsPants from "../../../assets/sizeSpecs_Pants.png"
 import { useState } from "react"
 import { useParams } from "react-router-dom";
 import useProduct from "../hooks/useProduct";
+import NotFoundPage from "../../common/pages/NotFoundPage";
 
 const ProductPage = () => {
     const [size, setSize] = useState("")
@@ -19,7 +20,7 @@ const ProductPage = () => {
 
     const { id } = useParams();
     const { product, loading, error } = useProduct(id);
-
+    if (!product) return <NotFoundPage />
     return (
         <div className="min-h-screen ">
             <NavBar />
