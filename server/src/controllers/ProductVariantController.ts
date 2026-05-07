@@ -4,19 +4,19 @@ import { successResponse, errorResponse } from '../utils/response';
 import { AuthRequest } from '../middleware/AuthMiddleWare';
 
 
-export const createProductVariantController = (req: AuthRequest, res: Response) => {
+export const createProductVariantController = async (req: AuthRequest, res: Response) => {
     try {
-        const productVariant = ProductVariantService.createProductVariantService(req.body);
+        const productVariant = await ProductVariantService.createProductVariantService(req.body);
         return successResponse(res, productVariant, "Product variant created successfully", 201);
     } catch (error) {
         return errorResponse(res, error, "Failed to create product variant", 400);
     }
 };
 
-export const getProductVariantByIdController = (req: Request, res: Response) => {
+export const getProductVariantByIdController = async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
-        const productVariant = ProductVariantService.getProductVariantByIdService(id);
+        const productVariant = await ProductVariantService.getProductVariantByIdService(id);
         return successResponse(res, productVariant, "Product variant found");
     } catch (error) {
         return errorResponse(res, error, "Failed to get product variant", 400);
@@ -26,10 +26,10 @@ export const getProductVariantByIdController = (req: Request, res: Response) => 
 
 
 
-export const getProductVariantsByProductIdController = (req: Request, res: Response) => {
+export const getProductVariantsByProductIdController = async (req: Request, res: Response) => {
     try {
         const productId = Number(req.params.productId);
-        const productVariants = ProductVariantService.getProductVariantsByProductIdService(productId);
+        const productVariants = await ProductVariantService.getProductVariantsByProductIdService(productId);
         return successResponse(res, productVariants, "Product variants found");
     }
     catch (error) {
@@ -37,20 +37,20 @@ export const getProductVariantsByProductIdController = (req: Request, res: Respo
     }
 };
 
-export const updateProductVariantController = (req: AuthRequest, res: Response) => {
+export const updateProductVariantController = async (req: AuthRequest, res: Response) => {
     try {
         const id = Number(req.params.id);
-        const updatedVariant = ProductVariantService.updateProductVariantService(id, req.body);
+        const updatedVariant = await ProductVariantService.updateProductVariantService(id, req.body);
         return successResponse(res, updatedVariant, "Product variant updated successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to update product variant", 400);
     }
 };
 
-export const deleteProductVariantController = (req: AuthRequest, res: Response) => {
+export const deleteProductVariantController = async (req: AuthRequest, res: Response) => {
     try {
         const id = Number(req.params.id);
-        const result = ProductVariantService.deleteProductVariantService(id);
+        const result = await ProductVariantService.deleteProductVariantService(id);
         return successResponse(res, result, "Product variant deleted successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to delete product variant", 400);

@@ -6,13 +6,239 @@ import OrderController from "../controllers/OrderController";
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /orders:
+ *   post:
+ *     summary: Create a new order
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - totalPrice
+ *               - shippingFees
+ *               - city
+ *               - address
+ *               - phone
+ *             properties:
+ *               totalPrice:
+ *                 type: number
+ *               shippingFees:
+ *                 type: number
+ *               city:
+ *                 type: string
+ *               address:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Order created successfully
+ */
 router.post("/", authMiddleware, OrderController.createOrderController);
-router.get("/:id", authMiddleware, RoleMiddleware("admin"), OrderController.getOrderByIdController);
-router.get("/order/:userId", authMiddleware, OrderController.getOrdersByUserIdController);
-router.get("/", authMiddleware, RoleMiddleware("admin"), OrderController.getAllOrdersController);
-router.patch("/cancel/:id", authMiddleware, OrderController.cancelOrderController)
-router.patch("/status/:id", authMiddleware, RoleMiddleware("admin"), OrderController.updateOrderStatusController);
-router.delete("/:id", authMiddleware, RoleMiddleware("admin"), OrderController.deleteOrderController);
-router.post("/checkout",authMiddleware,OrderController.checkoutController)
+
+/**
+ * @swagger
+ * /orders/{id}:
+ *   get:
+ *     summary: Get order by ID
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Order retrieved successfully
+ *       403:
+ *         description: Forbidden
+ */
+router.get(
+  "/:id",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  OrderController.getOrderByIdController,
+);
+
+/**
+ * @swagger
+ * /orders/order/{userId}:
+ *   get:
+ *     summary: Get orders by user ID
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User orders retrieved successfully
+ */
+router.get(
+  "/order/:userId",
+  authMiddleware,
+  OrderController.getOrdersByUserIdController,
+);
+
+/**
+ * @swagger
+ * /orders:
+ *   get:
+ *     summary: Get all orders
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All orders retrieved successfully
+ *       403:
+ *         description: Forbidden
+ */
+router.get(
+  "/",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  OrderController.getAllOrdersController,
+);
+
+/**
+ * @swagger
+ * /orders/cancel/{id}:
+ *   patch:
+ *     summary: Cancel an order
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Order cancelled successfully
+ *       403:
+ *         description: Forbidden
+ */
+router.patch(
+  "/cancel/:id",
+  authMiddleware,
+  OrderController.cancelOrderController,
+);
+
+/**
+ * @swagger
+ * /orders/status/{id}:
+ *   patch:
+ *     summary: Update order status
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - status
+ *             properties:
+ *               status:
+ *                 type: string
+ *                 example: delivered
+ *     responses:
+ *       200:
+ *         description: Order status updated successfully
+ *       403:
+ *         description: Forbidden
+ */
+router.patch(
+  "/status/:id",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  OrderController.updateOrderStatusController,
+);
+
+/**
+ * @swagger
+ * /orders/{id}:
+ *   delete:
+ *     summary: Delete order by ID
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Order deleted successfully
+ *       403:
+ *         description: Forbidden
+ */
+router.delete(
+  "/:id",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  OrderController.deleteOrderController,
+);
+
+/**
+ * @swagger
+ * /orders/checkout:
+ *   post:
+ *     summary: Checkout cart and create order
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - shippingFees
+ *               - city
+ *               - address
+ *               - phone
+ *             properties:
+ *               shippingFees:
+ *                 type: number
+ *               city:
+ *                 type: string
+ *               address:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Checkout completed successfully
+ */
+router.post("/checkout", authMiddleware, OrderController.checkoutController);
 
 export default router;

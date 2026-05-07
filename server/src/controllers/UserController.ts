@@ -23,13 +23,13 @@ export const loginUserController = async (req: Request, res: Response) => {
     }
 };
 
-export const getUserByIdController = (req: AuthRequest, res: Response) => {
+export const getUserByIdController = async (req: AuthRequest, res: Response) => {
     try {
         const id = Number(req.params.id);
         if(req.user!.id !==id && req.user?.role!=="admin"){
             return errorResponse(res,null,"Forbidden",403)
         }
-        const result = UserService.getUserByIdService(id);
+        const result = await UserService.getUserByIdService(id);
         return successResponse(res, result, "User retrieved successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to retrieve user", 400);
@@ -49,13 +49,13 @@ export const updateUserByIdController =async(req: AuthRequest, res: Response)=> 
     }
 };
     
-export const deleteUserByIdController = (req: AuthRequest, res: Response) => {
+export const deleteUserByIdController = async (req: AuthRequest, res: Response) => {
     try {
         const id = Number(req.params.id);
         if(req.user!.id !==id && req.user?.role!=="admin"){
             return errorResponse(res,null,"Forbidden",403)
         }
-        const result = UserService.deleteUserByIdService(id);
+        const result = await UserService.deleteUserByIdService(id);
         return successResponse(res, result, "User deleted successfully");
     }
         catch (error) {
@@ -64,21 +64,21 @@ export const deleteUserByIdController = (req: AuthRequest, res: Response) => {
 };
 
 
-export const getAllUsersController = (req: AuthRequest, res: Response) => {
+export const getAllUsersController = async (req: AuthRequest, res: Response) => {
     try {
-        const result = UserService.getAllUsersService();
+        const result = await UserService.getAllUsersService();
         return successResponse(res, result, "Users retrieved successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to retrieve users", 400);
     }
 };
 
-export const logoutController=(req:Request,res:Request)=>{
+export const logoutController=async (req:Request,res:Request)=>{
     try{
-        const result=UserService.logoutService()
-        successResponse(res,result,"User logged ot successfully")
+        const result=await UserService.logoutService()
+        return successResponse(res,result,"User logged ot successfully")
     }catch(error){
-        errorResponse(res,error,"Failed to logout",400)
+        return errorResponse(res,error,"Failed to logout",400)
     }
 }
 

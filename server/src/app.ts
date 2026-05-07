@@ -3,6 +3,8 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger";
 import db from "./config/db";
 import userRoutes from "./routes/UserRoutes";
 import productRoutes from "./routes/ProductRoutes";
@@ -26,6 +28,7 @@ app.use("/orderItem", OrderItemsRoutes);
 app.use("/cart", cartItemsRoutes);
 app.use("/contact", contactUsRoutes);
 app.use("/feedback", FeedbackRoutes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 
