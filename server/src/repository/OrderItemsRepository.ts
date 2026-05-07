@@ -33,14 +33,24 @@ export const getOrderItemById=(id:number): OrderItemsInterface | null=>{
 }
 
 
-//get order items
-export const getOrderItemsByOrderId=(id:number):OrderItemsInterface[]=>{
-    const orderItems=db.prepare<[number],OrderItemsInterface>(
-        `SELECT * FROM order_items WHERE orderId=?`
+//get order items with product details
+export const getOrderItemsByOrderId = (id: number) => {
+    const orderItems = db.prepare<[number], any>(
+        `SELECT 
+            order_items.id,
+            order_items.orderId,
+            order_items.productVariantId,
+            order_items.quantity,
+            order_items.price,
+            product_variants.size,
+            products.name AS productName
+        FROM order_items
+        JOIN product_variants ON order_items.productVariantId = product_variants.id
+        JOIN products         ON product_variants.productId   = products.id
+        WHERE order_items.orderId = ?`
     );
-    const result= orderItems.all(id);
-    return result ;
-} 
+    return orderItems.all(id);
+}
 
 
 //delete 

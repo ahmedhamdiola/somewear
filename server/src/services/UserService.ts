@@ -51,8 +51,8 @@ export const loginUserService = async (email: string, password: string) => {
     }
     const token = generateToken({ id: user.id, role: user.role });
     const { password: _, ...safeUser } = user;
-    return { safeUser, token };
-};
+    return { safeUser, token };  
+}; 
 
 export const getUserByIdService = (id: number) => {
     if (id <= 0 || !id) {

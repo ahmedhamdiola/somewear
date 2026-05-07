@@ -45,7 +45,7 @@ export const getOrderItemsByOrderIdController=(req:AuthRequest,res:Response)=>{
         if(req.user?.role!=="admin" && order.userId!==req.user?.id){
             return errorResponse(res,null,"forbidden",403)
         } 
-        const orderitems=OrderItemsService.getOrderItemByIdService(orderId);
+        const orderitems=OrderItemsService.getOrderItemsByOrderIdService(orderId);
         
        return successResponse(res,orderitems,"Order items retrieved successully")
         }catch(error){

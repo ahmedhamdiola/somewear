@@ -17,6 +17,7 @@ import Users from "./features/admin/pages/Users";
 import OrdersNew from "./features/admin/pages/OrdersNew";
 import OrdersCompleted from "./features/admin/pages/OrdersCompleted";
 import AdminHomePage from "./features/admin/pages/AdminHomePage";
+import AdminContactUs from "./features/admin/pages/AdminContactUs";
 import ContactUsPage from './features/common/pages/ContactUsPage'
 import CheckoutPage from './features/checkout/pages/CheckoutPage'
 
@@ -45,6 +46,7 @@ function App() {
               <Route path="users" element={<Users />} />
               <Route path="orders-new" element={<OrdersNew />} />
               <Route path="orders-completed" element={<OrdersCompleted />} />
+              <Route path="contact-messages" element={<AdminContactUs />} />
             </Route>
           </Route>
         </Routes>

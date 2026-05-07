@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaBox, FaUsers, FaShoppingCart, FaCheckCircle, FaHome, FaSignOutAlt } from "react-icons/fa";
+import { FaBox, FaUsers, FaShoppingCart, FaCheckCircle, FaHome, FaSignOutAlt, FaEnvelope } from "react-icons/fa";
 import Logo from "../../../assets/LogoWhite.svg";
 
 const Sidebar = () => {
@@ -12,7 +12,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-[220px] h-screen bg-black text-white p-4 flex flex-col  ">
+    <div className="w-[220px] h-screen bg-black text-white p-4 flex flex-col fixed left-0 top-0">
       <div>
         <img src={Logo} className="h-14 object-contain cursor-pointer " />
       </div>
@@ -71,6 +71,17 @@ const Sidebar = () => {
         >
           <FaCheckCircle />
           completed orders
+        </NavLink>
+        <NavLink
+          className={({ isActive })=>
+            isActive
+              ? "flex items-center  gap-3 px-3 py-2 bg-mist-700 rounded-md"
+              : "flex items-center gap-3 px-3 py-2 hover:bg-mist-700 rounded-md"
+          }
+          to="/admin/contact-messages"
+        >
+          <FaEnvelope />
+          contact messages
         </NavLink>
         
       </nav>
