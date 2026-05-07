@@ -1,6 +1,8 @@
+import dotenv from "dotenv"
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv"
 import db from "./config/db";
 import userRoutes from "./routes/UserRoutes";
 import productRoutes from "./routes/ProductRoutes";
@@ -12,7 +14,6 @@ import contactUsRoutes from "./routes/ContactUsRoutes"
 import FeedbackRoutes from "./routes/FeedbackRoutes"
 
 
-dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -32,7 +33,7 @@ app.get("/", (req, res) => {
   res.status(200).send("Welcome to the Somewear API");
 });
 
-const Port =process.env.port!
+const Port = process.env.port!
 app.listen(Port, () => {
   console.log("JWT:", process.env.db_path);
   console.log("Server started");

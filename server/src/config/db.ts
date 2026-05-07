@@ -135,10 +135,10 @@ db.prepare(`
   feedback TEXT NOT NULL,
   rating INTEGER NOT NULL,
   FOREIGN KEY (userId) REFERENCES users(id),
-  FOREIGN KEY (productId) REFERENCES products(id),
+  FOREIGN KEY (productId) REFERENCES products(id)
 );
   `
-)
+).run();
 
 
 export default db;

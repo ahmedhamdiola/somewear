@@ -18,7 +18,7 @@ const API_URL = "http://localhost:3000/products"; // Base URL for products
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token") || "";
   return {
-    headers: {  
+    headers: {
       Authorization: `Bearer ${token}`,
     },
   };
@@ -43,6 +43,7 @@ export const updateProduct = async (updated: Product): Promise<void> => {
 
 // ADD
 export const addProduct = async (newProduct: Omit<Product, 'id' | 'soldAmount' | 'createdAt'>): Promise<Product> => {
+  console.log(getAuthHeaders())
   const response = await axios.post(API_URL, newProduct, getAuthHeaders());
   return response.data.data;
 };

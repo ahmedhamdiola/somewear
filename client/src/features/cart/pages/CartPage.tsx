@@ -7,9 +7,14 @@ import CartSummary from '../components/CartSummary'
 import { initialCart } from '../utils/mockData'
 import { useCart } from '../hooks/useCart'
 import EmptyCard from '../../common/pages/EmptyCard'
+import { useNavigate } from 'react-router-dom'
 
 const CartPage = () => {
     const { cart, updateQty, remove, subtotal } = useCart(initialCart)
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate('/checkout')
+    }
     return (
         <>
             <div className='flex flex-col min-h-screen'>
@@ -39,7 +44,7 @@ const CartPage = () => {
                                     ))}
                                 </div>
                                 <div className="w-72 flex-shrink-0">
-                                    <CartSummary subtotal={subtotal} savings={0} shipping={5} />
+                                    <CartSummary subtotal={subtotal} savings={0} shipping={5} onClick={handleClick} />
                                 </div>
                             </div>
                         )}

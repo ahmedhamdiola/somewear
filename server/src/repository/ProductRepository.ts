@@ -41,7 +41,7 @@ export const getAllProducts = (
   page: number = 1,
   limit: number = 10,
 ): ProductInterface[] => {
-  
+
   const offset = (page - 1) * limit;
 
   let query = "SELECT * FROM products";
@@ -52,7 +52,7 @@ export const getAllProducts = (
     params.push(category, subcategory);
   }
 
-  query += "LIMIT ? OFFSET ?";
+  query += " LIMIT ? OFFSET ?";
   params.push(limit, offset);
   const stmt = db.prepare<any[], ProductInterface>(query);
   return stmt.all(...params);

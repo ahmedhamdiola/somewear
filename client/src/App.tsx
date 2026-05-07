@@ -18,6 +18,7 @@ import OrdersNew from "./features/admin/pages/OrdersNew";
 import OrdersCompleted from "./features/admin/pages/OrdersCompleted";
 import AdminHomePage from "./features/admin/pages/AdminHomePage";
 import ContactUsPage from './features/common/pages/ContactUsPage'
+import CheckoutPage from './features/checkout/pages/CheckoutPage'
 
 function App() {
 
@@ -36,7 +37,7 @@ function App() {
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/products/:id' element={<ProductPage />} />
           <Route path='/:main/:sub' element={<CategoryPage />} />
-
+          <Route path='/checkout' element={<CheckoutPage />} />
           <Route path="/admin" element={<AdminGuard />}>
             <Route element={<AdminLayout />}>
               <Route index element={<AdminHomePage />} />

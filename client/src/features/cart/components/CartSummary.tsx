@@ -7,9 +7,13 @@ interface Props {
     subtotal: number,
     savings: number,
     shipping: number,
+    btnTitle?: string,
+    onClick: () => void,
+    disabled?: boolean
+
 }
 
-const CartSummary = ({ subtotal, savings, shipping }: Props) => {
+const CartSummary = ({ subtotal, savings, shipping, btnTitle, onClick, disabled }: Props) => {
     return (
         <Card className="border border-zinc-200 sticky top-24">
             <CardContent className="p-5">
@@ -49,8 +53,8 @@ const CartSummary = ({ subtotal, savings, shipping }: Props) => {
                     <span>${(subtotal + shipping - savings).toFixed(2)}</span>
                 </div>
 
-                <Button className="w-full gap-2" size="lg">
-                    Checkout
+                <Button className="w-full gap-2" size="lg" onClick={onClick} disabled={disabled}>
+                    {btnTitle ? btnTitle : "Checkout"}
                     <ArrowRight className="w-4 h-4" />
                 </Button>
             </CardContent>
