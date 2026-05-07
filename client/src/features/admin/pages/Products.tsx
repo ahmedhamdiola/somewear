@@ -36,7 +36,7 @@ export const Products = () => {
   const [price, setPrice] = useState<number>(0);
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -51,16 +51,22 @@ export const Products = () => {
     load();
   }, []);
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setImageFile(file);
+  };
+
   const handleEditProduct = (pro: Product) => {
-    setCurrentProduct(pro); //curent
+    setCurrentProduct(pro);
     setName(pro.name);
     setDescription(pro.description);
     setPrice(pro.price);
     setCategory(pro.category);
     setSubcategory(pro.subcategory);
-    setImageUrl(pro.imageUrl);
+    setImageFile(null);
     setDialogOpen(true);
   };
+
   const handleAddProduct = () => {
     setCurrentProduct(null);
     setName("");
@@ -68,12 +74,17 @@ export const Products = () => {
     setPrice(0);
     setCategory("");
     setSubcategory("");
-    setImageUrl("");
+    setImageFile(null);
     setDialogOpen(true);
   };
+
   const validationDialog = () => {
-    if (!name ||!price ||!description ||!category ||!subcategory ||!imageUrl) {
+    if (!name || !price || !description || !category || !subcategory) {
       toast.error("All fields are required");
+      return false;
+    }
+    if (!currentProduct && !imageFile) {
+      toast.error("Please select an image");
       return false;
     }
     if (price <= 0) {
@@ -85,30 +96,20 @@ export const Products = () => {
 
   const handleSaveProduct = async () => {
     if (!validationDialog()) return;
-
+    const formData = {
+      name,
+      description,
+      price,
+      category,
+      subcategory,
+      image: imageFile ?? undefined,
+    };
     try {
       if (currentProduct) {
-        const updated: Product = {
-          id: currentProduct.id,
-          name,
-          description,
-          price,
-          category,
-          subcategory,
-          imageUrl,
-        };
-        await updateProduct(updated);
-        toast.success("product updated successfully");
+        await updateProduct(currentProduct.id, formData);
+        toast.success("Product updated successfully");
       } else {
-        const newProduct = {
-          name,
-          price,
-          description,
-          category,
-          subcategory,
-          imageUrl,
-        };
-        await addProduct(newProduct);
+        await addProduct(formData);
         toast.success("Product added successfully!");
       }
       const fresh = await getProducts();
@@ -120,6 +121,7 @@ export const Products = () => {
       toast.error("Failed to save product");
     }
   };
+
   const handleDelete = async (id: number) => {
     try {
       setProducts((prev) => prev.filter((p) => p.id !== id));
@@ -165,8 +167,17 @@ export const Products = () => {
               <TableCell>{pro.subcategory}</TableCell>
               <TableCell>{pro.price}</TableCell>
               <TableCell>
-                <Button onClick={() => handleEditProduct(pro) } variant="outline" className="mx-2">Edit</Button>
-                <Button onClick={() => handleDelete(pro.id)} variant="destructive">
+                <Button
+                  onClick={() => handleEditProduct(pro)}
+                  variant="outline"
+                  className="mx-2"
+                >
+                  Edit
+                </Button>
+                <Button
+                  onClick={() => handleDelete(pro.id)}
+                  variant="destructive"
+                >
                   Delete
                 </Button>
               </TableCell>
@@ -175,45 +186,73 @@ export const Products = () => {
         </TableBody>
       </Table>
 
-
-       <Dialog open={openDialog} onOpenChange={setDialogOpen}>
+      <Dialog open={openDialog} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>{currentProduct ? "Edit Product" : "Add Product"}</DialogTitle>
+            <DialogTitle>
+              {currentProduct ? "Edit Product" : "Add Product"}
+            </DialogTitle>
           </DialogHeader>
           <div className="grid gap-3 py-4">
             <div className="grid gap-1">
               <label className="text-sm font-medium">Name</label>
-              <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Product Name" />
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Product Name"
+              />
             </div>
             <div className="grid gap-1">
               <label className="text-sm font-medium">Price</label>
-              <Input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} placeholder="Price" /> 
+              <Input
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(Number(e.target.value))}
+                placeholder="Price"
+              />
             </div>
             <div className="grid gap-1">
               <label className="text-sm font-medium">Description</label>
-              <Input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
+              <Input
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Description"
+              />
             </div>
             <div className="grid gap-1">
               <label className="text-sm font-medium">Category</label>
-              <Input value={category} onChange={(e) => setCategory(e.target.value)} placeholder=" Men, Women, Kids" />
+              <Input
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                placeholder=" Men, Women, Kids"
+              />
             </div>
             <div className="grid gap-1">
               <label className="text-sm font-medium">Subcategory</label>
-              <Input value={subcategory} onChange={(e) => setSubcategory(e.target.value)} placeholder=" Shirts, Pants" />
+              <Input
+                value={subcategory}
+                onChange={(e) => setSubcategory(e.target.value)}
+                placeholder=" Shirts, Pants"
+              />
             </div>
             <div className="grid gap-1">
-              <label className="text-sm font-medium">Image URL</label>
-              <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://..." />
+              <label className="text-sm font-medium">Image</label>
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="cursor-pointer"
+              />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>
+              Cancel
+            </Button>
             <Button onClick={handleSaveProduct}>Save</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
     </div>
   );
 };
