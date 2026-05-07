@@ -39,21 +39,23 @@ export const getAllProducts = (
   category?: string,
   subcategory?: string,
   page: number = 1,
-  limit: number = 10,
+  limit?: number,
 ): ProductInterface[] => {
 
-  const offset = (page - 1) * limit;
-
   let query = "SELECT * FROM products";
-  const params: (string | number | undefined)[] = [];
+  const params: (string | number)[] = [];
 
   if (category && subcategory) {
     query += " WHERE LOWER(TRIM(category)) = ? AND LOWER(TRIM(subcategory)) = ?";
     params.push(category, subcategory);
   }
 
-  query += " LIMIT ? OFFSET ?";
-  params.push(limit, offset);
+  if (limit !== undefined) {
+    const offset = (page - 1) * limit;
+    query += " LIMIT ? OFFSET ?";
+    params.push(limit, offset);
+  }
+
   const stmt = db.prepare<any[], ProductInterface>(query);
   return stmt.all(...params);
 };

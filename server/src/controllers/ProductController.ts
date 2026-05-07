@@ -38,8 +38,14 @@ export const getProductByIdController = (req: Request, res: Response) => {
 export const getAllProductsController = (req: Request, res: Response) => {
     try {
         const { category, subcategory,page,limit } = req.query;
-
-        const products = ProductService.getAllProductsService(category as string | undefined, subcategory as string | undefined,Number(page)||1,Number(limit)||10);
+//   const products = ProductService.getAllProductsService(category as string | undefined, subcategory as string | undefined,Number(page)||1,Number(limit)||10);
+        const parsedLimit = limit !== undefined ? Number(limit) : undefined;
+        const products = ProductService.getAllProductsService(
+            category as string | undefined,
+            subcategory as string | undefined,
+            Number(page) || 1,
+            parsedLimit,
+        );
         return successResponse(res, products, "Products retrieved successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to retrieve products", 400);

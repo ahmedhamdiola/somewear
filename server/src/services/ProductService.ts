@@ -46,29 +46,48 @@ export const getProductByIdService = (id: number): ProductInterface | null => {
 
     return ProductRepository.getProductById(id);
 }
+export const getAllProductsService = (
+    category?: string,
+    subcategory?: string,
+    page?: number,
+    limit?: number,
+): ProductInterface[] => {
+    if (category && category.trim() === "") throw new Error("Category cannot be empty");
+    if (subcategory && subcategory.trim() === "") throw new Error("Subcategory cannot be empty");
 
-export const getAllProductsService = (category?: string,
-    subcategory?: string, page?:number,limit?:number): ProductInterface[] => {
-    // validation
-    if (category && category.trim() === "") {
-        throw new Error("Category cannot be empty");
-    }
-    if (subcategory && subcategory.trim() === "") {
-        throw new Error("Subcategory cannot be empty");
-    }
-    if(!page || page<=0){
-        page=1
-    }
-    if(!limit ||limit <=0){
-        limit =10
-    }
-    if(limit>20){
-        limit =20
+    const safePage = (!page || page <= 0) ? 1 : page;
+
+    // Only enforce limit bounds if a limit was actually provided
+    let safeLimit: number | undefined = limit;
+    if (safeLimit !== undefined) {
+        if (safeLimit <= 0) safeLimit = 10;
+        if (safeLimit > 20) safeLimit = 20;
     }
 
-
-    return ProductRepository.getAllProducts(category, subcategory,page,limit);
+    return ProductRepository.getAllProducts(category, subcategory, safePage, safeLimit);
 }
+// export const getAllProductsService = (category?: string,
+//     subcategory?: string, page?:number,limit?:number): ProductInterface[] => {
+//     // validation
+//     if (category && category.trim() === "") {
+//         throw new Error("Category cannot be empty");
+//     }
+//     if (subcategory && subcategory.trim() === "") {
+//         throw new Error("Subcategory cannot be empty");
+//     }
+//     if(!page || page<=0){
+//         page=1
+//     }
+//     if(!limit ||limit <=0){
+//         limit =10
+//     }
+//     if(limit>20){
+//         limit =20
+//     }
+
+
+//     return ProductRepository.getAllProducts(category, subcategory,page,limit);
+// }
 
 export const getCategoriesAndSubcategoriesService = (): { category: string, subcategory: string }[] => {
     return ProductRepository.getCategoriesAndSubcategories();
