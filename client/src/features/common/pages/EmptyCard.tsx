@@ -9,12 +9,14 @@ interface Props {
 
 const EmptyCard = ({ message, children }: Props) => {
     return (
-        <Card className="text-center py-20 w-full">
-            <CardContent>
-                {children}
-                <p className="text-zinc-500 text-lg">{message}</p>
-            </CardContent>
-        </Card>
+        <div className="min-h-screen">
+            <Card className="text-center py-20 w-full">
+                <CardContent>
+                    {children}
+                    <p className="text-zinc-500 text-lg">{message}</p>
+                </CardContent>
+            </Card>
+        </div>
     )
 }
 

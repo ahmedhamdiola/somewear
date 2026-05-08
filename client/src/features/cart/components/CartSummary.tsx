@@ -57,6 +57,10 @@ const CartSummary = ({ subtotal, savings, shipping, btnTitle, onClick, disabled 
                     {btnTitle ? btnTitle : "Checkout"}
                     <ArrowRight className="w-4 h-4" />
                 </Button>
+                <p className="text-xs text-gray-500 text-center mt-2">
+                    during checkout all cart items will be cleared
+                </p>
+
             </CardContent>
         </Card>
     )

@@ -19,7 +19,7 @@ const CartItemCard = ({ item, onUpdateQty, onRemove }: Props) => {
                     {/* Product Image */}
                     <div className="w-36 h-36 flex-shrink-0 bg-zinc-100">
                         <img
-                            src={item.image}
+                            src={item.imageUrl}
                             alt={item.name}
                             className="w-full h-full object-cover"
                         />
@@ -60,7 +60,7 @@ const CartItemCard = ({ item, onUpdateQty, onRemove }: Props) => {
                                     variant="ghost"
                                     size="icon"
                                     className="h-7 w-7"
-                                    onClick={() => onUpdateQty(item.id, -1)}
+                                    onClick={() => onUpdateQty(item.id, item.quantity - 1)}
                                     disabled={item.quantity <= 1}
                                 >
                                     <Minus className="w-3 h-3" />
@@ -72,8 +72,8 @@ const CartItemCard = ({ item, onUpdateQty, onRemove }: Props) => {
                                     variant="ghost"
                                     size="icon"
                                     className="h-7 w-7"
-                                    onClick={() => onUpdateQty(item.id, 1)}
-                                    disabled={item.quantity == item.stock}
+                                    onClick={() => onUpdateQty(item.id, item.quantity + 1)}
+                                    disabled={item.quantity >= item.stock}
                                 >
                                     <Plus className="w-3 h-3" />
                                 </Button>

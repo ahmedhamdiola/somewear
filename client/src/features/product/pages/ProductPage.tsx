@@ -11,7 +11,9 @@ import { useState } from "react"
 import { useParams } from "react-router-dom";
 import useProduct from "../hooks/useProduct";
 import NotFoundPage from "../../common/pages/NotFoundPage";
-
+import { addToCart } from "../../cart/services/cartAPI";
+import { useVariants } from "../hooks/useVariants"
+type Variant = { size: string; stock: number };
 const ProductPage = () => {
     const [size, setSize] = useState("")
     //////////////////////////////////////
@@ -20,7 +22,11 @@ const ProductPage = () => {
 
     const { id } = useParams();
     const { product, loading, error } = useProduct(id);
+    const { variants }: { variants: Variant[] } = useVariants(id)
     if (!product) return <NotFoundPage />
+    const getStock = (size: string) => {
+        return variants.find(v => v.size === size)?.stock ?? 0
+    }
     return (
         <div className="min-h-screen ">
             <NavBar />
@@ -51,15 +57,30 @@ const ProductPage = () => {
                             className="flex gap-2"
                             defaultValue="all"
                         >
-                            {["M", "L", "XL", "XXL"].map((s) => (
-                                <ToggleGroupItem
-                                    key={s}
-                                    value={s}
-                                    className="border px-4 py-2"
-                                >
-                                    {s}
-                                </ToggleGroupItem>
-                            ))}
+                            {["M", "L", "XL", "XXL"].map((s) => {
+                                const stock = getStock(s)
+
+                                return (
+                                    <ToggleGroupItem
+                                        key={s}
+                                        value={s}
+                                        disabled={stock === 0}
+                                        className="border px-4 py-2"
+                                    >
+                                        {s}
+
+                                        {stock === 0 ? (
+                                            <span className="text-xs text-red-500 ml-1">
+                                                out
+                                            </span>
+                                        ) : (
+                                            <span className="text-xs text-green-600 ml-1">
+                                                {stock}
+                                            </span>
+                                        )}
+                                    </ToggleGroupItem>
+                                )
+                            })}
                         </ToggleGroup>
                     </div>
                     <div className="flex justify-center items-center flex-col">
@@ -67,8 +88,13 @@ const ProductPage = () => {
                         <Button
                             className="mt-4 h-12 text-xl font-bold rounded-xl w-xl cursor-pointer hover:shadow-lg bg-black hover:bg-[#0f0616]"
                             disabled={!size}
-                            onClick={() => {
+                            onClick={async () => {
                                 if (!size) return
+                                addToCart({
+                                    productId: product?.id.toString() || "",
+                                    size,
+                                    quantity: 1
+                                })
                                 toast.success("Added to cart!")
                                 setSize("")
                             }}

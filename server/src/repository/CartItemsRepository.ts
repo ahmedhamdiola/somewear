@@ -35,7 +35,13 @@ export const getCartItemById = (id: number): CartItemsInterface | null => {
 //get cart items
 export const getCartItemsByUserId = (userId: number): CartItemsInterface[] => {
     const cartItems = db.prepare<[number], CartItemsInterface>(
-        `SELECT * FROM cart_items WHERE userId=?`
+        `
+        SELECT c.id, c.userId, c.quantity, pv.id as productVariantId, pv.size, pv.stock, p.name, p.price, p.imageUrl
+        FROM cart_items c
+        JOIN product_variants pv ON c.productVariantId = pv.id
+        JOIN products p ON pv.productId = p.id
+        WHERE c.userId = ?
+        `
     );
     const result = cartItems.all(userId);
     return result;
