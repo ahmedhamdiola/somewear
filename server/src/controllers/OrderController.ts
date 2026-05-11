@@ -36,6 +36,31 @@ export const getOrdersByUserIdController = async (req: AuthRequest, res: Respons
     }
 };
 
+export const getCountByUserIdController = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = Number(req.params.userId);
+        if (req.user!.id !== userId && req.user?.role !== "admin") {
+            return errorResponse(res, null, "Forbidden", 403)
+        }
+        const count = await OrderService.getCountByUserIdService(userId);
+        return successResponse(res, count, "User order count retrieved successfully");
+    } catch (error) {
+        return errorResponse(res, error, "Failed to get user order count", 400);
+    }
+};
+
+export const getTotalAmountByUserIdController = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = Number(req.params.userId);
+        if (req.user!.id !== userId && req.user?.role !== "admin") {
+            return errorResponse(res, null, "Forbidden", 403)
+        }
+        const totalAmount = await OrderService.getTotalAmountByUserIdService(userId);
+        return successResponse(res, totalAmount, "User total order amount retrieved successfully");
+    } catch (error) {
+        return errorResponse(res, error, "Failed to get user total order amount", 400);
+    }
+};
 
 export const getAllOrdersController = async (req: Request, res: Response) => {
     try {
@@ -105,6 +130,8 @@ export default {
     createOrderController,
     getOrderByIdController,
     getOrdersByUserIdController,
+    getCountByUserIdController,
+    getTotalAmountByUserIdController,
     getAllOrdersController,
     cancelOrderController,
     updateOrderStatusController,

@@ -96,6 +96,60 @@ router.get(
 
 /**
  * @swagger
+ * /orders/count/{userId}:
+ *   get:
+ *     summary: Get order count by user ID
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User order count retrieved successfully
+ *      403:
+ *         description: Forbidden
+ *      
+ */
+router.get(
+  "/count/:userId",
+  authMiddleware,
+  OrderController.getCountByUserIdController,
+);
+
+
+/**
+ * @swagger
+ * /orders/total/{userId}:
+ *   get:
+ *     summary: Get total order amount by user ID
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User total order amount retrieved successfully
+ *       403:
+ *         description: Forbidden
+ * 
+ */
+router.get(
+  "/total/:userId",
+  authMiddleware,
+  OrderController.getTotalAmountByUserIdController,
+);
+/**
+ * @swagger
  * /orders:
  *   get:
  *     summary: Get all orders

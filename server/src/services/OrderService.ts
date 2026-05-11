@@ -46,18 +46,18 @@ export const getOrdersByUserIdService = (userId: number): OrderInterface [] => {
     return OrderRepository.getOrderByUserId(userId);
 };
 
-export const getTotalAmountByUserIdService =(userId:number)=>{
-    if (!userId || userId <= 0) {
-        throw new Error("Invalid user ID");
-    }
-    return OrderRepository.getTotalAmountByUserId(userId);
-}
-
 export const getCountByUserIdService =(userId:number)=>{
     if (!userId || userId <= 0) {
         throw new Error("Invalid user ID");
     }
     return OrderRepository.getCountByUserId(userId);
+}
+
+export const getTotalAmountByUserIdService =(userId:number)=>{
+    if (!userId || userId <= 0) {
+        throw new Error("Invalid user ID");
+    }
+    return OrderRepository.getTotalAmountByUserId(userId);
 }
 
 
@@ -198,6 +198,8 @@ export default {
     createOrderService,
     getOrderByIdService,
     getOrdersByUserIdService,
+    getCountByUserIdService,
+    getTotalAmountByUserIdService,
     getAllOrdersService,
     cancelOrderService,
     updateOrderStatusService,
