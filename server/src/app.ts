@@ -19,7 +19,7 @@ import FeedbackRoutes from "./routes/FeedbackRoutes"
 
 const app = express();
 app.use(cors({
-  origin: "http://localhost:${process.env.port!}",
+  origin: `http://localhost:5173`,
   credentials: true,
 }));
 app.use(express.json());
