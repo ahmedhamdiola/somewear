@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import { verifyToken } from "../utils/jwt";
+import { errorResponse } from "../utils/response";
 
 interface jwtPayload {
     id: number;
@@ -12,22 +13,18 @@ export interface AuthRequest extends Request {
 }
 const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            return res.status(401).json({ error: "Authorization header missing" });
-        }
-        const token = authHeader.split(" ")[1];
+        const token=req.cookies.token ;
         if (!token) {
-            return res.status(401).json({ error: "Token missing" });
+            return errorResponse(res, null, "Unauthorized", 401);
         }
         const decoded = verifyToken(token);
         if (!decoded) {
-            return res.status(401).json({ error: "Invalid token" });
+            return errorResponse(res, null, "Invalid token", 401);
         }
         req.user = decoded as jwtPayload;
         next();
     } catch (error) {
-        res.status(401).json({ error: "Unauthorized" });
+        return errorResponse(res, null, "Unauthorized", 401);
     }
 };
 export default authMiddleware;

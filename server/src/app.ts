@@ -5,6 +5,7 @@ import express from "express";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger";
+import cookieParser from "cookie-parser";
 import db from "./config/db";
 import userRoutes from "./routes/UserRoutes";
 import productRoutes from "./routes/ProductRoutes";
@@ -17,8 +18,13 @@ import FeedbackRoutes from "./routes/FeedbackRoutes"
 
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:${process.env.port!}",
+  credentials: true,
+}));
 app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(cookieParser());
 
 app.use("/users", userRoutes);
 app.use("/products", productRoutes);
@@ -28,7 +34,6 @@ app.use("/orderItem", OrderItemsRoutes);
 app.use("/cart", cartItemsRoutes);
 app.use("/contact", contactUsRoutes);
 app.use("/feedback", FeedbackRoutes);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 
