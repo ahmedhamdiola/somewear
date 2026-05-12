@@ -1,10 +1,5 @@
-type CartItem = {
-    id: string
-    name: string
-    price: number
-    quantity: number
-    size: string
-}
+import type { CartItem } from "../../cart/utils/types"
+
 
 const CheckoutItem = ({ cartItems }: { cartItems: CartItem[] }) => {
     return (

@@ -10,26 +10,19 @@ import { CheckoutSchema } from "../utils/CheckoutSchema.ts"
 import CheckoutForm from "../components/CheckoutForm"
 import CheckoutItems from "../components/CheckoutItem"
 import CheckoutSummary from "../components/CheckoutSummary"
+import { useCart } from "../../cart/hooks/useCart.tsx"
+import { checkout } from "../services/checkoutAPI.ts"
+import type { CheckoutFormValues } from "../utils/interfaces.ts"
 
-type CartItem = {
-    id: string
-    name: string
-    price: number
-    quantity: number
-    size: string
-}
 
 const CheckoutPage = () => {
-
-    const [cartItems] = useState<CartItem[]>([
-        { id: "1", name: "Sample Product", price: 100, quantity: 1, size: "M" },
-        { id: "2", name: "Another Product", price: 50, quantity: 2, size: "L" },
-    ])
+    const userId = parseInt(localStorage.getItem("userId") || "0");
+    const { cart } = useCart(userId);
 
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
-    const subtotal = cartItems.reduce(
+    const subtotal = cart.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0
     )
@@ -37,9 +30,14 @@ const CheckoutPage = () => {
     const savings = 0
     const shipping = subtotal > 0 ? 20 : 0
 
-    const handleOrder = () => {
+    const handleOrder = async (values: CheckoutFormValues) => {
         setLoading(true)
-
+        await checkout({
+            shippingFees: shipping,
+            city: values.city,
+            address: values.address,
+            phone: values.phone,
+        });
         toast.success("Order placed successfully!")
 
         setTimeout(() => {
@@ -70,7 +68,7 @@ const CheckoutPage = () => {
                                 <CheckoutForm />
                             </Form>
 
-                            <CheckoutItems cartItems={cartItems} />
+                            <CheckoutItems cartItems={cart} />
                         </div>
 
                         {/* RIGHT */}

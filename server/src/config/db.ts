@@ -132,7 +132,7 @@ db.prepare(`
   name TEXT NOT NULL,
   userId INTEGER NOT NULL,
   productId INTEGER NOT NULL,
-  feedback TEXT NOT NULL,
+  comment TEXT NOT NULL,
   rating INTEGER NOT NULL,
   FOREIGN KEY (userId) REFERENCES users(id),
   FOREIGN KEY (productId) REFERENCES products(id)

@@ -3,13 +3,13 @@ import OrderService from '../services/OrderService';
 import { successResponse, errorResponse } from '../utils/response';
 import { AuthRequest } from '../middleware/AuthMiddleWare';
 
-export const createOrderController = async(req: AuthRequest, res: Response) => {
+export const createOrderController = async (req: AuthRequest, res: Response) => {
     try {
         const data = { ...req.body, userId: req.user!.id }
         const order = await OrderService.createOrderService(data);
-        return successResponse(res, order, "Product created successfully", 201);
+        return successResponse(res, order, "Order created successfully", 201);
     } catch (error) {
-        return errorResponse(res, error, "Failed to create product", 400);
+        return errorResponse(res, error, "Failed to create order", 400);
     }
 }
 
@@ -17,7 +17,7 @@ export const getOrderByIdController = async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
         const order = await OrderService.getOrderByIdService(id);
-        return successResponse(res, order, "Product retrieved succesully");
+        return successResponse(res, order, "Order retrieved succesully");
     } catch (error) {
         return errorResponse(res, error, "Failed to retrieve order", 400);
     }
@@ -116,13 +116,13 @@ export const deleteOrderController = async (req: Request, res: Response) => {
     }
 };
 
-export const checkoutController=async (req:AuthRequest,res:Response)=>{
-    try{
-        const userId=req.user!.id
-        const order=await OrderService.checkoutService(userId,req.body)
-        return successResponse(res,order,"Checkout completed successfully")
-    }catch(error){
-        return errorResponse(res,error,"Failed to checkout",400)
+export const checkoutController = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user!.id
+        const order = await OrderService.checkoutService(userId, req.body)
+        return successResponse(res, order, "Checkout completed successfully")
+    } catch (error) {
+        return errorResponse(res, error, "Failed to checkout", 400)
     }
 }
 

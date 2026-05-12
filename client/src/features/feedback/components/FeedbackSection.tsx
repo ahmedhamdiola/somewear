@@ -1,4 +1,3 @@
-
 import { Button } from "../../../components/ui/button"
 import { Card, CardContent } from "../../../components/ui/card"
 import { Avatar, AvatarFallback } from "../../../components/ui/avatar"
@@ -9,23 +8,31 @@ import { Label } from "../../../components/ui/label"
 import { Badge } from "../../../components/ui/badge"
 import { Star } from "lucide-react"
 import { useState } from "react"
+import { useParams } from "react-router-dom"
+import { useFeedback } from "../services/useFeedback"
+const FeedbackSection = () => {
+    const { id } = useParams()
+    const productId = Number(id)
 
-interface FeedBackAttributes {
-    name: string,
-    rating: number,
-    comment: string
-}
+    const { reviews, addReview } = useFeedback(productId)
 
-const ProductPage = () => {
-    const [reviews, setReviews] = useState<FeedBackAttributes[]>([
-    ])
     const [name, setName] = useState("")
     const [comment, setComment] = useState("")
     const [rating, setRating] = useState("5")
 
-    const addReview = () => {
+    const handleSubmit = async () => {
         if (!name.trim() || !comment.trim()) return
-        setReviews([{ name, rating: Number(rating), comment }, ...reviews])
+
+        const userId = Number(localStorage.getItem("userId") || 0)
+
+        await addReview({
+            name,
+            rating: Number(rating),
+            comment,
+            userId,
+            productId
+        })
+
         setName("")
         setComment("")
         setRating("5")
@@ -54,6 +61,7 @@ const ProductPage = () => {
         <div>
             <div className="px-10 pb-10 space-y-6">
                 <h2 className="text-2xl font-semibold">Customer Feedback</h2>
+
                 <div className="grid md:grid-cols-3 gap-4">
                     {reviews.map((review, i) => (
                         <Card key={i}>
@@ -124,9 +132,12 @@ const ProductPage = () => {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className="flex justify-center items-center">
 
-                            <Button onClick={addReview} className="cursor-pointer hover:shadow-lg h-12 text-xl font-bold rounded-xl w-2xl">
+                        <div className="flex justify-center items-center">
+                            <Button
+                                onClick={handleSubmit}
+                                className="cursor-pointer hover:shadow-lg h-12 text-xl font-bold rounded-xl w-2xl"
+                            >
                                 SUBMIT REVIEW
                             </Button>
                         </div>
@@ -138,4 +149,4 @@ const ProductPage = () => {
     )
 }
 
-export default ProductPage
+export default FeedbackSection

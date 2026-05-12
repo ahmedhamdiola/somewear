@@ -1,2 +1,2 @@
--- 
-SELECT * FROM products
+ALTER TABLE feedback
+RENAME COLUMN feedback TO comment;

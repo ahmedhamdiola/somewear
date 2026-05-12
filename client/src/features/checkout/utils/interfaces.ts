@@ -5,3 +5,8 @@ export interface CartItem {
     quantity: number
     size: string
 }
+export interface CheckoutFormValues {
+    address: string
+    city: string
+    phone: string
+};

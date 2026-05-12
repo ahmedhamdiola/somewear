@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
 
 const CartPage = () => {
-    const userId = 2
+    const userId = parseInt(localStorage.getItem("userId") || "0");
     const { cart, loading, error, subtotal, updateQty, remove } = useCart(userId)
     console.log(cart)
     const navigate = useNavigate()

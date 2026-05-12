@@ -5,3 +5,8 @@ export interface Product {
     description: string
     imageUrl?: string
 }
+export interface Variant {
+    id: number
+    size: string;
+    stock: number
+}
