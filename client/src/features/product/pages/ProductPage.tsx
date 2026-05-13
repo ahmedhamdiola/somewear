@@ -19,9 +19,8 @@ const ProductPage = () => {
     const [size, setSize] = useState("")
     const { id } = useParams();
     const { product, loading, error } = useProduct(id);
-    const { variants }: { variants: Variant[] } = useVariants(id)
-    const userId = parseInt(localStorage.getItem("userId") || "0");
-    const { cart, refetch } = useCart(userId);
+    const { variants }: { variants: Variant[] } = useVariants(id) 
+    const { cart, refetch } = useCart();
     if (!product) return <NotFoundPage />
     const getStock = (size: string) => {
         return variants.find(v => v.size === size)?.stock ?? 0

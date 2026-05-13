@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit --no-coverage --runInBand",
     "dev": "nodemon --exec ts-node src/app.ts",
     "start": "nodemon --exec ts-node src/config/db.ts",
     "format": "prettier --write ."

@@ -25,11 +25,13 @@ import {
   DialogFooter,
 } from "../../../components/ui/dialog";
 import { Input } from "../../../components/ui/input";
+import VariantsDialog from "../components/VariantsDialog";
 
 export const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [openDialog, setDialogOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
+  const [variantProduct, setVariantProduct] = useState<Product | null>(null);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -175,6 +177,13 @@ export const Products = () => {
                   Edit
                 </Button>
                 <Button
+                  onClick={() => setVariantProduct(pro)}
+                  variant="outline"
+                  className="mx-2"
+                >
+                  Variants
+                </Button>
+                <Button
                   onClick={() => handleDelete(pro.id)}
                   variant="destructive"
                 >
@@ -253,6 +262,12 @@ export const Products = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <VariantsDialog
+        productId={variantProduct?.id ?? null}
+        productName={variantProduct?.name ?? ""}
+        onClose={() => setVariantProduct(null)}
+      />
     </div>
   );
 };
