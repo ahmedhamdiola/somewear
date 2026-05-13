@@ -60,6 +60,13 @@ export const getTotalAmountByUserIdService = (userId: number) => {
     return OrderRepository.getTotalAmountByUserId(userId);
 }
 
+export const getLastOrdersByUserIdService = (userId: number): OrderInterface[] => {
+    if (!userId || userId <= 0) {
+        throw new Error("Invalid user ID");
+    }
+    return OrderRepository.getLastOrdersByUserId(userId);
+}
+
 
 export const getAllOrdersService = (): OrderInterface[] => {
     return OrderRepository.getAllOrders();
@@ -200,6 +207,7 @@ export default {
     getOrdersByUserIdService,
     getCountByUserIdService,
     getTotalAmountByUserIdService,
+    getLastOrdersByUserIdService,
     getAllOrdersService,
     cancelOrderService,
     updateOrderStatusService,

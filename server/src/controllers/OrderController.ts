@@ -53,6 +53,16 @@ export const getTotalAmountByUserIdController = async (req: AuthRequest, res: Re
     }
 };
 
+export const getLastOrdersByUserIdController = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId=req.user!.id;
+        const orders = await OrderService.getLastOrdersByUserIdService(userId);
+        return successResponse(res, orders, "User last orders retrieved successfully");
+    } catch (error) {
+        return errorResponse(res, error, "Failed to get user last orders", 400);
+    }
+};
+
 export const getAllOrdersController = async (req: Request, res: Response) => {
     try {
         const orders = await OrderService.getAllOrdersService();
@@ -123,6 +133,7 @@ export default {
     getOrdersByUserIdController,
     getCountByUserIdController,
     getTotalAmountByUserIdController,
+    getLastOrdersByUserIdController,
     getAllOrdersController,
     cancelOrderController,
     updateOrderStatusController,

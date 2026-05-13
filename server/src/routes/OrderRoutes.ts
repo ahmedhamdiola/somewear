@@ -148,6 +148,31 @@ router.get(
   authMiddleware,
   OrderController.getTotalAmountByUserIdController,
 );
+
+/**
+ * @swagger
+ * /orders/myLastOrders:
+ *   get:
+ *     summary: Get last 3 orders by user ID
+ *     tags: [Orders]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User last orders retrieved successfully
+ */
+router.get(
+  "/myLastOrders",
+  authMiddleware,
+  OrderController.getLastOrdersByUserIdController,
+);
+
 /**
  * @swagger
  * /orders:

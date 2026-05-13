@@ -62,6 +62,15 @@ export const getTotalAmountByUserId = (userId: number) => {
     return result
 }
 
+//get last orders with limit 3 by user id
+export const getLastOrdersByUserId = (userId: number): OrderInterface [] => {
+    const res = db.prepare<[number], OrderInterface>(`
+    SELECT id,status, FROM orders WHERE userId = ? ORDER BY createdAt DESC LIMIT 3
+    `);
+    const orderData = res.all(userId);
+    return orderData || null;
+}
+
 //get all orders
 export const getAllOrders = (): OrderInterface[] => {
      //SELECT * FROM orders  
@@ -133,6 +142,7 @@ export default {
     getOrderByUserId,
     getCountByUserId,
     getTotalAmountByUserId,
+    getLastOrdersByUserId,
     getAllOrders,
     cancelOrderByOrderId,
     updateOrderStatus,
