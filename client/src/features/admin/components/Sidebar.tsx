@@ -1,13 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaBox, FaUsers, FaShoppingCart, FaCheckCircle, FaHome, FaSignOutAlt, FaEnvelope } from "react-icons/fa";
 import Logo from "../../../assets/LogoWhite.svg";
+import axios from "axios";
 
 const Sidebar = () => {
   const navigate = useNavigate();
 
-  const handleLogout = ()=> {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  const handleLogout = async () => {
+    await axios.post("http://localhost:3000/users/logout", {}, { withCredentials: true }).catch(() => {});
     navigate("/login");
   };
 

@@ -1,21 +1,27 @@
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import axios from "axios";
 
 const AdminGuard = () => {
-  const userId = localStorage.getItem("userId");
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
-  // if (!token || !userString) {
-  //   return <Navigate to="/login" replace />
-  // }
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/users/checkAdmin", {
+          withCredentials: true,
+        });
+        setIsAdmin(res.data.data?.isAdmin === true);
+      } catch {
+        setIsAdmin(false);
+      }
+    };
+    load();
+  }, []);
+ 
+  if (isAdmin === null) return null; 
 
-  // const userdata = JSON.parse(userString);
-
-  //if (userdata.role !== "admin") {
-  if (userId !== "3") {
-    return <Navigate to="/" replace />
-  }
-
-  return <Outlet />
-
+  return isAdmin ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
-export default AdminGuard;
+export default AdminGuard; 

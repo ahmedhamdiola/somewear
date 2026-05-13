@@ -22,20 +22,17 @@ export type OrderItem = {
 };
 
 const API_URL ="http://localhost:3000";
-const getAuthHeaders=()=>{
-  const token = localStorage.getItem("token")||"";
-  return { headers:{ Authorization: `Bearer ${token}`} };
-};
+const config = { withCredentials: true };
 
 // GET all orders
 export const getOrders = async (): Promise<Order[]> => {
-  const res = await axios.get(`${API_URL}/order`, getAuthHeaders());
+  const res = await axios.get(`${API_URL}/order`, config);
   return res.data.data;
 };
 
 // GET items for a specific order
 export const getOrderItems = async (orderId: string): Promise<OrderItem[]> => {
-  const res = await axios.get(`${API_URL}/orderItem/items/${orderId}`, getAuthHeaders());
+  const res = await axios.get(`${API_URL}/orderItem/items/${orderId}`, config);
   return res.data.data;
 };
 
@@ -44,5 +41,5 @@ export const updateOrderStatus = async (
   id: string,
   status: Order["status"]
 ): Promise<void> => {
-  await axios.patch(`${API_URL}/order/status/${id}`, { status }, getAuthHeaders());
+  await axios.patch(`${API_URL}/order/status/${id}`, { status }, config);
 };

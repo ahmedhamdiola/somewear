@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { createContactUsController, getContactUsController, getAllContactUsController } from "../controllers/ContactUsController"
 import authMiddleware from "../middleware/AuthMiddleWare"
+import RoleMiddleware from "../middleware/RoleMiddleWare"
 
 const router = Router()
 /**
@@ -55,7 +56,7 @@ router.post("/", createContactUsController);
  *       404:
  *         description: Contact message not found
  */
-router.get("/:id", authMiddleware, getContactUsController);
+router.get("/:id", authMiddleware, RoleMiddleware("admin"), getContactUsController);
 
 /**
  * @swagger
@@ -69,6 +70,6 @@ router.get("/:id", authMiddleware, getContactUsController);
  *       200:
  *         description: Contact messages retrieved successfully
  */
-router.get("/", authMiddleware, getAllContactUsController)
+router.get("/", authMiddleware, RoleMiddleware("admin"), getAllContactUsController)
 
 export default router

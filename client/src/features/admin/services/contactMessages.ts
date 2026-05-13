@@ -10,13 +10,9 @@ export interface ContactMessage {
 }
 
 const API_URL = "http://localhost:3000";
-
-const getAuthHeaders = () => {
-  const token = localStorage.getItem("token") || "";
-  return { headers: { Authorization: `Bearer ${token}` } };
-};
+const config = { withCredentials: true };
 
 export const getAllMessages = async (): Promise<ContactMessage[]> => {
-  const res = await axios.get(`${API_URL}/contact`, getAuthHeaders());
+  const res = await axios.get(`${API_URL}/contact`, config);
   return res.data.data;
 };

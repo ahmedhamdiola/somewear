@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  getOrders,
-  updateOrderStatus,
-  type Order,
-} from "../services/orders";
+import { getOrders, updateOrderStatus, type Order } from "../services/orders";
 import { toast } from "react-toastify";
 import {
   Table,
@@ -17,8 +13,8 @@ import { Button } from "../../../components/ui/button";
 import OrderItemsDialog from "../components/OrderItemsDialog";
 
 export const OrdersNew = () => {
-  const[orders,setOrders] = useState<Order[]>([]);
-  const [selectedOrder,setSelectedOrder] =useState<Order | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const loadOrders = async () => {
     try {
       const data = await getOrders();
@@ -32,16 +28,16 @@ export const OrdersNew = () => {
 
   useEffect(() => {
     const load = async () => {
-    try {
-      const data = await getOrders();
-      const active = data.filter((or) => or.status === "pending");
-      setOrders(active);
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to load orders");
-    }
-  };
-  load();
+      try {
+        const data = await getOrders();
+        const active = data.filter((or) => or.status === "pending");
+        setOrders(active);
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to load orders");
+      }
+    };
+    load();
   }, []);
 
   const handleNext = async (order: Order) => {
@@ -53,8 +49,7 @@ export const OrdersNew = () => {
       console.log(error);
       toast.error("Failed to update status");
     }
-
-  }
+  };
 
   return (
     <div>
@@ -74,24 +69,28 @@ export const OrdersNew = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          { orders.map((ord)=>(
+          {orders.map((ord) => (
             <TableRow key={ord.id}>
               <TableCell>{ord.customerName}</TableCell>
               <TableCell>{ord.email}</TableCell>
               <TableCell>{ord.phone}</TableCell>
-              <TableCell>{ord.date }</TableCell>
+              <TableCell>{ord.date}</TableCell>
               <TableCell>{ord.address}</TableCell>
-              <TableCell className="font-bold text-green-600">{ord.total} EGP</TableCell>
-                <TableCell><span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
-                    {ord.status}
-                  </span></TableCell>
+              <TableCell className="font-bold text-green-600">
+                {ord.total} EGP
+              </TableCell>
+              <TableCell>
+                <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
+                  {ord.status}
+                </span>
+              </TableCell>
               <TableCell className="flex gap-2">
-                <Button    variant="outline"  onClick={() => setSelectedOrder(ord)}  >
+                <Button variant="outline" onClick={() => setSelectedOrder(ord)}>
                   view Items
                 </Button>
                 <Button
                   className="bg-black hover:bg-green-600 text-white"
-                  onClick={()=> handleNext(ord)}
+                  onClick={() => handleNext(ord)}
                 >
                   Next Status
                 </Button>
@@ -103,7 +102,7 @@ export const OrdersNew = () => {
 
       <OrderItemsDialog
         order={selectedOrder}
-        onClose={()=>setSelectedOrder(null)}
+        onClose={() => setSelectedOrder(null)}
       />
     </div>
   );

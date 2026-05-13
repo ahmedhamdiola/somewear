@@ -22,15 +22,7 @@ export type ProductFormData = {
 };
 
 const API_URL = "http://localhost:3000/products";
-
-const getAuthHeaders = () => {
-  const token = localStorage.getItem("token") || "";
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-};
+const config = { withCredentials: true };
 
 // GET
 export const getProducts = async (): Promise<Product[]> => {
@@ -38,9 +30,8 @@ export const getProducts = async (): Promise<Product[]> => {
   return response.data.data;
 };
 
-// DELETE
 export const deleteProduct = async (id: number): Promise<void> => {
-  await axios.delete(`${API_URL}/${id}`, getAuthHeaders());
+  await axios.delete(`${API_URL}/${id}`, config);
 };
 
 // ADD — sends FormData so the server can upload the image to Cloudinary
@@ -53,7 +44,7 @@ export const addProduct = async (data: ProductFormData): Promise<Product> => {
   form.append("subcategory", data.subcategory);
   if (data.image) form.append("image", data.image);
 
-  const response = await axios.post(API_URL, form, getAuthHeaders());
+  const response = await axios.post(API_URL, form, config);
   return response.data.data;
 };
 
@@ -67,6 +58,6 @@ export const updateProduct = async (id: number, data: ProductFormData): Promise<
   form.append("subcategory", data.subcategory);
   if (data.image) form.append("image", data.image);
 
-  await axios.put(`${API_URL}/${id}`, form, getAuthHeaders());
+  await axios.put(`${API_URL}/${id}`, form, config);
 };
 

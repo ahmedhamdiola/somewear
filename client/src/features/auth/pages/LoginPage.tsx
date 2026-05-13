@@ -28,9 +28,7 @@ const LoginPage = () => {
     const result = await axios.post(
       "http://localhost:3000/users/login",
       values,
-      {
-        withCredentials: true
-      }
+      { withCredentials: true }
     );
     const user = result.data.data.user;
     if (user.role == "admin") {
