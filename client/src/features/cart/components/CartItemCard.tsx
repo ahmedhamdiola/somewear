@@ -1,7 +1,7 @@
 import { Minus, Plus } from 'lucide-react'
 import { Button } from '../../../components/ui/button'
 import { Card, CardContent } from '../../../components/ui/card'
-import type { CartItem } from '../utils/types'
+import type { CartItem } from '../services/types'
 
 interface Props {
     item: CartItem

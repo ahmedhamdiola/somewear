@@ -38,10 +38,10 @@ export const addToCart = async (data: {
     return response.data
 }
 
-export const getCartItems = async (userId: number) => {
+export const getCartItems = async () => {
 
     const response = await axios.get(
-        `${API_URL}/${userId}`,
+        `${API_URL}/`,
         {
             withCredentials: true
         }

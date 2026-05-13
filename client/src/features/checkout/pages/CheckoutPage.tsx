@@ -5,14 +5,14 @@ import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 
 import { Formik, Form } from "formik"
-import { CheckoutSchema } from "../utils/CheckoutSchema.ts"
+import { CheckoutSchema } from "../services/CheckoutSchema.ts"
 
 import CheckoutForm from "../components/CheckoutForm"
 import CheckoutItems from "../components/CheckoutItem"
 import CheckoutSummary from "../components/CheckoutSummary"
 import { useCart } from "../../cart/hooks/useCart.tsx"
 import { checkout } from "../services/checkoutAPI.ts"
-import type { CheckoutFormValues } from "../utils/interfaces.ts"
+import type { CheckoutFormValues } from "../services/interfaces.ts"
 
 
 const CheckoutPage = () => {

@@ -33,11 +33,10 @@ const LoginPage = () => {
       }
     );
     const user = result.data.data.user;
-    localStorage.setItem("userId", JSON.stringify(user.id));
     if (user.role == "admin") {
       navigate("/admin");
     } else {
-      navigate("/products");
+      navigate("/");
     }
   };
 

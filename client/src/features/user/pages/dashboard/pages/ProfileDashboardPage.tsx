@@ -4,6 +4,7 @@ import { Button } from "../../../../../components/ui/button"
 import ProfileDashboardCard from "../components/ProfileDashboardCard"
 import { Badge } from "../../../../../components/ui/badge"
 import { getStatusStyle } from "../../order/utils"
+import { useUsers } from "../../../hooks/useUsers"
 
 
 const orders = [
@@ -27,21 +28,24 @@ interface Props {
     navigateDashboard: (option: string) => void
 }
 const ProfileDashboardPage = ({ navigateDashboard }: Props) => {
+    const { user, loading, error, count, totalAmount } = useUsers()
     return (
         <div className="w-full max-w-5xl space-y-6 mt-5 animate-[fadeInUp_0.8s_ease-out_forwards]">
+            {loading && <p>Loading...</p>}
+            {error && <p>{error}</p>}
 
             <div>
-                <h1 className="text-2xl font-bold">Welcome back, Ahmed</h1>
+                <h1 className="text-2xl font-bold">Welcome back, {user?.username || "User"}</h1>
                 <p className="text-muted-foreground">
                     Here's what's happening with your account
                 </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                <ProfileDashboardCard title="Orders" value="5">
+                <ProfileDashboardCard title="Orders" value={count || 0}>
                     <Package className="w-6 h-6" />
                 </ProfileDashboardCard>
-                <ProfileDashboardCard title="Paid amount" value="1234423">
+                <ProfileDashboardCard title="Paid amount" value={totalAmount || 0}>
                     <Banknote className="w-6 h-6" />
                 </ProfileDashboardCard>
 

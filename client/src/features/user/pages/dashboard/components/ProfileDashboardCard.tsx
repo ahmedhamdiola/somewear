@@ -3,7 +3,7 @@ import { Card, CardContent } from '../../../../../components/ui/card'
 interface Props {
     children: React.ReactNode,
     title: string,
-    value: string
+    value: number
 }
 const ProfileDashboardCard = ({ children, title, value }: Props) => {
     return (

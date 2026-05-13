@@ -1,119 +1,118 @@
+// ProfileSettingsPage.tsx
+
 import { useFormik } from "formik"
-import * as Yup from "yup"
 
 import { Card, CardContent, CardHeader, CardTitle } from "../../../../../components/ui/card"
 import { Input } from "../../../../../components/ui/input"
 import { Button } from "../../../../../components/ui/button"
 import { Label } from "../../../../../components/ui/label"
+import { UserSchema } from "../../../services/UserSchema"
+import { toast } from "react-toastify"
+import { useUsers } from "../../../hooks/useUsers"
+import { updateUserProfile } from "../../../services/usersAPI"
 
 const ProfileSettingsPage = () => {
+    const { user } = useUsers()
+    console.log(user)
 
     const profileFormik = useFormik({
+        enableReinitialize: true,
+
         initialValues: {
-            firstName: "Ahmed",
-            lastName: "Hamdy",
-            email: "ahmed@email.com",
+            username: user?.username || "",
+            email: user?.email || "",
+            phone: user?.phone || "",
+            address: user?.address || "",
         },
-        validationSchema: Yup.object({
-            firstName: Yup.string().required("First name is required"),
-            lastName: Yup.string().required("Last name is required"),
-            email: Yup.string().email("Invalid email").required("Email is required"),
-        }),
+        validationSchema: UserSchema,
         onSubmit: (values) => {
+            const userData = values
+            updateUserProfile(userData)
+            toast.success("Profile updated successfully!")
             console.log("PROFILE:", values)
         },
     })
 
-    const passwordFormik = useFormik({
-        initialValues: {
-            currentPassword: "",
-            newPassword: "",
-            confirmPassword: "",
-        },
-        validationSchema: Yup.object({
-            currentPassword: Yup.string().required("Current password is required"),
-            newPassword: Yup.string()
-                .min(6, "Min 6 characters")
-                .required("New password is required"),
-            confirmPassword: Yup.string()
-                .oneOf([Yup.ref("newPassword")], "Passwords must match")
-                .required("Confirm password is required"),
-        }),
-        onSubmit: (values, { resetForm }) => {
-            console.log("PASSWORD:", values)
-            resetForm()
-        },
-    })
+    const renderError = (field: keyof typeof profileFormik.values) =>
+        profileFormik.touched[field] &&
+        profileFormik.errors[field] && (
+            <p className="text-red-500 text-sm">
+                {profileFormik.errors[field]}
+            </p>
+        )
 
-    const f = profileFormik.values.firstName?.[0] || ""
-    const l = profileFormik.values.lastName?.[0] || ""
-    const initials = (f + l).toUpperCase()
+    const initials = profileFormik.values.username
+        .split(" ")
+        .map((name) => name[0] || "")
+        .slice(0, 2)
+        .join("")
+        .toUpperCase()
     return (
         <div className="w-full max-w-5xl space-y-6 mt-5 animate-[fadeInUp_0.8s_ease-out_forwards]">
-
             <div>
                 <h1 className="text-2xl font-bold">Settings</h1>
                 <p className="text-muted-foreground">
                     Manage your personal information
                 </p>
             </div>
-
             <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center text-lg font-bold">
                     {initials}
                 </div>
-                <div>
-                    <p className="font-semibold">
-                        {profileFormik.values.firstName} {profileFormik.values.lastName}
-                    </p>
-                </div>
+                <p className="font-semibold">
+                    {profileFormik.values.username}
+                </p>
             </div>
-
             <form onSubmit={profileFormik.handleSubmit}>
                 <Card>
                     <CardHeader>
                         <CardTitle>Personal Information</CardTitle>
                     </CardHeader>
-
                     <CardContent className="space-y-4">
                         <div className="space-y-1">
-                            <Label>First Name</Label>
+                            <Label>Username</Label>
                             <Input
-                                name="firstName"
-                                value={profileFormik.values.firstName}
+                                name="username"
+                                value={profileFormik.values.username}
                                 onChange={profileFormik.handleChange}
+                                onBlur={profileFormik.handleBlur}
                             />
-                            {profileFormik.touched.firstName && profileFormik.errors.firstName && (
-                                <p className="text-red-500 text-sm">
-                                    {profileFormik.errors.firstName}
-                                </p>
-                            )}
-                        </div>
-                        <div className="space-y-1">
-                            <Label>Last Name</Label>
-                            <Input
-                                name="lastName"
-                                value={profileFormik.values.lastName}
-                                onChange={profileFormik.handleChange}
-                            />
-                            {profileFormik.touched.lastName && profileFormik.errors.lastName && (
-                                <p className="text-red-500 text-sm">
-                                    {profileFormik.errors.lastName}
-                                </p>
-                            )}
+                            {renderError("username")}
                         </div>
                         <div className="space-y-1">
                             <Label>Email</Label>
                             <Input
+                                type="email"
                                 name="email"
                                 value={profileFormik.values.email}
                                 onChange={profileFormik.handleChange}
+                                onBlur={profileFormik.handleBlur}
                             />
-                            {profileFormik.touched.email && profileFormik.errors.email && (
-                                <p className="text-red-500 text-sm">
-                                    {profileFormik.errors.email}
-                                </p>
-                            )}
+                            {renderError("email")}
+                        </div>
+                        <div className="space-y-1">
+                            <Label>Phone</Label>
+                            <Input
+                                type="tel"
+                                name="phone"
+                                value={profileFormik.values.phone}
+                                onChange={(e) => {
+                                    const onlyNumbers = e.target.value.replace(/\D/g, "")
+                                    profileFormik.setFieldValue("phone", onlyNumbers)
+                                }}
+                                onBlur={profileFormik.handleBlur}
+                            />
+                            {renderError("phone")}
+                        </div>
+                        <div className="space-y-1">
+                            <Label>Address</Label>
+                            <Input
+                                name="address"
+                                value={profileFormik.values.address}
+                                onChange={profileFormik.handleChange}
+                                onBlur={profileFormik.handleBlur}
+                            />
+                            {renderError("address")}
                         </div>
                         <Button type="submit" className="w-full">
                             Save Profile
@@ -121,64 +120,6 @@ const ProfileSettingsPage = () => {
                     </CardContent>
                 </Card>
             </form>
-            <form onSubmit={passwordFormik.handleSubmit}>
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Security</CardTitle>
-                    </CardHeader>
-
-                    <CardContent className="space-y-4">
-                        <div className="space-y-1">
-                            <Label>Current Password</Label>
-                            <Input
-                                type="password"
-                                name="currentPassword"
-                                value={passwordFormik.values.currentPassword}
-                                onChange={passwordFormik.handleChange}
-                            />
-                            {passwordFormik.errors.currentPassword && (
-                                <p className="text-red-500 text-sm">
-                                    {passwordFormik.errors.currentPassword}
-                                </p>
-                            )}
-                        </div>
-                        <div className="space-y-1">
-                            <Label>New Password</Label>
-                            <Input
-                                type="password"
-                                name="newPassword"
-                                value={passwordFormik.values.newPassword}
-                                onChange={passwordFormik.handleChange}
-                            />
-                            {passwordFormik.errors.newPassword && (
-                                <p className="text-red-500 text-sm">
-                                    {passwordFormik.errors.newPassword}
-                                </p>
-                            )}
-                        </div>
-                        <div className="space-y-1">
-                            <Label>Confirm Password</Label>
-                            <Input
-                                type="password"
-                                name="confirmPassword"
-                                value={passwordFormik.values.confirmPassword}
-                                onChange={passwordFormik.handleChange}
-                            />
-                            {passwordFormik.errors.confirmPassword && (
-                                <p className="text-red-500 text-sm">
-                                    {passwordFormik.errors.confirmPassword}
-                                </p>
-                            )}
-                        </div>
-
-                        <Button type="submit" className="w-full">
-                            Update Password
-                        </Button>
-
-                    </CardContent>
-                </Card>
-            </form>
-
         </div>
     )
 }

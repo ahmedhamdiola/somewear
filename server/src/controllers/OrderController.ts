@@ -25,7 +25,7 @@ export const getOrderByIdController = async (req: Request, res: Response) => {
 
 export const getOrdersByUserIdController = async (req: AuthRequest, res: Response) => {
     try {
-        const userId=req.user!.id;
+        const userId = req.user!.id;
         const orders = await OrderService.getOrdersByUserIdService(userId);
         return successResponse(res, orders, "User orders retrieved successfully");
     } catch (error) {
@@ -35,7 +35,7 @@ export const getOrdersByUserIdController = async (req: AuthRequest, res: Respons
 
 export const getCountByUserIdController = async (req: AuthRequest, res: Response) => {
     try {
-        const userId=req.user!.id;
+        const userId = req.user!.id;
         const count = await OrderService.getCountByUserIdService(userId);
         return successResponse(res, count, "User order count retrieved successfully");
     } catch (error) {
@@ -45,7 +45,8 @@ export const getCountByUserIdController = async (req: AuthRequest, res: Response
 
 export const getTotalAmountByUserIdController = async (req: AuthRequest, res: Response) => {
     try {
-        const userId=req.user!.id;
+        const userId = req.user!.id;
+        console.log(userId)
         const totalAmount = await OrderService.getTotalAmountByUserIdService(userId);
         return successResponse(res, totalAmount, "User total order amount retrieved successfully");
     } catch (error) {
@@ -55,7 +56,7 @@ export const getTotalAmountByUserIdController = async (req: AuthRequest, res: Re
 
 export const getLastOrdersByUserIdController = async (req: AuthRequest, res: Response) => {
     try {
-        const userId=req.user!.id;
+        const userId = req.user!.id;
         const orders = await OrderService.getLastOrdersByUserIdService(userId);
         return successResponse(res, orders, "User last orders retrieved successfully");
     } catch (error) {

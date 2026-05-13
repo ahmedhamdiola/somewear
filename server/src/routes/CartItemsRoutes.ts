@@ -52,7 +52,7 @@ router.post("/", authMiddleware, CartItemsController.createCartItemController);
  *       403:
  *         description: Forbidden
  */
-router.get("/getCartItems", authMiddleware, CartItemsController.getCartItemsByUserIdController);
+router.get("/", authMiddleware, CartItemsController.getCartItemsByUserIdController);
 
 /**
  * @swagger
@@ -129,5 +129,5 @@ router.delete("/:id", authMiddleware, CartItemsController.deleteCartItemControll
  *       403:
  *         description: Forbidden
  */
-router.delete("/user/:userId",authMiddleware,CartItemsController.deleteCartItemsByUserIdController)
+router.delete("/user/:userId", authMiddleware, CartItemsController.deleteCartItemsByUserIdController)
 export default router

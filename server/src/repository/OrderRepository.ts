@@ -33,7 +33,7 @@ export const getOrderById = (id: number): OrderInterface | null => {
 }
 
 //get order by user id
-export const getOrderByUserId = (userId: number): OrderInterface [] => {
+export const getOrderByUserId = (userId: number): OrderInterface[] => {
     const res = db.prepare<[number], OrderInterface>(`
     SELECT * FROM orders WHERE userId = ?
     `);
@@ -45,7 +45,9 @@ export const getOrderByUserId = (userId: number): OrderInterface [] => {
 export const getCountByUserId = (userId: number) => {
     const count = db.prepare(
         `   
-            SELECT count (userId) FROM orders WHERE userId =?
+        SELECT COUNT(userId) AS count
+        FROM orders
+        WHERE userId = ?
         `
     )
     const result = count.get(userId)
@@ -56,16 +58,16 @@ export const getCountByUserId = (userId: number) => {
 //total amount of orders by user id
 export const getTotalAmountByUserId = (userId: number) => {
     const total = db.prepare(
-        `SELECT SUM(totalAmount) + SUM(COALESCE(shippingFees, 0)) AS total_revenue FROM orders;`
+        `SELECT SUM(totalPrice) + SUM(COALESCE(shippingFees, 0)) AS total_revenue FROM orders WHERE userId = ?;`
     )
     const result = total.get(userId)
     return result
 }
 
 //get last orders with limit 3 by user id
-export const getLastOrdersByUserId = (userId: number): OrderInterface [] => {
+export const getLastOrdersByUserId = (userId: number): OrderInterface[] => {
     const res = db.prepare<[number], OrderInterface>(`
-    SELECT id,status, FROM orders WHERE userId = ? ORDER BY createdAt DESC LIMIT 3
+    SELECT id,status FROM orders WHERE userId = ? ORDER BY createdAt DESC LIMIT 3
     `);
     const orderData = res.all(userId);
     return orderData || null;
@@ -73,17 +75,17 @@ export const getLastOrdersByUserId = (userId: number): OrderInterface [] => {
 
 //get all orders
 export const getAllOrders = (): OrderInterface[] => {
-     //SELECT * FROM orders  
-        ////////////////////////////// edit by bassam //////////////////////
+    //SELECT * FROM orders  
+    ////////////////////////////// edit by bassam //////////////////////
     const res = db.prepare<[], OrderInterface>(`
         SELECT orders.id,
-               orders.status,
-               orders.phone,
-               orders.address,
-               orders.createdAt  AS date,
-               orders.totalPrice AS total,
-               users.username    AS customerName,
-               users.email
+            orders.status,
+            orders.phone,
+            orders.address,
+            orders.createdAt  AS date,
+            orders.totalPrice AS total,
+            users.username    AS customerName,
+        users.email
         FROM orders
         JOIN users ON orders.userId = users.id
     `);
