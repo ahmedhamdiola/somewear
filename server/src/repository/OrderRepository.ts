@@ -69,7 +69,7 @@ export const getLastOrdersByUserId = (userId: number): OrderInterface [] => {
     const res = db.prepare<[number], OrderInterface>(`    
     SELECT id,status FROM orders WHERE userId = ? ORDER BY createdAt DESC LIMIT 3
     `);
-    const orderData = res.all(userId); 
+    const orderData = res.all(userId);  
     return orderData || null;
 }
 
