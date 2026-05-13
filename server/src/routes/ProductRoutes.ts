@@ -13,7 +13,7 @@ const router = express.Router();
  *     summary: Create a new product
  *     tags: [Products]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -143,7 +143,7 @@ router.get("/best-sellers", productcontroller.getBestSellersProductsController);
  *     summary: Update product by ID
  *     tags: [Products]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -187,7 +187,7 @@ router.put("/:id", authMiddleWare, RoleMiddleware("admin"),upload.single("image"
  *     summary: Delete product by ID
  *     tags: [Products]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id

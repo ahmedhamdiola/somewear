@@ -29,12 +29,8 @@ export const getCartItemByIdController = async(req: AuthRequest, res: Response) 
 
 export const getCartItemsByUserIdController = async (req: AuthRequest, res: Response) => {
     try {
-        const UserId = Number(req.params.userId)
-        // check authenticity
-        if (req.user!.id !== UserId && req.user?.role !== "admin") {
-            return errorResponse(res, null, "Forbidden", 403)
-        }
-        const cartItems = await CartItemsService.getCartItemsByUserIdService(UserId);
+        const userId=req.user!.id;
+        const cartItems = await CartItemsService.getCartItemsByUserIdService(userId);
         return successResponse(res, cartItems, "Cart items retrieved successully")
     } catch (error) {
         return errorResponse(res, error, "Failed to retrieve cart items", 400)

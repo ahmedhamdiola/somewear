@@ -42,7 +42,7 @@ router.post("/", createContactUsController);
  *     summary: Get contact us message by ID
  *     tags: [Contact Us]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -64,7 +64,7 @@ router.get("/:id", authMiddleware, getContactUsController);
  *     summary: Get all contact us messages
  *     tags: [Contact Us]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     responses:
  *       200:
  *         description: Contact messages retrieved successfully

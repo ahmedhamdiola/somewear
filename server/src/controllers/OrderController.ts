@@ -17,7 +17,7 @@ export const getOrderByIdController = async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
         const order = await OrderService.getOrderByIdService(id);
-        return successResponse(res, order, "Order retrieved succesully");
+        return successResponse(res, order, "Order retrieved successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to retrieve order", 400);
     }
@@ -25,10 +25,7 @@ export const getOrderByIdController = async (req: Request, res: Response) => {
 
 export const getOrdersByUserIdController = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = Number(req.params.userId);
-        if (req.user!.id !== userId && req.user?.role !== "admin") {
-            return errorResponse(res, null, "Forbidden", 403)
-        }
+        const userId=req.user!.id;
         const orders = await OrderService.getOrdersByUserIdService(userId);
         return successResponse(res, orders, "User orders retrieved successfully");
     } catch (error) {
@@ -38,10 +35,7 @@ export const getOrdersByUserIdController = async (req: AuthRequest, res: Respons
 
 export const getCountByUserIdController = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = Number(req.params.userId);
-        if (req.user!.id !== userId && req.user?.role !== "admin") {
-            return errorResponse(res, null, "Forbidden", 403)
-        }
+        const userId=req.user!.id;
         const count = await OrderService.getCountByUserIdService(userId);
         return successResponse(res, count, "User order count retrieved successfully");
     } catch (error) {
@@ -51,10 +45,7 @@ export const getCountByUserIdController = async (req: AuthRequest, res: Response
 
 export const getTotalAmountByUserIdController = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = Number(req.params.userId);
-        if (req.user!.id !== userId && req.user?.role !== "admin") {
-            return errorResponse(res, null, "Forbidden", 403)
-        }
+        const userId=req.user!.id;
         const totalAmount = await OrderService.getTotalAmountByUserIdService(userId);
         return successResponse(res, totalAmount, "User total order amount retrieved successfully");
     } catch (error) {

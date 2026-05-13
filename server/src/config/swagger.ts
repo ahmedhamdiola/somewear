@@ -11,22 +11,22 @@ const options={
         },
         servers:[
             {
-                url:"http://localhost:${process.env.port!}",
+                url:`http://localhost:${process.env.port!}`,
             }
         ],
         components:{
             securitySchemes:{
-                bearerAuth:{
-                    type:"http",
-                    scheme:"bearer",
-                    bearerFormat:"JWT"
+                cookieAuth:{
+                    type:"apiKey",
+                    in:"cookie",
+                    name:"token"
 
                 }
             }
         },  
         security:[
             {
-                bearerAuth:[]
+                cookieAuth:[]
             }
         ]
     },

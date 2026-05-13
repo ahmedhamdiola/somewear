@@ -49,11 +49,8 @@ export const getUserByIdController = async (
   res: Response,
 ) => {
   try {
-    const id = Number(req.params.id);
-    if (req.user!.id !== id && req.user?.role !== "admin") {
-      return errorResponse(res, null, "Forbidden", 403);
-    }
-    const result = await UserService.getUserByIdService(id);
+    const userId=req.user!.id;
+    const result = await UserService.getUserByIdService(userId);
     return successResponse(res, result, "User retrieved successfully");
   } catch (error) {
     return errorResponse(res, error, "Failed to retrieve user", 400);
@@ -65,11 +62,8 @@ export const updateUserByIdController = async (
   res: Response,
 ) => {
   try {
-    const id = Number(req.params.id);
-    if (req.user!.id !== id && req.user?.role !== "admin") {
-      return errorResponse(res, null, "Forbidden", 403);
-    }
-    const result = await UserService.updateUserByIdService(id, req.body);
+    const userId=req.user!.id;
+    const result = await UserService.updateUserByIdService(userId, req.body);
     return successResponse(res, result, "User updated successfully");
   } catch (error) {
     return errorResponse(res, error, "Failed to update user", 400);

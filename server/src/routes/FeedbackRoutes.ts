@@ -12,7 +12,7 @@ const router = express.Router();
  *     summary: Create feedback for a product
  *     tags: [Feedbacks]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -43,7 +43,7 @@ router.post("/",authMiddleWare,FeedbackController.createFeedbackController);
  *     summary: Get all feedbacks
  *     tags: [Feedbacks]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     responses:
  *       200:
  *         description: Feedbacks retrieved successfully
@@ -58,6 +58,8 @@ router.get("/",authMiddleWare,RoleMiddleware("admin"),FeedbackController.getAllF
  *   get:
  *     summary: Get feedbacks by product ID
  *     tags: [Feedbacks]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: productId
@@ -79,7 +81,7 @@ router.get("/product/:productId",FeedbackController.getFeedbackByProductIdContro
  *     summary: Delete feedback by ID
  *     tags: [Feedbacks]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id

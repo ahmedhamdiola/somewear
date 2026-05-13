@@ -12,7 +12,7 @@ const router = express.Router();
  *     summary: Create a product variant
  *     tags: [Product Variants]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -83,7 +83,7 @@ router.get('/variants/:productId', productVariantController.getProductVariantsBy
  *     summary: Update product variant by ID
  *     tags: [Product Variants]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -116,7 +116,7 @@ router.put('/:id', authMiddleWare,RoleMiddleware("admin"), productVariantControl
  *     summary: Delete product variant by ID
  *     tags: [Product Variants]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id

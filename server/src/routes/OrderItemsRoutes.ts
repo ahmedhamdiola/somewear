@@ -12,7 +12,7 @@ const router =express.Router();
  *     summary: Create a new order item
  *     tags: [Order Items]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -47,7 +47,7 @@ router.post("/",authMiddleware,OrderItemsController.createOrderItemController);
  *     summary: Get order item by ID
  *     tags: [Order Items]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -69,7 +69,7 @@ router.get("/:id",authMiddleware,OrderItemsController.getOrderItemByIdController
  *     summary: Get all order items by order ID
  *     tags: [Order Items]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: orderId
@@ -91,7 +91,7 @@ router.get("/items/:orderId",authMiddleware,OrderItemsController.getOrderItemsBy
  *     summary: Delete order item by ID
  *     tags: [Order Items]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id

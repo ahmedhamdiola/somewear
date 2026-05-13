@@ -11,7 +11,7 @@ const router = express.Router();
  *     summary: Add item to cart
  *     tags: [Cart Items]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -34,12 +34,12 @@ router.post("/", authMiddleware, CartItemsController.createCartItemController);
 
 /**
  * @swagger
- * /cart-items/{userId}:
+ * /cart-items/getCartItems:
  *   get:
  *     summary: Get cart items by user ID
  *     tags: [Cart Items]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: userId
@@ -52,7 +52,7 @@ router.post("/", authMiddleware, CartItemsController.createCartItemController);
  *       403:
  *         description: Forbidden
  */
-router.get("/:userId", authMiddleware, CartItemsController.getCartItemsByUserIdController);
+router.get("/getCartItems", authMiddleware, CartItemsController.getCartItemsByUserIdController);
 
 /**
  * @swagger
@@ -61,7 +61,7 @@ router.get("/:userId", authMiddleware, CartItemsController.getCartItemsByUserIdC
  *     summary: Update cart item quantity
  *     tags: [Cart Items]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -94,7 +94,7 @@ router.patch("/:id", authMiddleware, CartItemsController.updateCartItemQuantityC
  *     summary: Delete cart item by ID
  *     tags: [Cart Items]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -116,7 +116,7 @@ router.delete("/:id", authMiddleware, CartItemsController.deleteCartItemControll
  *     summary: Delete all cart items by user ID
  *     tags: [Cart Items]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: userId

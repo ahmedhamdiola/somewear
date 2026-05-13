@@ -74,7 +74,7 @@ router.post("/login", UserController.loginUserController);
  *     summary: Get all users
  *     tags: [Users]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     responses:
  *       200:
  *         description: All users retrieved successfully
@@ -84,12 +84,12 @@ router.post("/login", UserController.loginUserController);
 router.get("/", authMiddleware, RoleMiddleware("admin"), UserController.getAllUsersController);
 /**
  * @swagger
- * /users/{id}:
+ * /users/getProfile:
  *   get:
  *     summary: Get user by ID
  *     tags: [Users]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -103,16 +103,16 @@ router.get("/", authMiddleware, RoleMiddleware("admin"), UserController.getAllUs
  *         description: User not found
  */
 
-router.get("/:id", authMiddleware, UserController.getUserByIdController);
+router.get("/getProfile", authMiddleware, UserController.getUserByIdController);
 
 /**
  * @swagger
- * /users/{id}:
+ * /users/updateProfile:
  *   put:
  *     summary: Update user by ID
  *     tags: [Users]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -140,7 +140,7 @@ router.get("/:id", authMiddleware, UserController.getUserByIdController);
  *       200:
  *         description: User updated successfully
  */
-router.put("/:id", authMiddleware, UserController.updateUserByIdController);
+router.put("/updateProfile", authMiddleware, UserController.updateUserByIdController);
 /**
  * @swagger
  * /users/{id}:
@@ -148,7 +148,7 @@ router.put("/:id", authMiddleware, UserController.updateUserByIdController);
  *     summary: Delete user by ID
  *     tags: [Users]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id

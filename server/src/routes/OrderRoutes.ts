@@ -13,7 +13,7 @@ const router = express.Router();
  *     summary: Create a new order
  *     tags: [Orders]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -50,7 +50,7 @@ router.post("/", authMiddleware, OrderController.createOrderController);
  *     summary: Get order by ID
  *     tags: [Orders]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -72,12 +72,12 @@ router.get(
 
 /**
  * @swagger
- * /orders/order/{userId}:
+ * /orders/myOrders:
  *   get:
  *     summary: Get orders by user ID
  *     tags: [Orders]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: userId
@@ -89,19 +89,19 @@ router.get(
  *         description: User orders retrieved successfully
  */
 router.get(
-  "/order/:userId",
+  "/myOrders",
   authMiddleware,
   OrderController.getOrdersByUserIdController,
 );
 
 /**
  * @swagger
- * /orders/count/{userId}:
+ * /orders/myCounts:
  *   get:
  *     summary: Get order count by user ID
  *     tags: [Orders]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: userId
@@ -116,7 +116,7 @@ router.get(
  *      
  */
 router.get(
-  "/count/:userId",
+  "/myCounts",
   authMiddleware,
   OrderController.getCountByUserIdController,
 );
@@ -124,12 +124,12 @@ router.get(
 
 /**
  * @swagger
- * /orders/total/{userId}:
+ * /orders/myTotalAmount:
  *   get:
  *     summary: Get total order amount by user ID
  *     tags: [Orders]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: userId
@@ -144,7 +144,7 @@ router.get(
  * 
  */
 router.get(
-  "/total/:userId",
+  "/myTotalAmount",
   authMiddleware,
   OrderController.getTotalAmountByUserIdController,
 );
@@ -155,7 +155,7 @@ router.get(
  *     summary: Get all orders
  *     tags: [Orders]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     responses:
  *       200:
  *         description: All orders retrieved successfully
@@ -176,7 +176,7 @@ router.get(
  *     summary: Cancel an order
  *     tags: [Orders]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -202,7 +202,7 @@ router.patch(
  *     summary: Update order status
  *     tags: [Orders]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -241,7 +241,7 @@ router.patch(
  *     summary: Delete order by ID
  *     tags: [Orders]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -268,7 +268,7 @@ router.delete(
  *     summary: Checkout cart and create order
  *     tags: [Orders]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
