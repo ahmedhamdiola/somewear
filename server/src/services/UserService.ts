@@ -103,9 +103,8 @@ export const getAllUsersService = () => {
     return UserRepository.getAllUsers();
 }
 
-export const logoutService=()=>{
-    return{message:"Logged out successfully"}
-}
+
+
 
 export default {
     registerUserService,
@@ -114,5 +113,4 @@ export default {
     updateUserByIdService,
     deleteUserByIdService,
     getAllUsersService,
-    logoutService
 };

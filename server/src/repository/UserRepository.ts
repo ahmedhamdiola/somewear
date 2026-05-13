@@ -66,6 +66,8 @@ export const getAllUsers = (): Omit<UserInterface, "password">[] => {
 };
 
 
+
+
 export default {
     createUser,
     getUserByEmail,

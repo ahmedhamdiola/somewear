@@ -164,5 +164,6 @@ router.put("/updateProfile", authMiddleware, UserController.updateUserByIdContro
 
 router.delete("/:id", authMiddleware, RoleMiddleware("admin"), UserController.deleteUserByIdController);
 
+router.get("/checkAdmin", authMiddleware, UserController.checkAdminController);
 
 export default router;

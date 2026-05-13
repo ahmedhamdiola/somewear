@@ -98,6 +98,17 @@ export const getAllUsersController = async (
   }
 };
 
+export const checkAdminController = async (req: AuthRequest, res: Response) => {
+  try {   
+      if (req.user?.role === "admin") {
+      return successResponse(res, { isAdmin: true }, "User is admin");
+    }
+    return successResponse(res, { isAdmin: false }, "User is not admin");
+  } catch (error) {   
+     return errorResponse(res, error, "Failed to check admin status", 400);
+  }
+};
+
 export default {
   registerUserController,
   loginUserController,
@@ -105,4 +116,5 @@ export default {
   updateUserByIdController,
   deleteUserByIdController,
   getAllUsersController,
+  checkAdminController
 };
