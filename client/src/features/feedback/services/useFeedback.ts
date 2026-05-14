@@ -29,7 +29,6 @@ export const useFeedback = (productId: number) => {
 
     const addReview = async (data: {
         name: string
-        userId: number
         productId: number
         comment: string
         rating: number

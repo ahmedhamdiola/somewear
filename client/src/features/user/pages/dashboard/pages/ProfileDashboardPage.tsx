@@ -5,30 +5,14 @@ import ProfileDashboardCard from "../components/ProfileDashboardCard"
 import { Badge } from "../../../../../components/ui/badge"
 import { getStatusStyle } from "../../order/utils"
 import { useUsers } from "../../../hooks/useUsers"
-
-
-const orders = [
-    {
-        id: "#1001",
-        status: "Delivered",
-    },
-    {
-        id: "#1002",
-        status: "Pending",
-    },
-    {
-        id: "#1003",
-        status: "Cancelled",
-    }
-]
-
+import type { OrderInterface } from "../../../../common/services/interfaces"
 
 
 interface Props {
     navigateDashboard: (option: string) => void
 }
 const ProfileDashboardPage = ({ navigateDashboard }: Props) => {
-    const { user, loading, error, count, totalAmount } = useUsers()
+    const { user, loading, error, count, totalAmount, lastOrders } = useUsers()
     return (
         <div className="w-full max-w-5xl space-y-6 mt-5 animate-[fadeInUp_0.8s_ease-out_forwards]">
             {loading && <p>Loading...</p>}
@@ -56,10 +40,10 @@ const ProfileDashboardPage = ({ navigateDashboard }: Props) => {
                     <CardTitle>Last Orders</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                    {orders.map((order) => {
+                    {lastOrders.map((order: OrderInterface) => {
                         return (
                             <div className="flex justify-between border-b pb-2">
-                                <span>{order.id}</span>
+                                <span># {order.id}</span>
                                 <Badge className={getStatusStyle(order.status)}>{order.status}</Badge>
                             </div>
                         )

@@ -14,7 +14,6 @@ export const getFeedbackByProduct = async (productId: number) => {
 // CREATE feedback
 export const createFeedback = async (data: {
     name: string
-    userId: number
     productId: number
     comment: string
     rating: number

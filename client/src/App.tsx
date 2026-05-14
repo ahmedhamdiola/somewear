@@ -20,6 +20,7 @@ import AdminHomePage from "./features/admin/pages/AdminHomePage";
 import AdminContactUs from "./features/admin/pages/AdminContactUs";
 import ContactUsPage from './features/common/pages/ContactUsPage'
 import CheckoutPage from './features/checkout/pages/CheckoutPage'
+import UserGuard from './services/UserGuard'
 
 function App() {
 
@@ -29,16 +30,28 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route path='/' element={<LandingPage />} />
-          <Route path='/cart' element={<CartPage />} />
+          <Route path='/cart' element={
+            <UserGuard>
+              <CartPage />
+            </UserGuard>
+          } />
+          <Route path='/profile' element={
+            <UserGuard>
+              <ProfilePage />
+            </UserGuard>
+          } />
           <Route path='/products' element={<HomePage />} />
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/contact' element={<ContactUsPage />} />
           <Route path='/login' element={<LoginPage />} />
-          <Route path='/profile' element={<ProfilePage />} />
           <Route path='/products/:id' element={<ProductPage />} />
           <Route path='/:main/:sub' element={<CategoryPage />} />
-          <Route path='/checkout' element={<CheckoutPage />} />
+          <Route path='/checkout' element={
+            <UserGuard>
+              <CheckoutPage />
+            </UserGuard>
+          } />
           <Route path="/admin" element={<AdminGuard />}>
             <Route element={<AdminLayout />}>
               <Route index element={<AdminHomePage />} />

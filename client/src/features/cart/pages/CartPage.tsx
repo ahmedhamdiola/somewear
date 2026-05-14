@@ -50,7 +50,7 @@ const CartPage = () => {
                                 <CartSummary
                                     subtotal={subtotal}
                                     savings={0}
-                                    shipping={5}
+                                    shipping={20}
                                     onClick={() => navigate("/checkout")}
                                 />
                             </div>

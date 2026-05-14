@@ -165,11 +165,14 @@ router.put("/updateProfile", authMiddleware, UserController.updateUserByIdContro
 router.delete("/:id", authMiddleware, RoleMiddleware("admin"), UserController.deleteUserByIdController);
 
 router.get("/checkAdmin", authMiddleware, UserController.checkAdminController);
+
+router.get("/checkLoggedIn", authMiddleware, UserController.checkLoggedInController);
+
 ////////////////////// by bassam ????????????
 router.post("/logout", (req, res) => {
   res.clearCookie("token", { httpOnly: true, sameSite: "lax" });
   res.status(200).json({ message: "Logged out successfully" });
-}); 
+});
 
-  
+
 export default router;

@@ -1,14 +1,14 @@
 import axios from "axios";
 
 export type Order = {
-  id:string;
-  customerName:string;
+  id: string;
+  customerName: string;
   email: string;
-  phone:string
+  phone: string
   date: string
   address: string
   total: number
-  status: "pending" |"delivered" |"cancelled";
+  status: "pending" | "delivered" | "cancelled";
 };
 
 export type OrderItem = {
@@ -21,7 +21,7 @@ export type OrderItem = {
   price: number;
 };
 
-const API_URL ="http://localhost:3000";
+const API_URL = "http://localhost:3000";
 const config = { withCredentials: true };
 
 // GET all orders

@@ -8,7 +8,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /orders:
+ * /order:
  *   post:
  *     summary: Create a new order
  *     tags: [Orders]
@@ -43,36 +43,10 @@ const router = express.Router();
  */
 router.post("/", authMiddleware, OrderController.createOrderController);
 
-/**
- * @swagger
- * /orders/{id}:
- *   get:
- *     summary: Get order by ID
- *     tags: [Orders]
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Order retrieved successfully
- *       403:
- *         description: Forbidden
- */
-router.get(
-  "/:id",
-  authMiddleware,
-  RoleMiddleware("admin"),
-  OrderController.getOrderByIdController,
-);
 
 /**
  * @swagger
- * /orders/myOrders:
+ * /order/myOrders:
  *   get:
  *     summary: Get orders by user ID
  *     tags: [Orders]
@@ -96,7 +70,7 @@ router.get(
 
 /**
  * @swagger
- * /orders/myCounts:
+ * /order/myCounts:
  *   get:
  *     summary: Get order count by user ID
  *     tags: [Orders]
@@ -124,7 +98,7 @@ router.get(
 
 /**
  * @swagger
- * /orders/myTotalAmount:
+ * /order/myTotalAmount:
  *   get:
  *     summary: Get total order amount by user ID
  *     tags: [Orders]
@@ -151,7 +125,7 @@ router.get(
 
 /**
  * @swagger
- * /orders/myLastOrders:
+ * /order/myLastOrders:
  *   get:
  *     summary: Get last 3 orders by user ID
  *     tags: [Orders]
@@ -173,9 +147,10 @@ router.get(
   OrderController.getLastOrdersByUserIdController,
 );
 
+
 /**
  * @swagger
- * /orders:
+ * /order:
  *   get:
  *     summary: Get all orders
  *     tags: [Orders]
@@ -193,10 +168,36 @@ router.get(
   RoleMiddleware("admin"),
   OrderController.getAllOrdersController,
 );
+/**
+ * @swagger
+ * /order/{id}:
+ *   get:
+ *     summary: Get order by ID
+ *     tags: [Orders]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Order retrieved successfully
+ *       403:
+ *         description: Forbidden
+*/
+router.get(
+  "/:id",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  OrderController.getOrderByIdController,
+);
 
 /**
  * @swagger
- * /orders/cancel/{id}:
+ * /order/cancel/{id}:
  *   patch:
  *     summary: Cancel an order
  *     tags: [Orders]
@@ -222,7 +223,7 @@ router.patch(
 
 /**
  * @swagger
- * /orders/status/{id}:
+ * /order/status/{id}:
  *   patch:
  *     summary: Update order status
  *     tags: [Orders]
@@ -261,7 +262,7 @@ router.patch(
 
 /**
  * @swagger
- * /orders/{id}:
+ * /order/{id}:
  *   delete:
  *     summary: Delete order by ID
  *     tags: [Orders]
@@ -288,7 +289,7 @@ router.delete(
 
 /**
  * @swagger
- * /orders/checkout:
+ * /order/checkout:
  *   post:
  *     summary: Checkout cart and create order
  *     tags: [Orders]

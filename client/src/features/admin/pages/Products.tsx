@@ -131,7 +131,7 @@ export const Products = () => {
       toast.success("Deleted successfully!");
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.message || "Error deleting product");
+      toast.error("Error deleting product");
       const fresh = await getProducts();
       setProducts(fresh);
     }

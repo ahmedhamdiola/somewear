@@ -6,6 +6,7 @@ import ProfileDashboardPage from "./dashboard/pages/ProfileDashboardPage";
 import ProfileOrdersPage from "./order/pages/ProfileOrdersPage";
 import ProfileSettingsPage from "./settings/pages/ProfileSettingsPage";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../services/usersAPI";
 
 const ProfilePage = () => {
     const [page, setPage] = useState("Dashboard");
@@ -13,8 +14,7 @@ const ProfilePage = () => {
     useEffect(() => {
         if (page === "Log Out") {
             navigate("/login");
-            localStorage.removeItem("token")
-            localStorage.removeItem("user")
+            logout()
         }
     }, [page, navigate]);
     return (

@@ -14,12 +14,13 @@ import { useVariants } from "../hooks/useVariants"
 import type { Variant } from "../utils";
 import { useCart } from "../../cart/hooks/useCart";
 import SizeGuide from "../components/SizeGuide";
+import { LoginChecker } from "../../../services/loginChecker";
 
 const ProductPage = () => {
     const [size, setSize] = useState("")
     const { id } = useParams();
     const { product, loading, error } = useProduct(id);
-    const { variants }: { variants: Variant[] } = useVariants(id) 
+    const { variants }: { variants: Variant[] } = useVariants(id)
     const { cart, refetch } = useCart();
     if (!product) return <NotFoundPage />
     const getStock = (size: string) => {
@@ -89,6 +90,10 @@ const ProductPage = () => {
                             disabled={!size || isInCart(size)}
                             onClick={async () => {
                                 if (!size) return
+                                if (!(await (LoginChecker()))) {
+                                    toast.error("You have to be logged in to add items to cart")
+                                    return;
+                                }
                                 await addToCart({
                                     productId: product?.id.toString() || "",
                                     size,

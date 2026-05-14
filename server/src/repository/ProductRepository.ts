@@ -18,6 +18,7 @@ export const createProduct = (product: ProductInterface): ProductInterface => {
     product.subcategory,
     product.createdAt || new Date().toISOString(),
     product.soldAmount || 0,
+    product.isDeleted || 0
   );
   return {
     id: Number(result.lastInsertRowid),
@@ -42,11 +43,11 @@ export const getAllProducts = (
   limit?: number,
 ): ProductInterface[] => {
 
-  let query = "SELECT * FROM products";
+  let query = "SELECT * FROM products WHERE isDeleted = 0";
   const params: (string | number)[] = [];
 
   if (category && subcategory) {
-    query += " WHERE LOWER(TRIM(category)) = ? AND LOWER(TRIM(subcategory)) = ?";
+    query += " AND LOWER(TRIM(category)) = ? AND LOWER(TRIM(subcategory)) = ?";
     params.push(category, subcategory);
   }
 
@@ -74,7 +75,7 @@ export const getCategoriesAndSubcategories = (): {
 //get featured products
 export const getFeaturedProducts = (): ProductInterface[] => {
   const Feature = db.prepare<string[], ProductInterface>(
-    "SELECT * FROM products ORDER BY createdAt DESC LIMIT 5",
+    "SELECT * FROM products WHERE isDeleted = 0 ORDER BY createdAt DESC LIMIT 5",
   );
   return Feature.all();
 };
@@ -82,7 +83,7 @@ export const getFeaturedProducts = (): ProductInterface[] => {
 //get best sellers products
 export const getBestSellersProducts = (): ProductInterface[] => {
   const BestSellers = db.prepare<string[], ProductInterface>(
-    "SELECT * FROM products ORDER BY soldAmount DESC LIMIT 5",
+    "SELECT * FROM products WHERE isDeleted = 0 ORDER BY soldAmount DESC LIMIT 5",
   );
   return BestSellers.all();
 };
@@ -125,7 +126,9 @@ export const updateProduct = (
 //delete product
 export const deleteProduct = (id: number): boolean => {
   const stmt = db.prepare<[number], { changes: number }>(`
-    DELETE FROM products WHERE id = ?
+    UPDATE products
+    SET isDeleted = 1
+    WHERE id = ?
   `);
 
   const res = stmt.run(id);

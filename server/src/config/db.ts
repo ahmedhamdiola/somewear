@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS products (
     category TEXT NOT NULL,
     subcategory TEXT NOT NULL,
     createdAt TEXT NOT NULL DEFAULT (datetime('now')),
-    soldAmount INTEGER NOT NULL DEFAULT 0
-
+    soldAmount INTEGER NOT NULL DEFAULT 0,
+    isDeleted INTEGER NOT NULL DEFAULT 0 
 );
 `,
 ).run();

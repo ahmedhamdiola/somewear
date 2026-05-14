@@ -30,7 +30,7 @@ export const loginUserController = async (req: Request, res: Response) => {
     const result = await UserService.loginUserService(email, password);
     res.cookie("token", result.token, {
       httpOnly: true,
-      secure:  process.env.NODE_ENV === "production", // Set to true in production with HTTPS
+      secure: process.env.NODE_ENV === "production", // Set to true in production with HTTPS
       sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
@@ -49,7 +49,7 @@ export const getUserByIdController = async (
   res: Response,
 ) => {
   try {
-    const userId=req.user!.id;
+    const userId = req.user!.id;
     const result = await UserService.getUserByIdService(userId);
     return successResponse(res, result, "User retrieved successfully");
   } catch (error) {
@@ -62,7 +62,7 @@ export const updateUserByIdController = async (
   res: Response,
 ) => {
   try {
-    const userId=req.user!.id;
+    const userId = req.user!.id;
     const result = await UserService.updateUserByIdService(userId, req.body);
     return successResponse(res, result, "User updated successfully");
   } catch (error) {
@@ -99,13 +99,24 @@ export const getAllUsersController = async (
 };
 
 export const checkAdminController = async (req: AuthRequest, res: Response) => {
-  try {   
-      if (req.user?.role === "admin") {
+  try {
+    if (req.user?.role === "admin") {
       return successResponse(res, { isAdmin: true }, "User is admin");
     }
     return successResponse(res, { isAdmin: false }, "User is not admin");
-  } catch (error) {   
-     return errorResponse(res, error, "Failed to check admin status", 400);
+  } catch (error) {
+    return errorResponse(res, error, "Failed to check admin status", 400);
+  }
+};
+
+export const checkLoggedInController = async (req: AuthRequest, res: Response) => {
+  try {
+    if (req.user?.id !== undefined) {
+      return successResponse(res, { isLoggedIn: true }, "User is authorized");
+    }
+    return successResponse(res, { isLoggedIn: false }, "User is not authorized");
+  } catch (error) {
+    return errorResponse(res, error, "Failed to check authorization status", 400);
   }
 };
 
@@ -116,5 +127,6 @@ export default {
   updateUserByIdController,
   deleteUserByIdController,
   getAllUsersController,
-  checkAdminController
+  checkAdminController,
+  checkLoggedInController
 };

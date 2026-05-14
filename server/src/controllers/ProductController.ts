@@ -21,7 +21,7 @@ export const createProductController = async (req: Request, res: Response) => {
     }
 };
 
-export const getProductByIdController = async(req: Request, res: Response) => {
+export const getProductByIdController = async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
         const product = await ProductService.getProductByIdService(id);
@@ -37,17 +37,18 @@ export const getProductByIdController = async(req: Request, res: Response) => {
 
 export const getAllProductsController = async (req: Request, res: Response) => {
     try {
-        const { category, subcategory,page,limit } = req.query;
-//   const products = ProductService.getAllProductsService(category as string | undefined, subcategory as string | undefined,Number(page)||1,Number(limit)||10);
+        const { category, subcategory, page, limit } = req.query;
+        //   const products = ProductService.getAllProductsService(category as string | undefined, subcategory as string | undefined,Number(page)||1,Number(limit)||10);
         const parsedLimit = limit !== undefined ? Number(limit) : undefined;
         const products = ProductService.getAllProductsService(
             category as string | undefined,
             subcategory as string | undefined,
             Number(page) || 1,
             parsedLimit,
+
         );
 
-      //  const products = await ProductService.getAllProductsService(category as string | undefined, subcategory as string | undefined,Number(page)||1,Number(limit)||10);
+        //  const products = await ProductService.getAllProductsService(category as string | undefined, subcategory as string | undefined,Number(page)||1,Number(limit)||10);
         return successResponse(res, products, "Products retrieved successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to retrieve products", 400);
@@ -89,10 +90,10 @@ export const updateProductController = async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
 
-        
-        const existing =await ProductService.getProductByIdService(id)
-        if(!existing){
-            return errorResponse(res,null,"Product not found",404)
+
+        const existing = await ProductService.getProductByIdService(id)
+        if (!existing) {
+            return errorResponse(res, null, "Product not found", 404)
         }
         let imageUrl = existing.imageUrl
         let imageId = existing.imageId
@@ -109,7 +110,7 @@ export const updateProductController = async (req: Request, res: Response) => {
             imageId = result.public_id
         }
 
-        const product = await ProductService.updateProductService(id,{... req.body,imageUrl,imageId});
+        const product = await ProductService.updateProductService(id, { ...req.body, imageUrl, imageId });
         return successResponse(res, product, "Product updated successfully");
     } catch (error) {
         return errorResponse(res, error, "Failed to update product", 400);
@@ -119,16 +120,10 @@ export const updateProductController = async (req: Request, res: Response) => {
 export const deleteProductController = async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
-        const existing =await ProductService.getProductByIdService(id)
-        if(!existing){
-            return errorResponse(res,null,"Product not found",404)
+        const existing = await ProductService.getProductByIdService(id)
+        if (!existing) {
+            return errorResponse(res, null, "Product not found", 404)
         }
-        //del(cloud)
-        if (existing.imageId) {
-            await cloudinary.uploader.destroy(existing.imageId)
-
-        }
-
         const result = await ProductService.deleteProductService(id);
         return successResponse(res, result, "Product deleted successfully");
     } catch (error) {

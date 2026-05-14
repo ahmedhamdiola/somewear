@@ -4,9 +4,10 @@ import { successResponse, errorResponse } from '../utils/response';
 import { AuthRequest } from '../middleware/AuthMiddleWare';
 import ProductRepository from '../repository/ProductRepository';
 
-export const createFeedbackController = async (req: Request, res: Response) => {
+export const createFeedbackController = async (req: AuthRequest, res: Response) => {
+    const userId = req.user!.id;
     try {
-        const feedback = await FeedbackService.createFeedbackService(req.body)
+        const feedback = await FeedbackService.createFeedbackService({ userId, ...req.body })
         return successResponse(res, feedback, "Feedback created successfully", 201)
     } catch (error) {
         return errorResponse(res, error, "Failed to create feedback", 400)

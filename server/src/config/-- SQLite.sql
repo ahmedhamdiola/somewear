@@ -1,2 +1,2 @@
-ALTER TABLE feedback
-RENAME COLUMN feedback TO comment;
+ALTER TABLE products
+ADD COLUMN isDeleted INTEGER NOT NULL DEFAULT 0;

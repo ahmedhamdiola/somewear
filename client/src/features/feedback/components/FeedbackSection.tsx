@@ -10,6 +10,9 @@ import { Star } from "lucide-react"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useFeedback } from "../services/useFeedback"
+import { toast } from "react-toastify"
+import { LoginChecker } from "../../../services/loginChecker";
+
 const FeedbackSection = () => {
     const { id } = useParams()
     const productId = Number(id)
@@ -20,17 +23,22 @@ const FeedbackSection = () => {
     const [comment, setComment] = useState("")
     const [rating, setRating] = useState("5")
 
+
+
+
+
     const handleSubmit = async () => {
         if (!name.trim() || !comment.trim()) return
-
-        const userId = Number(localStorage.getItem("userId") || 0)
+        if (!(await (LoginChecker()))) {
+            toast.error("You must be logged in to submit feedback")
+            return
+        }
 
         await addReview({
             name,
             rating: Number(rating),
             comment,
-            userId,
-            productId
+            productId,
         })
 
         setName("")

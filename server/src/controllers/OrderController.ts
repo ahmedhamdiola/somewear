@@ -46,7 +46,6 @@ export const getCountByUserIdController = async (req: AuthRequest, res: Response
 export const getTotalAmountByUserIdController = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user!.id;
-        console.log(userId)
         const totalAmount = await OrderService.getTotalAmountByUserIdService(userId);
         return successResponse(res, totalAmount, "User total order amount retrieved successfully");
     } catch (error) {
@@ -78,7 +77,7 @@ export const cancelOrderController = async (req: AuthRequest, res: Response) => 
         const orderId = Number(req.params.id);
         const existingOrder = await OrderService.getOrderByIdService(orderId)
 
-        if (existingOrder?.userId !== req.user?.id && req.user?.role !== "admin") {
+        if (existingOrder?.userId !== req.user?.id) {
             return errorResponse(res, null, "Forbidden", 403)
         }
 
