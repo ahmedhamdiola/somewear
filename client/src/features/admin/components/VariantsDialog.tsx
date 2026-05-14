@@ -17,6 +17,12 @@ import {
 
 const SIZES = ["S", "M", "L", "XL", "XXL"];
 
+type VariantEntry = {
+  id?: number;
+  stock: number;
+  inputStock: number;
+};
+
 interface Props {
   productId: number | null;
   productName: string;
@@ -24,10 +30,7 @@ interface Props {
 }
 
 const VariantsDialog = ({ productId, productName, onClose }: Props) => {
-  // map: size → { id?, stock }
-  const [variantMap, setVariantMap] = useState<
-    Record<string, { id?: number; stock: number; inputStock: number }>
-  >({});
+  const [variantMap, setVariantMap] = useState<Record<string, VariantEntry>>({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -42,7 +45,7 @@ const VariantsDialog = ({ productId, productName, onClose }: Props) => {
           map[s] = found
             ? { id: found.id, stock: found.stock, inputStock: found.stock }
             : { stock: 0, inputStock: 0 };
-        });
+        }); 
         setVariantMap(map);
       } catch {
         toast.error("Failed to load variants");
