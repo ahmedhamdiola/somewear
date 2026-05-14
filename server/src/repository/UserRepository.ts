@@ -31,6 +31,17 @@ export const getUserById = (id: number): UserInterface | null => {
     return user || null;
 };
 
+
+//get total users
+export const getUsersCount = () => {
+    const users = db.prepare(
+        `SELECT COUNT(id) FROM users;`
+    )
+    const result = users.get()
+    return result
+}
+
+
 //update user by id
 export const updateUserById = (id: number, user: Partial<UserInterface>): UserInterface | null => {
     const existingUser = getUserById(id);
@@ -67,11 +78,11 @@ export const getAllUsers = (): Omit<UserInterface, "password">[] => {
 
 
 
-
 export default {
     createUser,
     getUserByEmail,
     getUserById,
+    getUsersCount,
     updateUserById,
     deleteUserById,
     getAllUsers

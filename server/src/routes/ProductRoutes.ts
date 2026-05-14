@@ -102,6 +102,25 @@ router.get("/", productcontroller.getAllProductsController);
 
 /**
  * @swagger
+ * /products/productsCount:
+ *   get:
+ *     summary: Get total number of products
+ *     tags: [Products]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Total products count retrieved successfully
+ */
+router.get(
+  "/productsCount",
+  authMiddleWare,
+  RoleMiddleware("admin"),
+  productcontroller.getProductsCountController,
+);
+
+/**
+ * @swagger
  * /products/category:
  *   get:
  *     summary: Get categories and subcategories

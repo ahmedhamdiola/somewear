@@ -66,6 +66,10 @@ export const getUserByIdService = (id: number) => {
     return safeUser;
 }
 
+export const getUsersCountService = () => {
+    return UserRepository.getUsersCount();
+}
+
 export const updateUserByIdService = async (id: number, user: Partial<UserInterface>) => {
     if (id <= 0 || !id) {
         throw new Error("Invalid user ID");
@@ -105,12 +109,13 @@ export const getAllUsersService = () => {
 
 
 
-
 export default {
     registerUserService,
     loginUserService,
     getUserByIdService,
+    getUsersCountService,
     updateUserByIdService,
     deleteUserByIdService,
     getAllUsersService,
+    
 };

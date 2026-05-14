@@ -56,6 +56,16 @@ export const getAllProductsController = async (req: Request, res: Response) => {
     }
 };
 
+export const getProductsCountController = async (req: Request, res: Response) => {
+    try {
+        const count = await ProductService.getProductsCountService();
+        return successResponse(res, count, "Products count retrieved successfully");
+    } catch (error) {
+        return errorResponse(res, error, "Failed to retrieve products count", 400);
+    }
+};
+
+
 export const getCategoriesAndSubcategoriesController = async (req: Request, res: Response) => {
     try {
         const categoriesAndSubcategories = await ProductService.getCategoriesAndSubcategoriesService();
@@ -135,6 +145,7 @@ export default {
     createProductController,
     getProductByIdController,
     getAllProductsController,
+    getProductsCountController,
     getCategoriesAndSubcategoriesController,
     getFeaturedProductsController,
     getBestSellersProductsController,

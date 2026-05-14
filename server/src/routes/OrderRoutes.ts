@@ -85,7 +85,7 @@ router.get(
  *     responses:
  *       200:
  *         description: User order count retrieved successfully
- *      403:
+ *       403:
  *         description: Forbidden
  *      
  */
@@ -96,32 +96,6 @@ router.get(
 );
 
 
-/**
- * @swagger
- * /order/myTotalAmount:
- *   get:
- *     summary: Get total order amount by user ID
- *     tags: [Orders]
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: userId
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: User total order amount retrieved successfully
- *       403:
- *         description: Forbidden
- * 
- */
-router.get(
-  "/myTotalAmount",
-  authMiddleware,
-  OrderController.getTotalAmountByUserIdController,
-);
 
 /**
  * @swagger
@@ -150,7 +124,55 @@ router.get(
 
 /**
  * @swagger
- * /order:
+ * /order/totalAmount:
+ *   get:
+ *     summary: Get total order amount by user ID
+ *     tags: [Orders]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User total order amount retrieved successfully
+ *       403:
+ *         description: Forbidden
+ * 
+ */
+router.get(
+  "/totalAmount",
+  authMiddleware,
+  OrderController.getTotalAmountByUserIdController,
+);
+
+
+/**
+ * @swagger
+ * /order/topCity:
+ *   get:
+ *     summary: Get top city by order count
+ *     tags: [Orders]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Top city retrieved successfully
+ */
+router.get(
+  "/topCity",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  OrderController.getTopCityController,
+);
+
+
+/**
+ * @swagger
+ * /orders:
  *   get:
  *     summary: Get all orders
  *     tags: [Orders]

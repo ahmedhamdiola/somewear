@@ -61,6 +61,17 @@ export const getAllProducts = (
   return stmt.all(...params);
 };
 
+
+//get total products count
+export const getProductsCount = () => {
+    const products = db.prepare(
+        `SELECT COUNT(id) FROM products;`
+    )
+    const result = products.get()
+    return result
+}
+
+
 //get category and subcategory
 export const getCategoriesAndSubcategories = (): {
   category: string;
@@ -142,6 +153,7 @@ export default {
   createProduct,
   getProductById,
   getAllProducts,
+  getProductsCount,
   getCategoriesAndSubcategories,
   getFeaturedProducts,
   getBestSellersProducts,

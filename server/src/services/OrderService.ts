@@ -67,6 +67,19 @@ export const getLastOrdersByUserIdService = (userId: number): OrderInterface[] =
     return OrderRepository.getLastOrdersByUserId(userId);
 }
 
+export const getTotalAmountService = () => {
+     return OrderRepository.getTotalAmount();
+   
+}
+
+export const getTopCityService = () => {
+    const res=   OrderRepository.getTopCity();
+    if(!res){
+        throw new Error("No order found");
+    }
+    return res;
+
+};
 
 export const getAllOrdersService = (): OrderInterface[] => {
     return OrderRepository.getAllOrders();
@@ -208,6 +221,8 @@ export default {
     getCountByUserIdService,
     getTotalAmountByUserIdService,
     getLastOrdersByUserIdService,
+    getTotalAmountService,
+    getTopCityService,
     getAllOrdersService,
     cancelOrderService,
     updateOrderStatusService,

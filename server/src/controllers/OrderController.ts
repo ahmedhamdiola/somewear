@@ -63,6 +63,26 @@ export const getLastOrdersByUserIdController = async (req: AuthRequest, res: Res
     }
 };
 
+
+export const getTotalAmountController = async (req: Request, res: Response) => {
+    try {
+        const totalAmount = await OrderService.getTotalAmountService();
+        return successResponse(res, totalAmount, "Total order amount retrieved successfully");
+    } catch (error) {
+        return errorResponse(res, error, "Failed to get total order amount", 400);
+    }
+};
+
+
+export const getTopCityController = async (req: Request, res: Response) => {
+    try {
+        const topCity = await OrderService.getTopCityService();
+        return successResponse(res, topCity, "Top city retrieved successfully");
+    } catch (error) {
+        return errorResponse(res, error, "Failed to get top city", 400);
+    }
+};
+
 export const getAllOrdersController = async (req: Request, res: Response) => {
     try {
         const orders = await OrderService.getAllOrdersService();
@@ -134,6 +154,8 @@ export default {
     getCountByUserIdController,
     getTotalAmountByUserIdController,
     getLastOrdersByUserIdController,
+    getTotalAmountController,
+    getTopCityController,
     getAllOrdersController,
     cancelOrderController,
     updateOrderStatusController,

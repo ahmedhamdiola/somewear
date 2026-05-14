@@ -57,6 +57,15 @@ export const getUserByIdController = async (
   }
 };
 
+export const getUsersCountController = async (req: AuthRequest, res: Response) => {
+    try {
+        const count = await UserService.getUsersCountService(); 
+        return successResponse(res, count, "Users count retrieved successfully");
+    } catch (error) {
+        return errorResponse(res, error, "Failed to retrieve users count", 400);
+     }
+};
+
 export const updateUserByIdController = async (
   req: AuthRequest,
   res: Response,
@@ -120,10 +129,13 @@ export const checkLoggedInController = async (req: AuthRequest, res: Response) =
   }
 };
 
+
+
 export default {
   registerUserController,
   loginUserController,
   getUserByIdController,
+  getUsersCountController,
   updateUserByIdController,
   deleteUserByIdController,
   getAllUsersController,

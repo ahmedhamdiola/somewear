@@ -54,6 +54,14 @@ export const getCountByUserId = (userId: number) => {
     return result
 }
 
+//total orders
+export const getTotalAmount = () => {
+    const total = db.prepare(
+        `SELECT COUNT(id) FROM orders;`
+    )
+    const result = total.get()
+    return result
+}
 
 //total amount of orders by user id
 export const getTotalAmountByUserId = (userId: number) => {
@@ -64,7 +72,7 @@ export const getTotalAmountByUserId = (userId: number) => {
     return result
 }
 
-//get last orders with limit 3 by user id
+//get last orders 
 export const getLastOrdersByUserId = (userId: number): OrderInterface [] => {
     const res = db.prepare<[number], OrderInterface>(`    
     SELECT id,status FROM orders WHERE userId = ? ORDER BY createdAt DESC LIMIT 3
@@ -72,6 +80,20 @@ export const getLastOrdersByUserId = (userId: number): OrderInterface [] => {
     const orderData = res.all(userId);  
     return orderData || null;
 }
+
+//get the most city that the users ordered from it
+export const getTopCity = () =>  {
+    const res = db.prepare(`
+    SELECT city, SUM(totalPrice) AS total_revenue
+    FROM orders
+    GROUP BY city
+    ORDER BY total_revenue DESC
+    LIMIT 1;
+    `);
+    const cityData = res.get();
+    return cityData || null;
+};
+
 
 //get all orders
 export const getAllOrders = (): OrderInterface[] => {
@@ -145,6 +167,8 @@ export default {
     getCountByUserId,
     getTotalAmountByUserId,
     getLastOrdersByUserId,
+    getTotalAmount,
+    getTopCity,
     getAllOrders,
     cancelOrderByOrderId,
     updateOrderStatus,

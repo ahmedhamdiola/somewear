@@ -89,6 +89,10 @@ export const getAllProductsService = (
 //     return ProductRepository.getAllProducts(category, subcategory,page,limit);
 // }
 
+export const getProductsCountService = () => {
+    return ProductRepository.getProductsCount();
+}
+
 export const getCategoriesAndSubcategoriesService = (): { category: string, subcategory: string }[] => {
     return ProductRepository.getCategoriesAndSubcategories();
 }
@@ -147,6 +151,7 @@ export default {
     createProductService,
     getProductByIdService,
     getAllProductsService,
+    getProductsCountService,
     getCategoriesAndSubcategoriesService,
     getFeaturedProductService,
     getBestSellersProductService,

@@ -107,6 +107,23 @@ router.get("/getProfile", authMiddleware, UserController.getUserByIdController);
 
 /**
  * @swagger
+ * /users/totalAmount:
+ *   get:
+ *     summary: Get total users count
+ *     tags: [Users]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Total users count retrieved successfully
+ */
+router.get("/count", 
+authMiddleware, 
+RoleMiddleware("admin"), 
+UserController.getUsersCountController);
+
+/**
+ * @swagger
  * /users/updateProfile:
  *   put:
  *     summary: Update user by ID
