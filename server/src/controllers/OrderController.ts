@@ -73,6 +73,14 @@ export const getTotalAmountController = async (req: Request, res: Response) => {
     }
 };
 
+export const getTotalRevenueController = async (req: Request, res: Response) => {
+    try {
+        const revenue = await OrderService.getTotalRevenueService();
+        return successResponse(res, revenue, "Total revenue retrieved successfully");
+    } catch (error) {
+        return errorResponse(res, error, "Failed to get total revenue", 400);
+    }
+};
 
 export const getTopCityController = async (req: Request, res: Response) => {
     try {
@@ -155,6 +163,7 @@ export default {
     getTotalAmountByUserIdController,
     getLastOrdersByUserIdController,
     getTotalAmountController,
+    getTotalRevenueController,
     getTopCityController,
     getAllOrdersController,
     cancelOrderController,

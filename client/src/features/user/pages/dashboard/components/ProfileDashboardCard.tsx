@@ -3,7 +3,7 @@ import { Card, CardContent } from '../../../../../components/ui/card'
 interface Props {
     children: React.ReactNode,
     title: string,
-    value: number
+    value: string | number
 }
 const ProfileDashboardCard = ({ children, title, value }: Props) => {
     return (
@@ -15,7 +15,7 @@ const ProfileDashboardCard = ({ children, title, value }: Props) => {
                     <p className="text-xl font-bold">{value}</p>
                 </div>
             </CardContent>
-        </Card>
+        </Card>    
     )
 }
 

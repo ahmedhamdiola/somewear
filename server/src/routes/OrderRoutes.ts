@@ -168,6 +168,13 @@ router.get(
 );
 
 
+router.get(
+  "/totalRevenue",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  OrderController.getTotalRevenueController,
+);
+
 /**
  * @swagger
  * /order/topCity:

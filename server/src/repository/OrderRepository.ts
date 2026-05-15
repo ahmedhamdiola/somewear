@@ -58,8 +58,17 @@ export const getCountByUserId = (userId: number) => {
 export const getTotalAmount = () => {
     const total = db.prepare(
         `SELECT COUNT(id) FROM orders;`
-    )
+    ) 
     const result = total.get()
+    return result
+}
+
+//total revenue
+export const getTotalRevenue = () => {
+    const revenue = db.prepare(
+        `SELECT COALESCE(SUM(totalPrice + COALESCE(shippingFees, 0)), 0) AS total_revenue FROM orders WHERE status = 'delivered';`
+    )
+    const result = revenue.get()
     return result
 }
 
@@ -168,6 +177,7 @@ export default {
     getTotalAmountByUserId,
     getLastOrdersByUserId,
     getTotalAmount,
+    getTotalRevenue,
     getTopCity,
     getAllOrders,
     cancelOrderByOrderId,

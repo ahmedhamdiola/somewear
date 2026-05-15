@@ -72,6 +72,10 @@ export const getTotalAmountService = () => {
    
 }
 
+export const getTotalRevenueService = () => {
+    return OrderRepository.getTotalRevenue();
+}
+
 export const getTopCityService = () => {
     const res=   OrderRepository.getTopCity();
     if(!res){
@@ -222,6 +226,7 @@ export default {
     getTotalAmountByUserIdService,
     getLastOrdersByUserIdService,
     getTotalAmountService,
+    getTotalRevenueService,
     getTopCityService,
     getAllOrdersService,
     cancelOrderService,

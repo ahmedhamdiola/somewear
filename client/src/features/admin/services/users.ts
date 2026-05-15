@@ -21,3 +21,10 @@ export const getUsers = async (): Promise<User[]> => {
 export const deleteUser = async (id: string): Promise<void> => {
   await axios.delete(`${API_URL}/users/${id}`, config);
 };
+
+// GET users count (admin)
+export const getUsersCount = async (): Promise<number> => {
+  const res = await axios.get(`${API_URL}/users/count`, config);
+  const data = res.data.data as { "COUNT(id)": number };
+  return data["COUNT(id)"] ?? 0;
+};

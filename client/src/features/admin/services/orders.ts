@@ -43,3 +43,17 @@ export const updateOrderStatus = async (
 ): Promise<void> => {
   await axios.patch(`${API_URL}/order/status/${id}`, { status }, config);
 };
+
+// GET total orders count (admin)
+export const getOrdersCount = async (): Promise<number> => {
+  const res = await axios.get(`${API_URL}/order/totalOrders`, config);
+  const data = res.data.data as { "COUNT(id)": number };
+  return data["COUNT(id)"] ?? 0;
+};
+
+// GET total revenue (admin)
+export const getTotalRevenue = async (): Promise<number> => {
+  const res = await axios.get(`${API_URL}/order/totalRevenue`, config);
+  const data = res.data.data as { total_revenue: number };
+  return data.total_revenue ?? 0;
+};
