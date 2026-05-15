@@ -16,9 +16,8 @@ import type { CheckoutFormValues } from "../services/interfaces.ts"
 
 
 const CheckoutPage = () => {
-    const userId = parseInt(localStorage.getItem("userId") || "0");
-    const { cart } = useCart(userId);
 
+    const { cart } = useCart();
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 

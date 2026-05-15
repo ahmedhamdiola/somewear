@@ -1,3 +1,4 @@
+ALTER TABLE products
+ADD COLUMN isDeleted INTEGER NOT NULL DEFAULT 0;  
 
-
-select * from products;
+SELECT * FROM products
