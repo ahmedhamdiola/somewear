@@ -181,11 +181,50 @@ router.put("/updateProfile", authMiddleware, UserController.updateUserByIdContro
 
 router.delete("/:id", authMiddleware, RoleMiddleware("admin"), UserController.deleteUserByIdController);
 
+/**
+ * @swagger
+ * /users/checkAdmin:
+ *   get:
+ *     summary: Check if user is admin
+ *     tags: [Users]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: User is admin
+ *       403:
+ *         description: User is not admin
+ */
 router.get("/checkAdmin", authMiddleware, UserController.checkAdminController);
 
+/**
+ * @swagger
+ * /users/checkLoggedIn:
+ *   get:
+ *     summary: Check if user is logged in
+ *     tags: [Users]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: User is logged in
+ *       401:
+ *         description: User is not logged in
+ */
 router.get("/checkLoggedIn", authMiddleware, UserController.checkLoggedInController);
 
-////////////////////// by bassam ????????????
+/**
+ * @swagger
+ * /users/logout:
+ *   post:
+ *     summary: Logout user
+ *     tags: [Users]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Logged out successfully
+ */
 router.post("/logout", (req, res) => {
   res.clearCookie("token", { httpOnly: true, sameSite: "lax" });
   res.status(200).json({ message: "Logged out successfully" });

@@ -121,7 +121,25 @@ router.get(
   OrderController.getLastOrdersByUserIdController,
 );
 
+/**
+ * @swagger
+ * /order/totalOrders:
+ *   get:
+ *    summary: Get total number of orders
+ *   tags: [Orders]
+ *  security:
+ *      - cookieAuth: []
+ *    responses:
+ *      200:
+ *        description: Total number of orders retrieved successfully
+ */
 
+router.get(
+  "/totalOrders",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  OrderController.getTotalAmountController,
+);
 /**
  * @swagger
  * /order/totalAmount:

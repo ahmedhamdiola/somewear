@@ -17,9 +17,8 @@ export const createProduct = (product: ProductInterface): ProductInterface => {
     product.category,
     product.subcategory,
     product.createdAt || new Date().toISOString(),
-    product.soldAmount || 0,
-    product.isDeleted || 0
-  );
+    product.soldAmount || 0
+    );
   return {
     id: Number(result.lastInsertRowid),
     ...product,
