@@ -1,4 +1,4 @@
-"# somewear" 
+# SOMEWEAR
 
 ## Project Overview
 Somewear is a full-stack e-commerce web application for clothing shopping.  
@@ -62,7 +62,69 @@ The project consists of:
 
 ```bash
 somewear/
-│── client/                 # React frontend
+│── client/  # React Frontend
+│   ├── public/
+│   ├── src
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   ├── hooks/
+│   │   │   ├── hooksUI/
+│   │   │   ├── reusableUI/
+│   │   │   └── ui/
+│   │   ├── features/
+│   │   │   ├── admin/
+│   │   │   │   ├── components/
+│   │   │   │   ├── pages/
+│   │   │   │   └── services/
+│   │   │   ├── auth/
+│   │   │   │   ├── components/
+│   │   │   │   ├── pages/
+│   │   │   │   └── services/
+│   │   │   ├── cart/
+│   │   │   │   ├── components/
+│   │   │   │   ├── hooks/
+│   │   │   │   ├── pages/
+│   │   │   │   └── services/
+│   │   │   ├── checkout/
+│   │   │   │   ├── components/
+│   │   │   │   ├── pages/
+│   │   │   │   └── services/
+│   │   │   ├── common
+│   │   │   │   ├── components/
+│   │   │   │   │   ├── navbar/
+│   │   │   │   │   │   ├── hooks/
+│   │   │   │   │   │   ├── utils/
+│   │   │   │   │   │   └── NavBar.tsx
+│   │   │   │   │   ├── FooterBar.tsx
+│   │   │   │   │   └── SearchBar.tsx
+│   │   │   │   ├── pages/
+│   │   │   │   └── services/
+│   │   │   ├── feedback/
+│   │   │   │   ├── components/
+│   │   │   │   └── services/
+│   │   │   ├── home
+│   │   │   │   └── pages/
+│   │   │   ├── product/
+│   │   │   │   ├── components/
+│   │   │   │   ├── hooks/
+│   │   │   │   ├── pages/
+│   │   │   │   └── utils/
+│   │   │   └── user
+│   │   │       ├── components/
+│   │   │       │   └── sidebar/
+│   │   │       ├── hooks/
+│   │   │       ├── pages/
+│   │   │       │   ├── dashboard/
+│   │   │       │   ├── order/
+│   │   │       │   ├── settings/
+│   │   │       │   └── ProfilePage.tsx
+│   │   │       └── services/
+│   │   ├── lib/
+│   │   ├── services/
+│   │   ├── App.tsx
+│   │   ├── index.css
+│   │   └── main.tsx
+
 │── server/                 # Express backend
 │   ├── src/
 │   │   ├── controllers/
@@ -82,7 +144,7 @@ somewear/
 ### 1. Clone Repository
 
 ```bash
-git clone YOUR_GITHUB_LINK
+git clone https://github.com/ahmedhamdiola/somewear
 cd somewear
 ```
 
@@ -90,14 +152,17 @@ cd somewear
 
 ```bash
 cd server
-npm install
+npm init
+npm install express cors 
 ```
 
 ### 3. Install Frontend Dependencies
 
 ```bash
 cd client
-npm install
+npm create vite
+npm install axios tailwindcss @tailwindcss/vite heroicons react-router formik yup react-toastify 
+npx shadcn@latest init
 ```
 
 ---
@@ -109,13 +174,13 @@ Create `.env` inside `/server`:
 ```env
 PORT= process.env.db_path!
 NODE_ENV=development
-DB_PATH=./src/config/database.sqlite
+DB_PATH=./database.sqlite
 
-JWT_SECRET=your_secret_key
+JWT_SECRET=secret_key
 
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+CLOUDINARY_CLOUD_NAME=cloud_name
+CLOUDINARY_API_KEY=api_key
+CLOUDINARY_API_SECRET=api_secret
 
 BASE_URL=http://localhost:PORT
 ```
@@ -135,7 +200,7 @@ npm run dev
 
 ```bash
 cd client
-npm start
+npm run dev
 ```
 
 ---
@@ -145,7 +210,7 @@ npm start
 Swagger documentation:
 
 ```text
-http://localhost:PORT/api-docs
+http://localhost:3000/api-docs
 ```
 
 Contains:
@@ -211,8 +276,8 @@ React Frontend → Express API → Middleware → JWT Cookie → Database
 ## Team Members
 
 - Ahmed Hossam (Led backend development and integrated frontend with backend)
-- Ahmed Hamdy (Worked mainly on frontend developmentand contibuted to backend tasks)
-- Bassam El-Sherif (Worked mainly on frontend developmentand contibuted to backend tasks)
+- Ahmed Hamdy (Worked mainly on frontend development and contributed to backend tasks)
+- Bassam El-Sherif (Worked mainly on frontend development and contributed to backend tasks)
 - Youssef Soliman (Contributed slightly to backend and frontend tasks)
 
 ---
