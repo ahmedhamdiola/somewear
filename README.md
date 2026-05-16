@@ -125,17 +125,83 @@ somewear/
 │   │   ├── index.css
 │   │   └── main.tsx
 
-│── server/                 # Express backend
+│── server/                         # Express backend
 │   ├── src/
-│   │   ├── controllers/
-│   │   ├── services/
-│   │   ├── repositories/
-│   │   ├── middleware/
-│   │   ├── routes/
 │   │   ├── config/
-│   │   └── utils/
-│── README.md
-```
+│   │   │   ├── db.ts              # SQLite database connection
+│   │   │   └── swagger.ts         # Swagger configuration
+│   │   │
+│   │   ├── controllers/           # Handle HTTP requests & responses
+│   │   │   ├── UserController.ts
+│   │   │   ├── ProductController.ts
+│   │   │   ├── ProductVariantController.ts
+│   │   │   ├── OrderController.ts
+│   │   │   ├── OrderItemsController.ts
+│   │   │   ├── CartItemsController.ts
+│   │   │   ├── FeedbackController.ts
+│   │   │   └── ContactUsController.ts
+│   │   │
+│   │   ├── services/              # Business logic layer
+│   │   │   ├── UserService.ts
+│   │   │   ├── ProductService.ts
+│   │   │   ├── ProductVariantService.ts
+│   │   │   ├── OrderService.ts
+│   │   │   ├── OrderItemsService.ts
+│   │   │   ├── CartItemsService.ts
+│   │   │   ├── FeedbackService.ts
+│   │   │   └── ContactUsService.ts
+│   │   │
+│   │   ├── repository/            # Database queries layer
+│   │   │   ├── UserRepository.ts
+│   │   │   ├── ProductRepository.ts
+│   │   │   ├── ProductVariantRepository.ts
+│   │   │   ├── OrderRepository.ts
+│   │   │   ├── OrderItemsRepository.ts
+│   │   │   ├── CartItemsRepository.ts
+│   │   │   ├── FeedbackRepository.ts
+│   │   │   └── ContactUsRepository.ts
+│   │   │
+│   │   ├── middleware/            # Authentication & authorization
+│   │   │   ├── AuthMiddleWare.ts
+│   │   │   ├── RoleMiddleWare.ts
+│   │   │   └── MulterMiddleWare.ts
+│   │   │
+│   │   ├── routes/                # API routes
+│   │   │   ├── UserRoutes.ts
+│   │   │   ├── ProductRoutes.ts
+│   │   │   ├── ProductVariantRoutes.ts
+│   │   │   ├── OrderRoutes.ts
+│   │   │   ├── OrderItemsRoutes.ts
+│   │   │   ├── CartItemsRoutes.ts
+│   │   │   ├── FeedbackRoutes.ts
+│   │   │   └── ContactUsRoutes.ts
+│   │   │
+│   │   ├── interfaces/            # TypeScript interfaces
+│   │   │   ├── UserInterface.ts
+│   │   │   ├── ProductInterface.ts
+│   │   │   ├── ProductVariantInterface.ts
+│   │   │   ├── OrderInterface.ts
+│   │   │   ├── OrderItemsInterface.ts
+│   │   │   ├── CartItemsInterface.ts
+│   │   │   ├── FeedbackInterface.ts
+│   │   │   └── ContactUsInterface.ts
+│   │   │
+│   │   ├── utils/                 # Helper utilities
+│   │   │   ├── jwt.ts             # JWT token generation & verification
+│   │   │   ├── response.ts        # Standard API responses
+│   │   │   ├── cloudinary.ts      # Cloudinary image upload config
+│   │   │   └── hash.ts            # Password hashing utilities
+│   │   │
+│   │   └── app.ts                 # Main server entry point
+│   │
+│   ├── uploads/                   # Uploaded local files (if used)
+│   ├── tests/                     # API / backend testing files
+│   ├── .env                       # Environment variables
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── database.sqlite
+│
+└── README.md
 
 ---
 
@@ -153,7 +219,17 @@ cd somewear
 ```bash
 cd server
 npm init
-npm install express cors 
+```
+Installed backend packages:
+
+```bash
+npm install express cors dotenv cookie-parser multer cloudinary bcryptjs jsonwebtoken swagger-ui-express swagger-jsdoc better-sqlite3
+```
+
+Installed development dependencies:
+
+```bash
+npm install -D typescript ts-node nodemon @types/node @types/express @types/cors @types/cookie-parser @types/jsonwebtoken @types/multer @types/bcryptjs
 ```
 
 ### 3. Install Frontend Dependencies
