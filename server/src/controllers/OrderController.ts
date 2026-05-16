@@ -1,161 +1,209 @@
-import { Request, Response } from 'express';
-import OrderService from '../services/OrderService';
-import { successResponse, errorResponse } from '../utils/response';
-import { AuthRequest } from '../middleware/AuthMiddleWare';
+import { Request, Response } from "express";
+import OrderService from "../services/OrderService";
+import { successResponse, errorResponse } from "../utils/response";
+import { AuthRequest } from "../middleware/AuthMiddleWare";
 
-export const createOrderController = async (req: AuthRequest, res: Response) => {
-    try {
-        const data = { ...req.body, userId: req.user!.id }
-        const order = await OrderService.createOrderService(data);
-        return successResponse(res, order, "Order created successfully", 201);
-    } catch (error) {
-        return errorResponse(res, error, "Failed to create order", 400);
-    }
-}
+export const createOrderController = async (
+  req: AuthRequest,
+  res: Response,
+) => {
+  try {
+    const data = { ...req.body, userId: req.user!.id };
+    const order = await OrderService.createOrderService(data);
+    return successResponse(res, order, "Order created successfully", 201);
+  } catch (error) {
+    return errorResponse(res, error, "Failed to create order", 400);
+  }
+};
 
 export const getOrderByIdController = async (req: Request, res: Response) => {
-    try {
-        const id = Number(req.params.id);
-        const order = await OrderService.getOrderByIdService(id);
-        return successResponse(res, order, "Order retrieved successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to retrieve order", 400);
-    }
-}
-
-export const getOrdersByUserIdController = async (req: AuthRequest, res: Response) => {
-    try {
-        const userId = req.user!.id;
-        const orders = await OrderService.getOrdersByUserIdService(userId);
-        return successResponse(res, orders, "User orders retrieved successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to get user orders", 400);
-    }
+  try {
+    const id = Number(req.params.id);
+    const order = await OrderService.getOrderByIdService(id);
+    return successResponse(res, order, "Order retrieved successfully");
+  } catch (error) {
+    return errorResponse(res, error, "Failed to retrieve order", 400);
+  }
 };
 
-export const getCountByUserIdController = async (req: AuthRequest, res: Response) => {
-    try {
-        const userId = req.user!.id;
-        const count = await OrderService.getCountByUserIdService(userId);
-        return successResponse(res, count, "User order count retrieved successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to get user order count", 400);
-    }
+export const getOrdersByUserIdController = async (
+  req: AuthRequest,
+  res: Response,
+) => {
+  try {
+    const userId = req.user!.id;
+    const orders = await OrderService.getOrdersByUserIdService(userId);
+    return successResponse(res, orders, "User orders retrieved successfully");
+  } catch (error) {
+    return errorResponse(res, error, "Failed to get user orders", 400);
+  }
 };
 
-export const getTotalAmountByUserIdController = async (req: AuthRequest, res: Response) => {
-    try {
-        const userId = req.user!.id;
-        const totalAmount = await OrderService.getTotalAmountByUserIdService(userId);
-        return successResponse(res, totalAmount, "User total order amount retrieved successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to get user total order amount", 400);
-    }
+export const getCountByUserIdController = async (
+  req: AuthRequest,
+  res: Response,
+) => {
+  try {
+    const userId = req.user!.id;
+    const count = await OrderService.getCountByUserIdService(userId);
+    return successResponse(
+      res,
+      count,
+      "User order count retrieved successfully",
+    );
+  } catch (error) {
+    return errorResponse(res, error, "Failed to get user order count", 400);
+  }
 };
 
-export const getLastOrdersByUserIdController = async (req: AuthRequest, res: Response) => {
-    try {
-        const userId = req.user!.id;
-        const orders = await OrderService.getLastOrdersByUserIdService(userId);
-        return successResponse(res, orders, "User last orders retrieved successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to get user last orders", 400);
-    }
+export const getTotalAmountByUserIdController = async (
+  req: AuthRequest,
+  res: Response,
+) => {
+  try {
+    const userId = req.user!.id;
+    const totalAmount =
+      await OrderService.getTotalAmountByUserIdService(userId);
+    return successResponse(
+      res,
+      totalAmount,
+      "User total order amount retrieved successfully",
+    );
+  } catch (error) {
+    return errorResponse(
+      res,
+      error,
+      "Failed to get user total order amount",
+      400,
+    );
+  }
 };
 
+export const getLastOrdersByUserIdController = async (
+  req: AuthRequest,
+  res: Response,
+) => {
+  try {
+    const userId = req.user!.id;
+    const orders = await OrderService.getLastOrdersByUserIdService(userId);
+    return successResponse(
+      res,
+      orders,
+      "User last orders retrieved successfully",
+    );
+  } catch (error) {
+    return errorResponse(res, error, "Failed to get user last orders", 400);
+  }
+};
 
 export const getTotalAmountController = async (req: Request, res: Response) => {
-    try {
-        const totalAmount = await OrderService.getTotalAmountService();
-        return successResponse(res, totalAmount, "Total order amount retrieved successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to get total order amount", 400);
-    }
+  try {
+    const totalAmount = await OrderService.getTotalAmountService();
+    return successResponse(
+      res,
+      totalAmount,
+      "Total order amount retrieved successfully",
+    );
+  } catch (error) {
+    return errorResponse(res, error, "Failed to get total order amount", 400);
+  }
 };
 
-export const getTotalRevenueController = async (req: Request, res: Response) => {
-    try {
-        const revenue = await OrderService.getTotalRevenueService();
-        return successResponse(res, revenue, "Total revenue retrieved successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to get total revenue", 400);
-    }
+export const getTotalRevenueController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const revenue = await OrderService.getTotalRevenueService();
+    return successResponse(
+      res,
+      revenue,
+      "Total revenue retrieved successfully",
+    );
+  } catch (error) {
+    return errorResponse(res, error, "Failed to get total revenue", 400);
+  }
 };
 
 export const getTopCityController = async (req: Request, res: Response) => {
-    try {
-        const topCity = await OrderService.getTopCityService();
-        return successResponse(res, topCity, "Top city retrieved successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to get top city", 400);
-    }
+  try {
+    const topCity = await OrderService.getTopCityService();
+    return successResponse(res, topCity, "Top city retrieved successfully");
+  } catch (error) {
+    return errorResponse(res, error, "Failed to get top city", 400);
+  }
 };
 
 export const getAllOrdersController = async (req: Request, res: Response) => {
-    try {
-        const orders = await OrderService.getAllOrdersService();
-        return successResponse(res, orders, "All orders retrieved successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to get orders", 400);
-    }
+  try {
+    const orders = await OrderService.getAllOrdersService();
+    return successResponse(res, orders, "All orders retrieved successfully");
+  } catch (error) {
+    return errorResponse(res, error, "Failed to get orders", 400);
+  }
 };
 
-export const cancelOrderController = async (req: AuthRequest, res: Response) => {
-    try {
-        const orderId = Number(req.params.id);
-        const existingOrder = await OrderService.getOrderByIdService(orderId)
+export const cancelOrderController = async (
+  req: AuthRequest,
+  res: Response,
+) => {
+  try {
+    const orderId = Number(req.params.id);
+    const existingOrder = await OrderService.getOrderByIdService(orderId);
 
-        if (existingOrder?.userId !== req.user?.id) {
-            return errorResponse(res, null, "Forbidden", 403)
-        }
-
-        const order = await OrderService.cancelOrderService(orderId);
-        return successResponse(res, order, "Order cancelled successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to cancel order", 400);
+    if (existingOrder?.userId !== req.user?.id) {
+      return errorResponse(res, null, "Forbidden", 403);
     }
+
+    const order = await OrderService.cancelOrderService(orderId);
+    return successResponse(res, order, "Order cancelled successfully");
+  } catch (error) {
+    return errorResponse(res, error, "Failed to cancel order", 400);
+  }
 };
 
-export const updateOrderStatusController = async (req: Request, res: Response) => {
-    try {
-        const id = Number(req.params.id);
-        const { status } = req.body;
+export const updateOrderStatusController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const id = Number(req.params.id);
+    const { status } = req.body;
 
-        const updated = await OrderService.updateOrderStatusService(id, status);
+    const updated = await OrderService.updateOrderStatusService(id, status);
 
-        if (!updated) {
-            return errorResponse(res, null, "Order not found", 404);
-        }
-
-        return successResponse(res, updated, "Order status updated successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to update order", 400);
+    if (!updated) {
+      return errorResponse(res, null, "Order not found", 404);
     }
-};
 
+    return successResponse(res, updated, "Order status updated successfully");
+  } catch (error) {
+    return errorResponse(res, error, "Failed to update order", 400);
+  }
+};
 
 export const checkoutController = async (req: AuthRequest, res: Response) => {
-    try {
-        const userId = req.user!.id
-        const order = await OrderService.checkoutService(userId, req.body)
-        return successResponse(res, order, "Checkout completed successfully")
-    } catch (error) {
-        return errorResponse(res, error, "Failed to checkout", 400)
-    }
-}
+  try {
+    const userId = req.user!.id;
+    const order = await OrderService.checkoutService(userId, req.body);
+    return successResponse(res, order, "Checkout completed successfully");
+  } catch (error) {
+    return errorResponse(res, error, "Failed to checkout", 400);
+  }
+};
 
 export default {
-    createOrderController,
-    getOrderByIdController,
-    getOrdersByUserIdController,
-    getCountByUserIdController,
-    getTotalAmountByUserIdController,
-    getLastOrdersByUserIdController,
-    getTotalAmountController,
-    getTotalRevenueController,
-    getTopCityController,
-    getAllOrdersController,
-    cancelOrderController,
-    updateOrderStatusController,
-    checkoutController
+  createOrderController,
+  getOrderByIdController,
+  getOrdersByUserIdController,
+  getCountByUserIdController,
+  getTotalAmountByUserIdController,
+  getLastOrdersByUserIdController,
+  getTotalAmountController,
+  getTotalRevenueController,
+  getTopCityController,
+  getAllOrdersController,
+  cancelOrderController,
+  updateOrderStatusController,
+  checkoutController,
 };

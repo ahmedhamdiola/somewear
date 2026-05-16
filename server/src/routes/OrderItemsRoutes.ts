@@ -1,9 +1,9 @@
-import express from "express"
-import OrderItemsController from "../controllers/OrderItemsController"
-import authMiddleware from "../middleware/AuthMiddleWare"
-import RoleMiddleware from "../middleware/RoleMiddleWare"
+import express from "express";
+import OrderItemsController from "../controllers/OrderItemsController";
+import authMiddleware from "../middleware/AuthMiddleWare";
+import RoleMiddleware from "../middleware/RoleMiddleWare";
 
-const router =express.Router();
+const router = express.Router();
 
 /**
  * @swagger
@@ -25,6 +25,10 @@ const router =express.Router();
  *       404:
  *         description: Order items not found
  */
-router.get("/items/:orderId",authMiddleware,OrderItemsController.getOrderItemsByOrderIdController);
+router.get(
+  "/items/:orderId",
+  authMiddleware,
+  OrderItemsController.getOrderItemsByOrderIdController,
+);
 
-export default router
+export default router;

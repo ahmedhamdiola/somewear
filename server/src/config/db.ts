@@ -14,7 +14,6 @@ const tables = db
 
 console.log(tables);
 
-
 //user
 db.prepare(
   `
@@ -110,7 +109,6 @@ CREATE TABLE IF NOT EXISTS cart_items (
 `,
 ).run();
 
-
 //contact us
 db.prepare(
   `
@@ -126,7 +124,8 @@ db.prepare(
 ).run();
 
 //feedback
-db.prepare(`
+db.prepare(
+  `
   CREATE TABLE IF NOT EXISTS feedback(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
@@ -137,8 +136,7 @@ db.prepare(`
   FOREIGN KEY (userId) REFERENCES users(id),
   FOREIGN KEY (productId) REFERENCES products(id)
 );
-  `
+  `,
 ).run();
-
 
 export default db;

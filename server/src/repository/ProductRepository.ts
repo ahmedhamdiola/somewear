@@ -17,8 +17,8 @@ export const createProduct = (product: ProductInterface): ProductInterface => {
     product.category,
     product.subcategory,
     product.createdAt || new Date().toISOString(),
-    product.soldAmount || 0
-    );
+    product.soldAmount || 0,
+  );
   return {
     id: Number(result.lastInsertRowid),
     ...product,
@@ -41,7 +41,6 @@ export const getAllProducts = (
   page: number = 1,
   limit?: number,
 ): ProductInterface[] => {
-
   let query = "SELECT * FROM products WHERE isDeleted = 0";
   const params: (string | number)[] = [];
 
@@ -60,16 +59,14 @@ export const getAllProducts = (
   return stmt.all(...params);
 };
 
-
 //get total products count
 export const getProductsCount = () => {
-    const products = db.prepare(
-        `SELECT COUNT(id) FROM products WHERE isDeleted = 0; `
-    )
-    const result = products.get()
-    return result
-}
-
+  const products = db.prepare(
+    `SELECT COUNT(id) FROM products WHERE isDeleted = 0; `,
+  );
+  const result = products.get();
+  return result;
+};
 
 //get category and subcategory
 export const getCategoriesAndSubcategories = (): {

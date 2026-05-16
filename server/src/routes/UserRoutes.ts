@@ -40,7 +40,6 @@ const router = express.Router();
  */
 router.post("/register", UserController.registerUserController);
 
-
 /**
  * @swagger
  * /users/login:
@@ -81,7 +80,12 @@ router.post("/login", UserController.loginUserController);
  *       403:
  *         description: Forbidden
  */
-router.get("/", authMiddleware, RoleMiddleware("admin"), UserController.getAllUsersController);
+router.get(
+  "/",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  UserController.getAllUsersController,
+);
 /**
  * @swagger
  * /users/getProfile:
@@ -117,10 +121,12 @@ router.get("/getProfile", authMiddleware, UserController.getUserByIdController);
  *       200:
  *         description: Total users count retrieved successfully
  */
-router.get("/count", 
-authMiddleware, 
-RoleMiddleware("admin"), 
-UserController.getUsersCountController);
+router.get(
+  "/count",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  UserController.getUsersCountController,
+);
 
 /**
  * @swagger
@@ -157,7 +163,11 @@ UserController.getUsersCountController);
  *       200:
  *         description: User updated successfully
  */
-router.put("/updateProfile", authMiddleware, UserController.updateUserByIdController);
+router.put(
+  "/updateProfile",
+  authMiddleware,
+  UserController.updateUserByIdController,
+);
 /**
  * @swagger
  * /users/{id}:
@@ -179,7 +189,12 @@ router.put("/updateProfile", authMiddleware, UserController.updateUserByIdContro
  *         description: Forbidden
  */
 
-router.delete("/:id", authMiddleware, RoleMiddleware("admin"), UserController.deleteUserByIdController);
+router.delete(
+  "/:id",
+  authMiddleware,
+  RoleMiddleware("admin"),
+  UserController.deleteUserByIdController,
+);
 
 /**
  * @swagger
@@ -211,7 +226,11 @@ router.get("/checkAdmin", authMiddleware, UserController.checkAdminController);
  *       401:
  *         description: User is not logged in
  */
-router.get("/checkLoggedIn", authMiddleware, UserController.checkLoggedInController);
+router.get(
+  "/checkLoggedIn",
+  authMiddleware,
+  UserController.checkLoggedInController,
+);
 
 /**
  * @swagger
@@ -229,6 +248,5 @@ router.post("/logout", (req, res) => {
   res.clearCookie("token", { httpOnly: true, sameSite: "lax" });
   res.status(200).json({ message: "Logged out successfully" });
 });
-
 
 export default router;

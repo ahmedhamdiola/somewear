@@ -43,7 +43,6 @@ const router = express.Router();
  */
 router.post("/", authMiddleware, OrderController.createOrderController);
 
-
 /**
  * @swagger
  * /order/myOrders:
@@ -87,15 +86,13 @@ router.get(
  *         description: User order count retrieved successfully
  *       403:
  *         description: Forbidden
- *      
+ *
  */
 router.get(
   "/myCounts",
   authMiddleware,
   OrderController.getCountByUserIdController,
 );
-
-
 
 /**
  * @swagger
@@ -159,7 +156,7 @@ router.get(
  *         description: User total order amount retrieved successfully
  *       403:
  *         description: Forbidden
- * 
+ *
  */
 router.get(
   "/myTotalAmount",
@@ -167,17 +164,12 @@ router.get(
   OrderController.getTotalAmountByUserIdController,
 );
 
-
 router.get(
   "/totalRevenue",
   authMiddleware,
   RoleMiddleware("admin"),
   OrderController.getTotalRevenueController,
-);   
-
-
-
-
+);
 
 /**
  * @swagger
@@ -197,7 +189,6 @@ router.get(
   RoleMiddleware("admin"),
   OrderController.getTopCityController,
 );
-
 
 /**
  * @swagger
@@ -238,7 +229,7 @@ router.get(
  *         description: Order retrieved successfully
  *       403:
  *         description: Forbidden
-*/
+ */
 router.get(
   "/:id",
   authMiddleware,
@@ -310,7 +301,6 @@ router.patch(
   RoleMiddleware("admin"),
   OrderController.updateOrderStatusController,
 );
-
 
 /**
  * @swagger

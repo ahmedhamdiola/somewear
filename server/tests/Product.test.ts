@@ -30,13 +30,13 @@ describe("ProductService", () => {
 
   test("createProductService — should throw when name is empty", () => {
     expect(() =>
-      ProductService.createProductService(makeProduct({ name: "" }))
+      ProductService.createProductService(makeProduct({ name: "" })),
     ).toThrow("Name is required");
   });
 
   test("createProductService — should throw when price is negative", () => {
     expect(() =>
-      ProductService.createProductService(makeProduct({ price: -5 }))
+      ProductService.createProductService(makeProduct({ price: -5 })),
     ).toThrow("Price must be greater than zero");
   });
 
@@ -48,7 +48,9 @@ describe("ProductService", () => {
   });
 
   test("getProductByIdService — should throw on invalid id", () => {
-    expect(() => ProductService.getProductByIdService(-1)).toThrow("Invalid product ID");
+    expect(() => ProductService.getProductByIdService(-1)).toThrow(
+      "Invalid product ID",
+    );
   });
 
   // GET ALL
@@ -79,15 +81,17 @@ describe("ProductService", () => {
   });
 
   test("updateProductService — should throw on invalid id", () => {
-    expect(() =>
-      ProductService.updateProductService(0, { name: "x" })
-    ).toThrow("Invalid product ID");
+    expect(() => ProductService.updateProductService(0, { name: "x" })).toThrow(
+      "Invalid product ID",
+    );
   });
 
   test("updateProductService — should not update if name is empty (service skips empty strings)", () => {
     // the service only throws if name is explicitly non-empty but invalid
     // empty string is treated as "no change" by the current implementation
-    const updated = ProductService.updateProductService(createdId, { name: "" });
+    const updated = ProductService.updateProductService(createdId, {
+      name: "",
+    });
     expect(updated).toBeDefined();
   });
 
@@ -98,11 +102,15 @@ describe("ProductService", () => {
   });
 
   test("deleteProductService — should throw when product not found", () => {
-    expect(() => ProductService.deleteProductService(999999)).toThrow("ID not found");
+    expect(() => ProductService.deleteProductService(999999)).toThrow(
+      "ID not found",
+    );
   });
 
   test("deleteProductService — should throw on invalid id", () => {
-    expect(() => ProductService.deleteProductService(-1)).toThrow("Invalid product ID");
+    expect(() => ProductService.deleteProductService(-1)).toThrow(
+      "Invalid product ID",
+    );
   });
 
   // CATEGORIES
@@ -118,7 +126,7 @@ describe("Image Processing — uploadImageToCloudinary (mocked)", () => {
     const mockUpload = jest
       .fn()
       .mockResolvedValue(
-        "https://res.cloudinary.com/demo/image/upload/v1/sample.jpg"
+        "https://res.cloudinary.com/demo/image/upload/v1/sample.jpg",
       );
 
     const fakeBuffer = Buffer.from("fake-image-data");
@@ -135,12 +143,16 @@ describe("Image Processing — uploadImageToCloudinary (mocked)", () => {
       .mockRejectedValue(new Error("Upload failed: invalid credentials"));
 
     await expect(mockUpload(Buffer.from("bad-data"))).rejects.toThrow(
-      "Upload failed"
+      "Upload failed",
     );
   });
 
   test("should call upload function with a Buffer", async () => {
-    const mockUpload = jest.fn().mockResolvedValue("https://res.cloudinary.com/demo/image/upload/v1/test.jpg");
+    const mockUpload = jest
+      .fn()
+      .mockResolvedValue(
+        "https://res.cloudinary.com/demo/image/upload/v1/test.jpg",
+      );
     const buf = Buffer.from("image bytes");
     await mockUpload(buf);
     expect(mockUpload).toHaveBeenCalledWith(buf);

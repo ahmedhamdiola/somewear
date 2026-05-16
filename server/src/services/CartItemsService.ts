@@ -77,8 +77,6 @@ export const deleteCartItemsByUserIdService = (userId: number): boolean => {
   return CartItemsRepository.deleteCartItem(userId);
 };
 
-
-
 export default {
   createCartItemService,
   getCartItemByIdService,

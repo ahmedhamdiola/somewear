@@ -45,7 +45,9 @@ describe("CartItemsService", () => {
   });
 
   afterAll(() => {
-    try { ProductService.deleteProductService(productId); } catch {}
+    try {
+      ProductService.deleteProductService(productId);
+    } catch {}
   });
 
   // CREATE
@@ -63,19 +65,31 @@ describe("CartItemsService", () => {
 
   test("createCartItemService — should throw on invalid userId", () => {
     expect(() =>
-      CartItemsService.createCartItemService({ userId: 0, productVariantId, quantity: 1 })
+      CartItemsService.createCartItemService({
+        userId: 0,
+        productVariantId,
+        quantity: 1,
+      }),
     ).toThrow("Invalid cart ID");
   });
 
   test("createCartItemService — should throw on invalid variantId", () => {
     expect(() =>
-      CartItemsService.createCartItemService({ userId, productVariantId: 0, quantity: 1 })
+      CartItemsService.createCartItemService({
+        userId,
+        productVariantId: 0,
+        quantity: 1,
+      }),
     ).toThrow("Invalid product variant ID");
   });
 
   test("createCartItemService — should throw when quantity is 0", () => {
     expect(() =>
-      CartItemsService.createCartItemService({ userId, productVariantId, quantity: 0 })
+      CartItemsService.createCartItemService({
+        userId,
+        productVariantId,
+        quantity: 0,
+      }),
     ).toThrow("Quantity must be greater than 0");
   });
 
@@ -88,13 +102,13 @@ describe("CartItemsService", () => {
 
   test("getCartItemByIdService — should throw on invalid id", () => {
     expect(() => CartItemsService.getCartItemByIdService(0)).toThrow(
-      "Invalid cart item ID"
+      "Invalid cart item ID",
     );
   });
 
   test("getCartItemByIdService — should throw when not found", () => {
     expect(() => CartItemsService.getCartItemByIdService(999999)).toThrow(
-      "Cart item not found"
+      "Cart item not found",
     );
   });
 
@@ -107,26 +121,29 @@ describe("CartItemsService", () => {
 
   test("getCartItemsByUserIdService — should throw on invalid userId", () => {
     expect(() => CartItemsService.getCartItemsByUserIdService(-1)).toThrow(
-      "Invalid user ID"
+      "Invalid user ID",
     );
   });
 
   // UPDATE QUANTITY
   test("updateCartItemQuantityService — should update quantity", () => {
-    const updated = CartItemsService.updateCartItemQuantityService(cartItemId, 5);
+    const updated = CartItemsService.updateCartItemQuantityService(
+      cartItemId,
+      5,
+    );
     expect(updated).toBeDefined();
     expect(updated!.quantity).toBe(5);
   });
 
   test("updateCartItemQuantityService — should throw on invalid id", () => {
-    expect(() =>
-      CartItemsService.updateCartItemQuantityService(0, 3)
-    ).toThrow("Invalid cart item ID");
+    expect(() => CartItemsService.updateCartItemQuantityService(0, 3)).toThrow(
+      "Invalid cart item ID",
+    );
   });
 
   test("updateCartItemQuantityService — should throw when quantity is 0", () => {
     expect(() =>
-      CartItemsService.updateCartItemQuantityService(cartItemId, 0)
+      CartItemsService.updateCartItemQuantityService(cartItemId, 0),
     ).toThrow("Quantity must be greater than 0");
   });
 
@@ -138,7 +155,7 @@ describe("CartItemsService", () => {
 
   test("deleteCartItemService — should throw on invalid id", () => {
     expect(() => CartItemsService.deleteCartItemService(-1)).toThrow(
-      "Invalid cart item ID"
+      "Invalid cart item ID",
     );
   });
 });

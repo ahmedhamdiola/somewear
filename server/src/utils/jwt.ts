@@ -1,19 +1,19 @@
-import jwt, { JwtPayload }  from "jsonwebtoken";
-const secret= process.env.jwt_secret!;
+import jwt, { JwtPayload } from "jsonwebtoken";
+const secret = process.env.jwt_secret!;
 
 export const generateToken = (payload: object): string => {
-    return jwt.sign(payload, secret, { expiresIn: '1d' });
+  return jwt.sign(payload, secret, { expiresIn: "1d" });
 };
 
 export const verifyToken = (token: string): jwt.JwtPayload | null => {
-    try {
-        return jwt.verify(token, secret) as jwt.JwtPayload;
-    } catch (error) {
-        return null;
-    }
+  try {
+    return jwt.verify(token, secret) as jwt.JwtPayload;
+  } catch (error) {
+    return null;
+  }
 };
 
 export default {
-    generateToken: generateToken,
-    verifyToken: verifyToken
+  generateToken: generateToken,
+  verifyToken: verifyToken,
 };

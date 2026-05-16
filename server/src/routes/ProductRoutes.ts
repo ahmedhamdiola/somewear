@@ -49,7 +49,13 @@ const router = express.Router();
  *       403:
  *         description: Forbidden
  */
-router.post("/", authMiddleWare, RoleMiddleware("admin"),upload.single("image"), productcontroller.createProductController);
+router.post(
+  "/",
+  authMiddleWare,
+  RoleMiddleware("admin"),
+  upload.single("image"),
+  productcontroller.createProductController,
+);
 
 /**
  * @swagger
@@ -129,7 +135,10 @@ router.get(
  *       200:
  *         description: Categories retrieved successfully
  */
-router.get("/category", productcontroller.getCategoriesAndSubcategoriesController);
+router.get(
+  "/category",
+  productcontroller.getCategoriesAndSubcategoriesController,
+);
 
 /**
  * @swagger
@@ -197,7 +206,13 @@ router.get("/best-sellers", productcontroller.getBestSellersProductsController);
  *       403:
  *         description: Forbidden
  */
-router.put("/:id", authMiddleWare, RoleMiddleware("admin"),upload.single("image"), productcontroller.updateProductController);
+router.put(
+  "/:id",
+  authMiddleWare,
+  RoleMiddleware("admin"),
+  upload.single("image"),
+  productcontroller.updateProductController,
+);
 
 /**
  * @swagger
@@ -219,6 +234,11 @@ router.put("/:id", authMiddleWare, RoleMiddleware("admin"),upload.single("image"
  *       403:
  *         description: Forbidden
  */
-router.delete("/:id", authMiddleWare, RoleMiddleware("admin"), productcontroller.deleteProductController);
+router.delete(
+  "/:id",
+  authMiddleWare,
+  RoleMiddleware("admin"),
+  productcontroller.deleteProductController,
+);
 
 export default router;

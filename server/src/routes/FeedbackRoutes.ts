@@ -34,7 +34,7 @@ const router = express.Router();
  *       201:
  *         description: Feedback created successfully
  */
-router.post("/",authMiddleWare,FeedbackController.createFeedbackController);
+router.post("/", authMiddleWare, FeedbackController.createFeedbackController);
 
 /**
  * @swagger
@@ -50,7 +50,12 @@ router.post("/",authMiddleWare,FeedbackController.createFeedbackController);
  *       403:
  *         description: Forbidden
  */
-router.get("/",authMiddleWare,RoleMiddleware("admin"),FeedbackController.getAllFeedbacksController);
+router.get(
+  "/",
+  authMiddleWare,
+  RoleMiddleware("admin"),
+  FeedbackController.getAllFeedbacksController,
+);
 
 /**
  * @swagger
@@ -72,7 +77,10 @@ router.get("/",authMiddleWare,RoleMiddleware("admin"),FeedbackController.getAllF
  *       404:
  *         description: Feedbacks not found
  */
-router.get("/product/:productId",FeedbackController.getFeedbackByProductIdController);
+router.get(
+  "/product/:productId",
+  FeedbackController.getFeedbackByProductIdController,
+);
 
 /**
  * @swagger
@@ -96,6 +104,11 @@ router.get("/product/:productId",FeedbackController.getFeedbackByProductIdContro
  *       404:
  *         description: Feedback not found
  */
-router.delete("/:id",authMiddleWare,RoleMiddleware("admin"),FeedbackController.deleteFeedbackController)
+router.delete(
+  "/:id",
+  authMiddleWare,
+  RoleMiddleware("admin"),
+  FeedbackController.deleteFeedbackController,
+);
 
 export default router;

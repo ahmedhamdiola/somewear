@@ -70,7 +70,7 @@ describe("OrderService", () => {
         phone: "0123",
         status: "pending",
         createdAt: new Date().toISOString(),
-      })
+      }),
     ).toThrow("Invalid user ID");
   });
 
@@ -85,7 +85,7 @@ describe("OrderService", () => {
         phone: "0123",
         status: "pending",
         createdAt: new Date().toISOString(),
-      })
+      }),
     ).toThrow("Total price must be greater than zero");
   });
 
@@ -100,7 +100,7 @@ describe("OrderService", () => {
         phone: "0123",
         status: "pending",
         createdAt: new Date().toISOString(),
-      })
+      }),
     ).toThrow("City is required");
   });
 
@@ -112,7 +112,9 @@ describe("OrderService", () => {
   });
 
   test("getOrderByIdService — should throw on invalid id", () => {
-    expect(() => OrderService.getOrderByIdService(0)).toThrow("Invalid order ID");
+    expect(() => OrderService.getOrderByIdService(0)).toThrow(
+      "Invalid order ID",
+    );
   });
 
   // GET BY USER
@@ -123,7 +125,9 @@ describe("OrderService", () => {
   });
 
   test("getOrdersByUserIdService — should throw on invalid userId", () => {
-    expect(() => OrderService.getOrdersByUserIdService(-1)).toThrow("Invalid user ID");
+    expect(() => OrderService.getOrdersByUserIdService(-1)).toThrow(
+      "Invalid user ID",
+    );
   });
 
   // COUNT & TOTAL
@@ -159,21 +163,21 @@ describe("OrderService", () => {
 
   test("updateOrderStatusService — should throw on invalid status", () => {
     expect(() =>
-      OrderService.updateOrderStatusService(orderId, "unknown")
+      OrderService.updateOrderStatusService(orderId, "unknown"),
     ).toThrow("Invalid order status");
   });
 
   test("updateOrderStatusService — should throw on invalid id", () => {
-    expect(() =>
-      OrderService.updateOrderStatusService(0, "pending")
-    ).toThrow("Invalid order ID");
+    expect(() => OrderService.updateOrderStatusService(0, "pending")).toThrow(
+      "Invalid order ID",
+    );
   });
 
   // CANCEL
   test("cancelOrderService — should throw when order is not pending", () => {
     // orderId is now 'delivered', so cancel should fail
     expect(() => OrderService.cancelOrderService(orderId)).toThrow(
-      "Only pending orders can be cancelled"
+      "Only pending orders can be cancelled",
     );
   });
 
@@ -184,7 +188,9 @@ describe("OrderService", () => {
   });
 
   test("deleteOrderService — should throw on invalid id", () => {
-    expect(() => OrderService.deleteOrderService(-1)).toThrow("Invalid order ID");
+    expect(() => OrderService.deleteOrderService(-1)).toThrow(
+      "Invalid order ID",
+    );
   });
 
   // CHECKOUT — empty cart
@@ -195,7 +201,7 @@ describe("OrderService", () => {
         city: "Cairo",
         address: "123 Test",
         phone: "0123456789",
-      })
+      }),
     ).toThrow("Cart is empty");
   });
 
@@ -206,7 +212,7 @@ describe("OrderService", () => {
         city: "Cairo",
         address: "123 Test",
         phone: "0123456789",
-      })
+      }),
     ).toThrow("Invalid userId");
   });
 });

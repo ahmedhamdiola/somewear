@@ -1,6 +1,6 @@
-import express from "express"
-import CartItemsController from "../controllers/CartItemsController"
-import authMiddleware from "../middleware/AuthMiddleWare"
+import express from "express";
+import CartItemsController from "../controllers/CartItemsController";
+import authMiddleware from "../middleware/AuthMiddleWare";
 
 const router = express.Router();
 
@@ -52,7 +52,11 @@ router.post("/", authMiddleware, CartItemsController.createCartItemController);
  *       403:
  *         description: Forbidden
  */
-router.get("/", authMiddleware, CartItemsController.getCartItemsByUserIdController);
+router.get(
+  "/",
+  authMiddleware,
+  CartItemsController.getCartItemsByUserIdController,
+);
 
 /**
  * @swagger
@@ -85,7 +89,11 @@ router.get("/", authMiddleware, CartItemsController.getCartItemsByUserIdControll
  *       403:
  *         description: Forbidden
  */
-router.patch("/:id", authMiddleware, CartItemsController.updateCartItemQuantityController);
+router.patch(
+  "/:id",
+  authMiddleware,
+  CartItemsController.updateCartItemQuantityController,
+);
 
 /**
  * @swagger
@@ -107,7 +115,11 @@ router.patch("/:id", authMiddleware, CartItemsController.updateCartItemQuantityC
  *       403:
  *         description: Forbidden
  */
-router.delete("/:id", authMiddleware, CartItemsController.deleteCartItemController);
+router.delete(
+  "/:id",
+  authMiddleware,
+  CartItemsController.deleteCartItemController,
+);
 
 /**
  * @swagger
@@ -129,5 +141,9 @@ router.delete("/:id", authMiddleware, CartItemsController.deleteCartItemControll
  *       403:
  *         description: Forbidden
  */
-router.delete("/user/:userId", authMiddleware, CartItemsController.deleteCartItemsByUserIdController)
-export default router
+router.delete(
+  "/user/:userId",
+  authMiddleware,
+  CartItemsController.deleteCartItemsByUserIdController,
+);
+export default router;

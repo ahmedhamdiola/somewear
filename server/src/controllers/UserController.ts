@@ -37,7 +37,7 @@ export const loginUserController = async (req: Request, res: Response) => {
     return successResponse(
       res,
       { user: result.safeUser },
-      "User logged in successfully"
+      "User logged in successfully",
     );
   } catch (error) {
     return errorResponse(res, error, "Failed to login user", 400);
@@ -57,13 +57,16 @@ export const getUserByIdController = async (
   }
 };
 
-export const getUsersCountController = async (req: AuthRequest, res: Response) => {
-    try {
-        const count = await UserService.getUsersCountService(); 
-        return successResponse(res, count, "Users count retrieved successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to retrieve users count", 400);
-     }
+export const getUsersCountController = async (
+  req: AuthRequest,
+  res: Response,
+) => {
+  try {
+    const count = await UserService.getUsersCountService();
+    return successResponse(res, count, "Users count retrieved successfully");
+  } catch (error) {
+    return errorResponse(res, error, "Failed to retrieve users count", 400);
+  }
 };
 
 export const updateUserByIdController = async (
@@ -118,18 +121,28 @@ export const checkAdminController = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const checkLoggedInController = async (req: AuthRequest, res: Response) => {
+export const checkLoggedInController = async (
+  req: AuthRequest,
+  res: Response,
+) => {
   try {
     if (req.user?.id !== undefined) {
       return successResponse(res, { isLoggedIn: true }, "User is authorized");
     }
-    return successResponse(res, { isLoggedIn: false }, "User is not authorized");
+    return successResponse(
+      res,
+      { isLoggedIn: false },
+      "User is not authorized",
+    );
   } catch (error) {
-    return errorResponse(res, error, "Failed to check authorization status", 400);
+    return errorResponse(
+      res,
+      error,
+      "Failed to check authorization status",
+      400,
+    );
   }
 };
-
-
 
 export default {
   registerUserController,
@@ -140,5 +153,5 @@ export default {
   deleteUserByIdController,
   getAllUsersController,
   checkAdminController,
-  checkLoggedInController
+  checkLoggedInController,
 };

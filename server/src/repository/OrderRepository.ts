@@ -3,110 +3,109 @@ import { OrderInterface } from "../interfaces/OrderInterface";
 
 //create order
 export const createOrder = (order: OrderInterface): OrderInterface => {
-    const stmt = db.prepare(`
+  const stmt = db.prepare(`
     INSERT INTO orders (userId, totalPrice, shippingFees, city, address, phone, status, createdAt)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    const result = stmt.run(
-        order.userId,
-        order.totalPrice,
-        order.shippingFees,
-        order.city,
-        order.address,
-        order.phone,
-        order.status || "pending",
-        order.createdAt || new Date().toISOString()
-    );
-    return {
-        id: Number(result.lastInsertRowid),
-        ...order
-    };
+  const result = stmt.run(
+    order.userId,
+    order.totalPrice,
+    order.shippingFees,
+    order.city,
+    order.address,
+    order.phone,
+    order.status || "pending",
+    order.createdAt || new Date().toISOString(),
+  );
+  return {
+    id: Number(result.lastInsertRowid),
+    ...order,
+  };
 };
 
 //get order by id
 export const getOrderById = (id: number): OrderInterface | null => {
-    const res = db.prepare<[number], OrderInterface>(`
+  const res = db.prepare<[number], OrderInterface>(`
     SELECT * FROM orders WHERE id = ?
     `);
-    const orderData = res.get(id);
-    return orderData || null;
-}
+  const orderData = res.get(id);
+  return orderData || null;
+};
 
 //get order by user id
 export const getOrderByUserId = (userId: number): OrderInterface[] => {
-    const res = db.prepare<[number], OrderInterface>(`
+  const res = db.prepare<[number], OrderInterface>(`
     SELECT * FROM orders WHERE userId = ?
     `);
-    const orderData = res.all(userId);
-    return orderData || null;
+  const orderData = res.all(userId);
+  return orderData || null;
 };
 
 //count of orders by user id
 export const getCountByUserId = (userId: number) => {
-    const count = db.prepare(
-        `   
+  const count = db.prepare(
+    `   
         SELECT COUNT(userId) AS count
         FROM orders
         WHERE userId = ? and status='delivered'
-        `
-    )
-    const result = count.get(userId)
-    return result
-}
+        `,
+  );
+  const result = count.get(userId);
+  return result;
+};
 
 //total orders
 export const getTotalAmount = () => {
-    const total = db.prepare(
-        `SELECT COUNT(id) FROM orders where status='delivered'`
-    ) 
-    const result = total.get() 
-    return result
-}
+  const total = db.prepare(
+    `SELECT COUNT(id) FROM orders where status='delivered'`,
+  );
+  const result = total.get();
+  return result;
+};
 
 //total revenue
 export const getTotalRevenue = () => {
-    const revenue = db.prepare(
-        `SELECT COALESCE(SUM(totalPrice + COALESCE(shippingFees, 0)), 0) AS total_revenue FROM orders WHERE status = 'delivered';`
-    )
-    const result = revenue.get()
-    return result
-}
+  const revenue = db.prepare(
+    `SELECT COALESCE(SUM(totalPrice + COALESCE(shippingFees, 0)), 0) AS total_revenue FROM orders WHERE status = 'delivered';`,
+  );
+  const result = revenue.get();
+  return result;
+};
 
 //total amount of orders by user id
 export const getTotalAmountByUserId = (userId: number) => {
-    const total = db.prepare(
-        `SELECT SUM(totalPrice) + SUM(COALESCE(shippingFees, 0)) AS total_revenue FROM orders WHERE userId = ? AND status = 'delivered';`
-    )
-    const result = total.get(userId)
-    return result
-}
+  const total = db.prepare(
+    `SELECT SUM(totalPrice) + SUM(COALESCE(shippingFees, 0)) AS total_revenue FROM orders WHERE userId = ? AND status = 'delivered';`,
+  );
+  const result = total.get(userId);
+  return result;
+};
 
-//get last orders 
-export const getLastOrdersByUserId = (userId: number): OrderInterface [] => {
-    const res = db.prepare<[number], OrderInterface>(`    
+//get last orders
+export const getLastOrdersByUserId = (userId: number): OrderInterface[] => {
+  const res = db.prepare<[number], OrderInterface>(`    
     SELECT id,status FROM orders WHERE userId = ? ORDER BY createdAt DESC LIMIT 3
     `);
-    const orderData = res.all(userId);  
-    return orderData || null;
-}
+  const orderData = res.all(userId);
+  return orderData || null;
+};
 
 //get the most city that the users ordered from it
-export const getTopCity = () =>  {
-    const res = db.prepare(`
+export const getTopCity = () => {
+  const res = db.prepare(`
     SELECT city, SUM(totalPrice) AS total_revenue
     FROM orders
     GROUP BY city
     ORDER BY total_revenue DESC
     LIMIT 1;
     `);
-    const cityData = res.get();
-    return cityData || null;
+  const cityData = res.get();
+  return cityData || null;
 };
-
 
 //get all orders
 export const getAllOrders = (): OrderInterface[] => {
-    const res = db.prepare<[], OrderInterface>(`
+  const res = db.prepare<[], OrderInterface>(`
         SELECT orders.id,
             orders.status,
             orders.phone,
@@ -118,58 +117,51 @@ export const getAllOrders = (): OrderInterface[] => {
         FROM orders
         JOIN users ON orders.userId = users.id
     `);
-    const ordersData = res.all();
-    return ordersData || [];
+  const ordersData = res.all();
+  return ordersData || [];
 };
 
-
 //cancel
-export const cancelOrderByOrderId = (orderId: number,) => {
-    const cancel = db.prepare(
-        ` UPDATE orders
+export const cancelOrderByOrderId = (orderId: number) => {
+  const cancel = db.prepare(
+    ` UPDATE orders
         SET status = "cancelled"
-        WHERE id = ?`
-    )
-    const res = cancel.run(orderId)
-    return res || null
-}
-
+        WHERE id = ?`,
+  );
+  const res = cancel.run(orderId);
+  return res || null;
+};
 
 //update order status
 export const updateOrderStatus = (
-    id: number,
-    status: string
+  id: number,
+  status: string,
 ): OrderInterface | null => {
-    const stmt = db.prepare<[string, number], { chages: number }>(
-        `
+  const stmt = db.prepare<[string, number], { chages: number }>(
+    `
         UPDATE orders
         SET status = ?
         WHERE id = ?
-        `
-    );
-    const result = stmt.run(status, id);
-    if (result.changes === 0) {
-        return null;
-    }
-    return getOrderById(id);
+        `,
+  );
+  const result = stmt.run(status, id);
+  if (result.changes === 0) {
+    return null;
+  }
+  return getOrderById(id);
 };
 
-
-
-
-
 export default {
-    createOrder,
-    getOrderById,
-    getOrderByUserId,
-    getCountByUserId,
-    getTotalAmountByUserId,
-    getLastOrdersByUserId,
-    getTotalAmount,
-    getTotalRevenue,
-    getTopCity,
-    getAllOrders,
-    cancelOrderByOrderId,
-    updateOrderStatus,
-
-}
+  createOrder,
+  getOrderById,
+  getOrderByUserId,
+  getCountByUserId,
+  getTotalAmountByUserId,
+  getLastOrdersByUserId,
+  getTotalAmount,
+  getTotalRevenue,
+  getTopCity,
+  getAllOrders,
+  cancelOrderByOrderId,
+  updateOrderStatus,
+};

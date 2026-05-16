@@ -1,7 +1,7 @@
-import express from 'express';
-import productVariantController from '../controllers/ProductVariantController';
-import authMiddleWare from '../middleware/AuthMiddleWare';
-import RoleMiddleware from '../middleware/RoleMiddleWare';
+import express from "express";
+import productVariantController from "../controllers/ProductVariantController";
+import authMiddleWare from "../middleware/AuthMiddleWare";
+import RoleMiddleware from "../middleware/RoleMiddleWare";
 
 const router = express.Router();
 
@@ -36,7 +36,12 @@ const router = express.Router();
  *       403:
  *         description: Forbidden
  */
-router.post('/',authMiddleWare,RoleMiddleware("admin"), productVariantController.createProductVariantController);
+router.post(
+  "/",
+  authMiddleWare,
+  RoleMiddleware("admin"),
+  productVariantController.createProductVariantController,
+);
 
 /**
  * @swagger
@@ -56,7 +61,7 @@ router.post('/',authMiddleWare,RoleMiddleware("admin"), productVariantController
  *       404:
  *         description: Product variant not found
  */
-router.get('/:id', productVariantController.getProductVariantByIdController);
+router.get("/:id", productVariantController.getProductVariantByIdController);
 
 /**
  * @swagger
@@ -74,7 +79,10 @@ router.get('/:id', productVariantController.getProductVariantByIdController);
  *       200:
  *         description: Product variants retrieved successfully
  */
-router.get('/variants/:productId', productVariantController.getProductVariantsByProductIdController);
+router.get(
+  "/variants/:productId",
+  productVariantController.getProductVariantsByProductIdController,
+);
 
 /**
  * @swagger
@@ -107,6 +115,11 @@ router.get('/variants/:productId', productVariantController.getProductVariantsBy
  *       403:
  *         description: Forbidden
  */
-router.put('/:id', authMiddleWare,RoleMiddleware("admin"), productVariantController.updateProductVariantController);
+router.put(
+  "/:id",
+  authMiddleWare,
+  RoleMiddleware("admin"),
+  productVariantController.updateProductVariantController,
+);
 
 export default router;
