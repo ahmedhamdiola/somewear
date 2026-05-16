@@ -199,7 +199,7 @@ somewear/
 │   ├── .env                       # Environment variables
 │   ├── package.json
 │   ├── tsconfig.json
-│   └── database.sqlite
+│   └── store.db
 │
 └── README.md
 
