@@ -12,12 +12,12 @@ interface Props {
 const CartItemCard = ({ item, onUpdateQty, onRemove }: Props) => {
     return (
         <Card
-            className="overflow-hidden border border-zinc-200 hover:shadow-md transition-colors transition-shadow duration-300"
+            className="overflow-hidden border border-zinc-200 hover:shadow-md  transition-shadow duration-300" 
         >
             <CardContent>
                 <div className="flex">
                     {/* Product Image */}
-                    <div className="w-36 h-36 flex-shrink-0 bg-zinc-100">
+                    <div className="w-36 h-36 shrink-0 bg-zinc-100">
                         <img
                             src={item.imageUrl}
                             alt={item.name}

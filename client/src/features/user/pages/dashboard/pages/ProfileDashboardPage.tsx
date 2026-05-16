@@ -25,7 +25,7 @@ const ProfileDashboardPage = ({ navigateDashboard }: Props) => {
                 </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <ProfileDashboardCard title="Orders" value={count || 0}>
                     <Package className="w-6 h-6" />
                 </ProfileDashboardCard>
@@ -51,12 +51,12 @@ const ProfileDashboardPage = ({ navigateDashboard }: Props) => {
                 </CardContent>
             </Card>
 
-            <div className="flex gap-4 ">
+            <div className="flex flex-col sm:flex-row gap-4">
                 <Button
-                    className="mt-4 h-12 text-xl font-bold rounded-xl w-lg cursor-pointer hover:shadow-lg bg-black hover:bg-[#0f0616]"
+                    className="mt-4 h-12 text-xl font-bold rounded-xl w-full sm:w-64 cursor-pointer hover:shadow-lg bg-black hover:bg-[#0f0616]"
                     onClick={() => navigateDashboard("My Orders")}
                 >VIEW ALL ORDERS</Button>
-                <Button className="mt-4 h-12 text-xl font-bold rounded-xl w-lg bg-white text-black border-black cursor-pointer hover:shadow-lg"
+                <Button className="mt-4 h-12 text-xl font-bold rounded-xl w-full sm:w-64 bg-white text-black border-black cursor-pointer hover:shadow-lg"
                     onClick={() => navigateDashboard("Settings")}
                 >EDIT PROFILE</Button>
             </div>

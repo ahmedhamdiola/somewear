@@ -162,7 +162,7 @@ router.get(
  * 
  */
 router.get(
-  "/totalAmount",
+  "/myTotalAmount",
   authMiddleware,
   OrderController.getTotalAmountByUserIdController,
 );
@@ -173,7 +173,11 @@ router.get(
   authMiddleware,
   RoleMiddleware("admin"),
   OrderController.getTotalRevenueController,
-);
+);   
+
+
+
+
 
 /**
  * @swagger

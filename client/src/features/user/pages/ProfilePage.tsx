@@ -21,11 +21,11 @@ const ProfilePage = () => {
         <div>
             <div className="flex flex-col min-h-screen">
                 <NavBar />
-                <div className="flex flex-1 min-h-screen">
-                    <div className="sticky top-0 h-screen">
+                <div className="flex flex-col md:flex-row flex-1 min-h-screen w-full">
+                    <div className="w-full md:w-64 md:sticky md:top-0 md:h-screen z-10 bg-white">
                         <ProfileSideBar selected={page} setSelected={setPage} />
                     </div>
-                    <div className="flex justify-center flex-1 p-6">
+                    <div className="flex justify-center flex-1 p-4 md:p-6 w-full overflow-x-hidden">
                         {page == "Dashboard" ? <ProfileDashboardPage navigateDashboard={setPage} /> :
                             page == "Settings" ? <ProfileSettingsPage /> :
                                 page == "My Orders" ? <ProfileOrdersPage /> :

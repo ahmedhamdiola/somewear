@@ -75,7 +75,7 @@ export const getTotalRevenue = () => {
 //total amount of orders by user id
 export const getTotalAmountByUserId = (userId: number) => {
     const total = db.prepare(
-        `SELECT SUM(totalPrice) + SUM(COALESCE(shippingFees, 0)) AS total_revenue FROM orders WHERE userId = ?;`
+        `SELECT SUM(totalPrice) + SUM(COALESCE(shippingFees, 0)) AS total_revenue FROM orders WHERE userId = ? AND status = 'delivered';`
     )
     const result = total.get(userId)
     return result

@@ -40,6 +40,7 @@ const AdminContactUs = () => {
    
 
 
+      <div className="overflow-x-auto bg-white rounded-lg shadow">
         <Table>
           <TableHeader>
             <TableRow>
@@ -71,6 +72,7 @@ const AdminContactUs = () => {
                 }
           </TableBody>
         </Table>
+      </div>
 
       <Dialog open={!!selected} onOpenChange={(open) =>!open &&setSelected(null)}>
         <DialogContent className="max-w-md">

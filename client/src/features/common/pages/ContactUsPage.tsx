@@ -16,9 +16,9 @@ export const ContactUsPage = () => {
   return (
     <>
       <NavBar />
-      <div className="grid grid-cols-2 h-screen">
-        <div className="   flex  justify-center items-center pl-25 ">
-          <div className="">
+      <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen">
+        <div className="flex justify-center items-center p-8 md:pl-25 mt-10 md:mt-0">
+          <div className="w-full text-center md:text-left">
             <h1 className=" text-[60px] font-serif text-[#000000] mb-2">
               Get in touch
             </h1>
@@ -45,7 +45,7 @@ export const ContactUsPage = () => {
             </a>
 
 
-            <div className="flex gap-4 text-gray-600 text-[20px]">
+            <div className="flex gap-4 text-gray-600 text-[20px] justify-center md:justify-start">
               <FaThumbsUp className="cursor-pointer hover:text-[#7a4b2b] hover:scale-110 transition" />
               <a
                 href="https://instagram.com"
@@ -72,8 +72,8 @@ export const ContactUsPage = () => {
           </div>
         </div>
 
-        <div className="  flex justify-center items-center  ">
-          <div className="p-10 max-w-[600px] flex flex-col justify-center items-center mt-12 ">
+        <div className="flex justify-center items-center">
+          <div className="p-6 md:p-10 w-full max-w-[600px] flex flex-col justify-center items-center mt-2 md:mt-12 mb-10 md:mb-0">
             <Formik
               initialValues={{ name: "", email: "", phone: "", message: "" }}
               onSubmit={async (values, { setSubmitting, resetForm }) => {

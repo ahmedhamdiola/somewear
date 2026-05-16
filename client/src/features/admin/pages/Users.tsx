@@ -51,7 +51,8 @@ export const Users = () => {
   return (
     <div >
       <h1 className="text-[24px]  font-bold mb-5">Users</h1>
-      <Table>
+      <div className="overflow-x-auto bg-white rounded-lg shadow">
+        <Table>
         <TableHeader>
           <TableRow>
             <TableHead>name</TableHead>
@@ -78,7 +79,8 @@ export const Users = () => {
           )
           }
         </TableBody>
-      </Table>
+        </Table>
+      </div>
     </div>
   )
 }

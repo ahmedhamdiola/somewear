@@ -22,7 +22,7 @@ const ProfileOrdersPage = () => {
 
                 {allOrders.map((order: OrderInterface) => (
                     <Card key={order.id}>
-                        <CardContent className="flex items-center justify-between p-6">
+                        <CardContent className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 md:p-6 gap-4 md:gap-0">
 
                             <div>
                                 <p className="font-semibold"># {order.id}</p>

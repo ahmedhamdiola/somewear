@@ -14,7 +14,7 @@ const ProductsGrid = ({ title, marginLeft, products }: Props) => {
                 <h1 className={`my-10 text-4xl font-normal ${marginLeft}`}>{title}</h1>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 p-5 h-full mx-25">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-7 p-4 md:p-5 h-full px-2 md:px-25">
                 {products?.map((product) => (
                     <ProductCard
                         key={product.id}

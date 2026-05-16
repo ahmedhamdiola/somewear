@@ -17,4 +17,11 @@ export const registerService = async (data: {
   );
   return response.data; 
 };
- 
+
+export const loginService = async (data: {
+  email: string;
+  password: string;
+}) => {
+  const response = await axios.post(`${API_URL}/login`, data, config);
+  return response.data;
+};

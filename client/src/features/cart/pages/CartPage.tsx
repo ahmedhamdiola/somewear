@@ -17,7 +17,7 @@ const CartPage = () => {
         <div className="flex flex-col min-h-screen">
             <NavBar />
             <div className="flex justify-center animate-[fadeInUp_0.8s_ease-out_forwards] min-h-screen">
-                <div className="flex-1 max-w-5xl py-10">
+                <div className="flex-1 max-w-5xl py-10 px-4 md:px-0">
                     {/* HEADER */}
                     <div className="flex items-center gap-3 mb-8">
                         <ShoppingBagIcon className="w-6 h-6 text-zinc-500" />
@@ -35,7 +35,7 @@ const CartPage = () => {
                             <ShoppingBag className="w-12 h-12 mx-auto text-zinc-300 mb-4" />
                         </EmptyCard>
                     ) : (
-                        <div className="flex flex-row gap-6">
+                        <div className="flex flex-col md:flex-row gap-6">
                             <div className="flex-1 space-y-3">
                                 {cart.map(item => (
                                     <CartItemCard
@@ -46,11 +46,11 @@ const CartPage = () => {
                                     />
                                 ))}
                             </div>
-                            <div className="w-72 flex-shrink-0">
+                            <div className="w-full md:w-72 md:shrink-0 ">
                                 <CartSummary
                                     subtotal={subtotal}
                                     savings={0}
-                                    shipping={20}
+                                    shipping={50}
                                     onClick={() => navigate("/checkout")}
                                 />
                             </div>

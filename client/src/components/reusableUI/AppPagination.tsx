@@ -19,7 +19,7 @@ const AppPagination = ({ page, totalPages, onPageChange }: Props) => {
     return (
         <div className="flex justify-center mb-10">
             <Pagination>
-                <PaginationContent className="flex items-center gap-1">
+                <PaginationContent className="flex items-center gap-1 flex-wrap justify-center px-4">
 
                     {/* PREVIOUS */}
                     <PaginationItem>

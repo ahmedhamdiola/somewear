@@ -36,7 +36,7 @@ const ProductPage = () => {
             <NavBar />
             {error && <p>{error}</p>}
             {loading && <p>{loading}</p>}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-10 animate-[fadeInUp_0.8s_ease-out_forwards]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-4 md:p-10 animate-[fadeInUp_0.8s_ease-out_forwards]">
                 {/* IMAGE */}
                 <Card className="bg-transparent border-none">
                     <CardContent className="p-0">
@@ -86,7 +86,7 @@ const ProductPage = () => {
                     </div>
                     <div className="flex justify-center items-center flex-col">
                         <Button
-                            className="mt-4 h-12 text-xl font-bold rounded-xl w-xl cursor-pointer hover:shadow-lg bg-black hover:bg-[#0f0616]"
+                            className="mt-4 h-12 text-xl font-bold rounded-xl w-full md:w-xl cursor-pointer hover:shadow-lg bg-black hover:bg-[#0f0616]"
                             disabled={!size || isInCart(size)}
                             onClick={async () => {
                                 if (!size) return

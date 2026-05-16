@@ -27,7 +27,7 @@ const CheckoutPage = () => {
     )
 
     const savings = 0
-    const shipping = subtotal > 0 ? 20 : 0
+    const shipping = 50 
 
     const handleOrder = async (values: CheckoutFormValues) => {
         setLoading(true)

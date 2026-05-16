@@ -12,85 +12,85 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-[220px] h-screen bg-black text-white p-4 flex flex-col fixed left-0 top-0">
-      <div>
+    <div className="fixed bottom-0 left-0 w-full h-16 bg-black text-white flex flex-row items-center justify-around px-2 md:px-4 md:w-[220px] md:h-screen md:flex-col md:justify-start md:top-0 z-50">
+      <div className="hidden md:block mb-6">
         <img src={Logo} className="h-14 object-contain cursor-pointer " />
       </div>
-      <nav className="flex flex-col gap-2 mt-4 ">
+      <nav className="flex flex-row w-full justify-around md:flex-col md:gap-2 mt-0 md:mt-4">
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "flex items-center  gap-3 px-3 py-2 bg-mist-700 rounded-md"
-              : "flex items-center gap-3 px-3 py-2 hover:bg-mist-700 rounded-md"
+              ? "flex items-center gap-3 p-2 md:px-3 md:py-2 bg-mist-700 rounded-md text-white md:bg-mist-700"
+              : "flex items-center gap-3 p-2 md:px-3 md:py-2 hover:bg-mist-700 rounded-md text-gray-400 md:text-white"
           }
           to="/admin" end
         >
-          <FaHome />
-          admin
+          <FaHome className="text-xl md:text-base" />
+          <span className="hidden md:block">admin</span>
         </NavLink>
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "flex items-center  gap-3 px-3 py-2 bg-mist-700 rounded-md"
-              : "flex items-center gap-3 px-3 py-2 hover:bg-mist-700 rounded-md"
+              ? "flex items-center gap-3 p-2 md:px-3 md:py-2 bg-mist-700 rounded-md text-white md:bg-mist-700"
+              : "flex items-center gap-3 p-2 md:px-3 md:py-2 hover:bg-mist-700 rounded-md text-gray-400 md:text-white"
           }
           to="/admin/products"
         >
-          <FaBox />
-          products
+          <FaBox className="text-xl md:text-base" />
+          <span className="hidden md:block">products</span>
         </NavLink>
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "flex items-center  gap-3 px-3 py-2 bg-mist-700 rounded-md"
-              : "flex items-center gap-3 px-3 py-2 hover:bg-mist-700 rounded-md"
+              ? "flex items-center gap-3 p-2 md:px-3 md:py-2 bg-mist-700 rounded-md text-white md:bg-mist-700"
+              : "flex items-center gap-3 p-2 md:px-3 md:py-2 hover:bg-mist-700 rounded-md text-gray-400 md:text-white"
           }
           to="/admin/users"
         >
-          <FaUsers />
-          users
+          <FaUsers className="text-xl md:text-base" />
+          <span className="hidden md:block">users</span>
         </NavLink>
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "flex items-center  gap-3 px-3 py-2 bg-mist-700 rounded-md"
-              : "flex items-center gap-3 px-3 py-2 hover:bg-mist-700 rounded-md"
+              ? "flex items-center gap-3 p-2 md:px-3 md:py-2 bg-mist-700 rounded-md text-white md:bg-mist-700"
+              : "flex items-center gap-3 p-2 md:px-3 md:py-2 hover:bg-mist-700 rounded-md text-gray-400 md:text-white"
           }
           to="/admin/orders-new"
         >
-          <FaShoppingCart />
-          new orders
+          <FaShoppingCart className="text-xl md:text-base" />
+          <span className="hidden md:block">new orders</span>
         </NavLink>
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "flex items-center  gap-3 px-3 py-2 bg-mist-700 rounded-md"
-              : "flex items-center gap-3 px-3 py-2 hover:bg-mist-700 rounded-md"
+              ? "flex items-center gap-3 p-2 md:px-3 md:py-2 bg-mist-700 rounded-md text-white md:bg-mist-700"
+              : "flex items-center gap-3 p-2 md:px-3 md:py-2 hover:bg-mist-700 rounded-md text-gray-400 md:text-white"
           }
           to="/admin/orders-completed"
         >
-          <FaCheckCircle />
-          completed orders
+          <FaCheckCircle className="text-xl md:text-base" />
+          <span className="hidden md:block">completed orders</span>
         </NavLink>
         <NavLink
-          className={({ isActive })=>
+          className={({ isActive }) =>
             isActive
-              ? "flex items-center  gap-3 px-3 py-2 bg-mist-700 rounded-md"
-              : "flex items-center gap-3 px-3 py-2 hover:bg-mist-700 rounded-md"
+              ? "flex items-center gap-3 p-2 md:px-3 md:py-2 bg-mist-700 rounded-md text-white md:bg-mist-700"
+              : "flex items-center gap-3 p-2 md:px-3 md:py-2 hover:bg-mist-700 rounded-md text-gray-400 md:text-white"
           }
           to="/admin/contact-messages"
         >
-          <FaEnvelope />
-          contact messages
+          <FaEnvelope className="text-xl md:text-base" />
+          <span className="hidden md:block">messages</span>
         </NavLink>
         
       </nav>
       <button 
       onClick={handleLogout}
-      className="mt-auto flex items-center gap-3 px-3 py-2 rounded-md hover:bg-mist-700"
+      className="md:mt-auto flex items-center gap-3 p-2 md:px-3 md:py-2 rounded-md hover:bg-mist-700 text-gray-400 md:text-white"
       >
-        <FaSignOutAlt  className="text-red-500 "/>
-        logout
+        <FaSignOutAlt className="text-red-500 text-xl md:text-base" />
+        <span className="hidden md:block">logout</span>
       </button>
     </div>
   );

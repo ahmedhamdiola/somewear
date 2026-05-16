@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "../../../components/ui/table";
 import { Button } from "../../../components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
 import OrderItemsDialog from "../components/OrderItemsDialog";
 
 export const OrdersNew = () => {
@@ -40,11 +41,12 @@ export const OrdersNew = () => {
     load();
   }, []);
 
-  const handleNext = async (order: Order) => {
+  const handleUpdateStatus = async (order: Order, status: string) => {
+    if (status === order.status) return;
     try {
-      await updateOrderStatus(order.id, "delivered");
+      await updateOrderStatus(order.id, status);
       await loadOrders();
-      toast.success("Order marked as delivered ");
+      toast.success(`Order marked as ${status}`);
     } catch (error) {
       console.log(error);
       toast.error("Failed to update status");
@@ -55,7 +57,8 @@ export const OrdersNew = () => {
     <div>
       <h1 className="text-[24px] mb-5 font-bold  ">new orders</h1>
 
-      <Table>
+      <div className="overflow-x-auto bg-white rounded-lg shadow">
+        <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Customer Name</TableHead>
@@ -88,17 +91,25 @@ export const OrdersNew = () => {
                 <Button variant="outline" onClick={() => setSelectedOrder(ord)}>
                   view Items
                 </Button>
-                <Button
-                  className="bg-black hover:bg-green-600 text-white"
-                  onClick={() => handleNext(ord)}
+                <Select
+                  value={ord.status}
+                  onValueChange={(val) => handleUpdateStatus(ord, val)}
                 >
-                  Next Status
-                </Button>
+                  <SelectTrigger className="w-[120px] h-9">
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="delivered">Delivered</SelectItem>
+                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                  </SelectContent>
+                </Select>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
-      </Table>
+        </Table>
+      </div>
 
       <OrderItemsDialog
         order={selectedOrder}

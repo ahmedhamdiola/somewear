@@ -39,7 +39,7 @@ export const getOrderItems = async (orderId: string): Promise<OrderItem[]> => {
 // UPDATE order status
 export const updateOrderStatus = async (
   id: string,
-  status: Order["status"]
+  status: Order["status"] | string 
 ): Promise<void> => {
   await axios.patch(`${API_URL}/order/status/${id}`, { status }, config);
 };

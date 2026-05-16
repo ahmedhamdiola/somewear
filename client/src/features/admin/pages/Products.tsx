@@ -25,6 +25,7 @@ import {
   DialogFooter,
 } from "../../../components/ui/dialog";
 import { Input } from "../../../components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
 import VariantsDialog from "../components/VariantsDialog";
 
 export const Products = () => {
@@ -143,7 +144,8 @@ export const Products = () => {
         <h1 className="text-[24px] font-bold ">manage products</h1>
         <Button onClick={handleAddProduct}>Add products</Button>
       </div>
-      <Table>
+      <div className="overflow-x-auto bg-white rounded-lg shadow">
+        <Table>
         <TableHeader>
           <TableRow>
             <TableHead>image</TableHead>
@@ -193,7 +195,8 @@ export const Products = () => {
             </TableRow>
           ))}
         </TableBody>
-      </Table>
+        </Table>
+      </div>
 
       <Dialog open={openDialog} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-md">
@@ -230,11 +233,16 @@ export const Products = () => {
             </div>
             <div className="grid gap-1">
               <label className="text-sm font-medium">Category</label>
-              <Input
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                placeholder=" Men, Women, Kids"
-              />
+              <Select value={category} onValueChange={setCategory}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Men">Men</SelectItem>
+                  <SelectItem value="Women">Women</SelectItem>
+                  <SelectItem value="Kids">Kids</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid gap-1">
               <label className="text-sm font-medium">Subcategory</label>

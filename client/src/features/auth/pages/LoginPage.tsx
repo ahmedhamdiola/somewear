@@ -5,8 +5,9 @@ import { Form, Field } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import CustomInput from "../components/CustomInput";
-import axios from "axios";
 import NavBar from "../../common/components/navbar/NavBar";
+import { toast } from "react-toastify";
+import { loginService } from "../services/authService";
 
 interface LoginValues {
   email: string;
@@ -26,24 +27,27 @@ const LoginPage = () => {
   };
 
   const handleLogin = async (values: LoginValues) => {
-    const result = await axios.post(
-      "http://localhost:3000/users/login",
-      values,
-      { withCredentials: true }
-    );
-    const user = result.data.data.user;
-    if (user.role == "admin") {
-      navigate("/admin");
-    } else {
-      navigate("/");
+    try {
+      const result = await loginService(values); 
+      const user = result.data.user;    
+      
+      toast.success("Login successful!");
+      if (user.role == "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Login failed. Please check your credentials.");
     }
   };
 
   return (
     <>
       <NavBar />
-      <div className="flex flex-col items-center mt-20  font-sans bg-white">
-        <div className="w-full max-w-[360px] ">
+      <div className="flex flex-col items-center mt-20 font-sans bg-white px-4">
+        <div className="w-full max-w-[360px]">
           <div className="text-center mb-10">
             <h1 className="text-[50px] font-black tracking-[8px] leading-tight uppercase text-black">
 

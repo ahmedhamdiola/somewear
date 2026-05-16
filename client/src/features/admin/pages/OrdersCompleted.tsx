@@ -39,6 +39,7 @@ const load = async()=>{
   return (
     <div>
       <h1 className="text-[24px] mb-6 font-bold">completed orders</h1>
+      <div className="overflow-x-auto bg-white rounded-lg shadow">
         <Table>
           <TableHeader> 
             <TableRow>
@@ -69,6 +70,7 @@ const load = async()=>{
             ))}
           </TableBody>
         </Table>
+      </div>
 
     </div>
   )
