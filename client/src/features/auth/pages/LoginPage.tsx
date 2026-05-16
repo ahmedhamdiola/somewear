@@ -29,8 +29,8 @@ const LoginPage = () => {
   const handleLogin = async (values: LoginValues) => {
     try {
       const result = await loginService(values); 
-      const user = result.data.user;    
-      
+      const user = result.data.user;        
+
       toast.success("Login successful!");
       if (user.role == "admin") {
         navigate("/admin");
@@ -60,7 +60,7 @@ const LoginPage = () => {
             </p>
           </div>
           <div>
-            <Formik<LoginValues>
+            <Formik<LoginValues>  
               initialValues={initialValues}
               onSubmit={handleLogin}
               validationSchema={Yup.object({
@@ -92,7 +92,7 @@ const LoginPage = () => {
                     />
 
                     <span
-                      onClick={() => togglePassword()}
+                      onClick={() => togglePassword()} 
                       className="absolute right-[10px] top-[12px] cursor-pointer text-sm text-[#555]"
                     >
                       {showPassword ? "hide" : "show"}
