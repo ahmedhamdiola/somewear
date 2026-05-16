@@ -215,7 +215,7 @@ export const checkoutService = (
   const order = OrderRepository.createOrder({
     userId,
     totalPrice,
-    shippingFees: orderData.shippingFees,
+    shippingFees: 50, 
     city: orderData.city,
     address: orderData.address,
     phone: orderData.phone,
