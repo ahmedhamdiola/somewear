@@ -100,6 +100,7 @@ const ProductPage = () => {
                                     quantity: 1
                                 })
                                 await refetch();
+                                
                                 toast.success("Added to cart!")
                                 setSize("")
                             }}

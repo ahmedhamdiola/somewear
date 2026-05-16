@@ -23,14 +23,7 @@ export const createOrderItem=(item:OrderItemsInterface): OrderItemsInterface=>{
     }
 }
 
-//get order item by id
-export const getOrderItemById=(id:number): OrderItemsInterface | null=>{
-    const orderItem=db.prepare<[number],OrderItemsInterface>(
-        `SELECT * FROM order_items WHERE id=?`
-    );
-    const result=orderItem.get(id);
-    return result || null;
-}
+
 
 
 //get order items with product details
@@ -53,21 +46,10 @@ export const getOrderItemsByOrderId = (id: number) => {
 }
 
 
-//delete 
-export const deleteOrderItem=(id:number): {message:string} =>{
-    const orderItem=db.prepare<[number],{changes:number}>(
-        `DELETE FROM order_items WHERE id=?`
-    );
-    const result =orderItem.run(id);
-    if(result.changes===0){
-        throw new Error("Order item not found");
-    }
-    return {message:" Order item deleted successfully"}
-}
+
 
 export default{
     createOrderItem,
-    getOrderItemById,
     getOrderItemsByOrderId,
-    deleteOrderItem
+
 }

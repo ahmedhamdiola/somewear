@@ -7,9 +7,11 @@ import { ShoppingBagIcon, UserIcon, MenuIcon, XIcon } from "lucide-react";
 import SearchBar from "../SearchBar";
 import useCategories from "./hooks/useCategories";
 import MobileAccordion from "./MobileAccordion";
+import { useCart } from "../../../cart/hooks/useCart";
 
 const NavBar = () => {
     const { categories } = useCategories()
+    const { cart } = useCart()
     const [menuOpen, setMenuOpen] = useState(false)
 
     const menCategories = categories
@@ -51,7 +53,14 @@ const NavBar = () => {
                 {/* Icons */}
                 <div className="flex items-center gap-3 md:gap-5">
                     <UserIcon className="size-6 md:size-8 cursor-pointer hover:opacity-50" onClick={() => navigate('/profile')} />
-                    <ShoppingBagIcon className="size-6 md:size-8 cursor-pointer hover:opacity-50" onClick={() => navigate('/cart')} />
+                    <div className="relative">
+                        <ShoppingBagIcon className="size-6 md:size-8 cursor-pointer hover:opacity-50" onClick={() => navigate('/cart')} />
+                        {cart?.length > 0 && (
+                            <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] md:text-xs font-bold w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center pointer-events-none">
+                                {cart.length}
+                            </span>
+                        )}
+                    </div>
                     {/* Hamburger — mobile only */}
                     <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
                         {menuOpen

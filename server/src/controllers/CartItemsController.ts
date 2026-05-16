@@ -16,15 +16,15 @@ export const createCartItemController = async (req: AuthRequest, res: Response) 
 }
 
 
-export const getCartItemByIdController = async(req: AuthRequest, res: Response) => {
-    try {
-        const id = Number(req.params.id)
-        const cartItem = await CartItemsService.getCartItemByIdService(id);
-        return successResponse(res, cartItem, "Cart item found")
-    } catch (error) {
-        return errorResponse(res, error, "Failed to get cart item", 400)
-    }
-}
+// export const getCartItemByIdController = async(req: AuthRequest, res: Response) => {
+//     try {
+//         const id = Number(req.params.id)
+//         const cartItem = await CartItemsService.getCartItemByIdService(id);
+//         return successResponse(res, cartItem, "Cart item found")
+//     } catch (error) {
+//         return errorResponse(res, error, "Failed to get cart item", 400)
+//     }
+// }
 
 
 export const getCartItemsByUserIdController = async (req: AuthRequest, res: Response) => {
@@ -108,7 +108,6 @@ export const deleteCartItemsByUserIdController=async(req:AuthRequest,res:Respons
 
 export default {
     createCartItemController,
-    getCartItemByIdController,
     getCartItemsByUserIdController,
     updateCartItemQuantityController,
     deleteCartItemController,

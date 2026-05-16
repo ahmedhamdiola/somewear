@@ -101,6 +101,15 @@ export const cancelOrderService = (orderId: number,): OrderInterface | null => {
         throw new Error("Only pending orders can be cancelled");
     }
 
+    const orderItems = OrderItemsRepository.getOrderItemsByOrderId(orderId);
+    for (const item of orderItems) {
+        const variant = ProductVariantRepository.getProductVariantById(item.productVariantId);
+        if (variant && variant.id) {
+            ProductVariantRepository.updateStock(variant.id, variant.stock + item.quantity);
+            ProductRepository.incrementSoldAmount(variant.productId, -item.quantity);
+        }
+    }
+
     return OrderRepository.updateOrderStatus(orderId, "cancelled");
 };
 
@@ -117,16 +126,28 @@ export const updateOrderStatusService = (
     if (!validStatus.includes(status)) {
         throw new Error("Invalid order status");
     }
+
+    const order = OrderRepository.getOrderById(id);
+    if (!order) {
+        throw new Error("Order not found");
+    }
+
+    if (status === "cancelled" && order.status !== "cancelled") {
+        const orderItems = OrderItemsRepository.getOrderItemsByOrderId(id);
+        for (const item of orderItems) {
+            const variant = ProductVariantRepository.getProductVariantById(item.productVariantId);
+            if (variant && variant.id) {
+                ProductVariantRepository.updateStock(variant.id, variant.stock + item.quantity);
+                ProductRepository.incrementSoldAmount(variant.productId, -item.quantity);
+            }
+        }
+    }
+
     return OrderRepository.updateOrderStatus(id, status);
 };
 
 
-export const deleteOrderService = (id: number): { message: string } => {
-    if (!id || id <= 0) {
-        throw new Error("Invalid order ID");
-    }
-    return OrderRepository.deleteOrderById(id);
-};
+
 
 
 export const checkoutService = (
@@ -231,6 +252,5 @@ export default {
     getAllOrdersService,
     cancelOrderService,
     updateOrderStatusService,
-    deleteOrderService,
     checkoutService
 };

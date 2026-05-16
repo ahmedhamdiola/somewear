@@ -19,7 +19,7 @@ export const getProductVariantById = (id: number): ProductVariantInterface | nul
     const stmt = db.prepare<[number], ProductVariantInterface>(
         "SELECT * FROM product_variants WHERE id = ?"
     );
-    const variant = stmt.get(id);
+    const variant = stmt.get(id); 
     return variant || null;
 };
 
@@ -67,17 +67,7 @@ export const updateProductVariant = (id: number, variant: Partial<ProductVariant
     return getProductVariantById(id);
 };
 
-//delete product variant    
-export const deleteProductVariant = (id: number): boolean => {
-    const stmt = db.prepare<[number], { changes: number }>(
-        "DELETE FROM product_variants WHERE id = ?"
-    );
-    const res = stmt.run(id);
-    if (res.changes === 0) {
-        return false
-    }
-    return true;
-};
+
 
 export default {
     createProductVariant,
@@ -85,5 +75,4 @@ export default {
     getProductVariantsByProductId,
     updateProductVariant,
     updateStock,
-    deleteProductVariant
 };

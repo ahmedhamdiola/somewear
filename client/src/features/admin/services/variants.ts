@@ -23,3 +23,5 @@ export const addProductVariant = async (newVariant: Omit<ProductVariant, "id">):
 export const updateProductVariant = async (id: number, stock: number): Promise<void> => {
   await axios.put(`${API_URL}/${id}`, { stock }, config);
 };
+
+

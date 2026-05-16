@@ -64,7 +64,7 @@ export const getAllProducts = (
 //get total products count
 export const getProductsCount = () => {
     const products = db.prepare(
-        `SELECT COUNT(id) FROM products;`
+        `SELECT COUNT(id) FROM products WHERE isDeleted = 0; `
     )
     const result = products.get()
     return result
@@ -108,7 +108,6 @@ export const incrementSoldAmount = (id: number, quantity: number) => {
 
 //update product
 type UpdateProductInput = Omit<ProductInterface, "id">;
-
 export const updateProduct = (
   id: number,
   product: Partial<UpdateProductInput>,

@@ -311,32 +311,6 @@ router.patch(
   OrderController.updateOrderStatusController,
 );
 
-/**
- * @swagger
- * /order/{id}:
- *   delete:
- *     summary: Delete order by ID
- *     tags: [Orders]
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Order deleted successfully
- *       403:
- *         description: Forbidden
- */
-router.delete(
-  "/:id",
-  authMiddleware,
-  RoleMiddleware("admin"),
-  OrderController.deleteOrderController,
-);
 
 /**
  * @swagger

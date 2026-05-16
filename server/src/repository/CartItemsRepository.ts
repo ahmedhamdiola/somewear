@@ -31,7 +31,7 @@ export const getCartItemById = (id: number): CartItemsInterface | null => {
     return result || null;
 }
 
-
+ 
 //get cart items
 export const getCartItemsByUserId = (userId: number): CartItemsInterface[] => {
     const cartItems = db.prepare<[number], CartItemsInterface>(

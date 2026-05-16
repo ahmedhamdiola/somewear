@@ -15,7 +15,7 @@ import {
   type ProductVariant,
 } from "../services/variants";
 
-const SIZES = ["S", "M", "L", "XL", "XXL"];
+const SIZES = [ "M", "L", "XL", "XXL"];
 
 type VariantEntry = {
   id?: number;

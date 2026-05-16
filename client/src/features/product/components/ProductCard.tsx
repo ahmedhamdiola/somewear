@@ -15,14 +15,17 @@ const ProductCard = ({ product }: Props) => {
   const navigate = useNavigate();
   return (
     <Card
-      className="relative mx-auto w-full max-w-sm pt-0 shadow-md cursor-pointer
-            select-none hover:shadow-lg transition-shadow duration-300"
+      className="relative flex flex-col h-full mx-auto w-full max-w-sm pt-0 shadow-md cursor-pointer select-none hover:shadow-lg transition-shadow duration-300"
       onClick={() => navigate(`/products/${product.id}`)}
     >
       <img src={product?.imageUrl} alt="Event cover" className="pt-3" />
       <CardHeader>
         <CardTitle>{product?.name}</CardTitle>
-        <CardDescription>{product?.description}</CardDescription>
+        <div className="flex-1 mb-3">
+            <CardDescription className="line-clamp-2" title={product?.description}>
+                {product?.description}
+            </CardDescription>
+        </div>
         <div className="flex">
           <CardTitle>Price: ${product?.price}</CardTitle>
         </div>

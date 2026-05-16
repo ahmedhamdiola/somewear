@@ -2,8 +2,8 @@ export interface OrderInterface {
     id: number
     status: string
     createdAt: string
-    ShippingFees: number
-    TotalPrice: number
+    shippingFees: number
+    totalPrice: number
     address: string
     city: string
 }

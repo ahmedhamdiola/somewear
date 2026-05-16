@@ -39,8 +39,8 @@ const ProfileOrdersPage = () => {
                             </div>
 
                             <div className="text-sm font-medium">
-                                {order.TotalPrice + order.ShippingFees} $
-                            </div>
+                                {order.totalPrice + order.shippingFees} $
+                            </div> 
 
                             <Badge className={`${getStatusStyle(order.status)}`}>
                                 {order.status}

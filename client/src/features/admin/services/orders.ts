@@ -56,4 +56,6 @@ export const getTotalRevenue = async (): Promise<number> => {
   const res = await axios.get(`${API_URL}/order/totalRevenue`, config);
   const data = res.data.data as { total_revenue: number };
   return data.total_revenue ?? 0;
-};
+}; 
+
+

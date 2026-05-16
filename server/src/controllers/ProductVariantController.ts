@@ -47,20 +47,12 @@ export const updateProductVariantController = async (req: AuthRequest, res: Resp
     }
 };
 
-export const deleteProductVariantController = async (req: AuthRequest, res: Response) => {
-    try {
-        const id = Number(req.params.id);
-        const result = await ProductVariantService.deleteProductVariantService(id);
-        return successResponse(res, result, "Product variant deleted successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to delete product variant", 400);
-    }
-};
+
 
 export default {
     createProductVariantController,
     getProductVariantByIdController,
     getProductVariantsByProductIdController,
     updateProductVariantController,
-    deleteProductVariantController
+
 };

@@ -61,22 +61,11 @@ export const updateProductVariantService = (id: number, variant: Partial<Product
     return ProductVariantRepository.updateProductVariant(id, variant);
 };
 
-//delete product variant
-export const deleteProductVariantService = (id: number): boolean => {
-    if (!id || id <= 0) {
-        throw new Error("Invalid product variant ID");
-    }
-    const product = ProductVariantRepository.getProductVariantById(id)
-    if (!product) {
-        throw new Error("Product variant not found");
-    }
-    return ProductVariantRepository.deleteProductVariant(id)
-};
+
 
 export default {
     createProductVariantService,
     getProductVariantByIdService,
     getProductVariantsByProductIdService,
     updateProductVariantService,
-    deleteProductVariantService
 };

@@ -47,7 +47,7 @@ export const getCountByUserId = (userId: number) => {
         `   
         SELECT COUNT(userId) AS count
         FROM orders
-        WHERE userId = ?
+        WHERE userId = ? and status='delivered'
         `
     )
     const result = count.get(userId)
@@ -57,9 +57,9 @@ export const getCountByUserId = (userId: number) => {
 //total orders
 export const getTotalAmount = () => {
     const total = db.prepare(
-        `SELECT COUNT(id) FROM orders;`
+        `SELECT COUNT(id) FROM orders where status='delivered'`
     ) 
-    const result = total.get()
+    const result = total.get() 
     return result
 }
 
@@ -106,8 +106,6 @@ export const getTopCity = () =>  {
 
 //get all orders
 export const getAllOrders = (): OrderInterface[] => {
-    //SELECT * FROM orders  
-    ////////////////////////////// edit by bassam //////////////////////
     const res = db.prepare<[], OrderInterface>(`
         SELECT orders.id,
             orders.status,
@@ -156,18 +154,9 @@ export const updateOrderStatus = (
     return getOrderById(id);
 };
 
-//delete order by id
-export const deleteOrderById = (id: number): { message: string } => {
-    const stmt = db.prepare<[number], { changes: number }>(`
-    DELETE FROM orders WHERE id = ? 
-    `);
-    const result = stmt.run(id);
-    if (result.changes === 0) {
-        throw new Error("Order not found");
-    }
-    return { message: "Order deleted successfully" };
 
-}
+
+
 
 export default {
     createOrder,
@@ -182,5 +171,5 @@ export default {
     getAllOrders,
     cancelOrderByOrderId,
     updateOrderStatus,
-    deleteOrderById
+
 }

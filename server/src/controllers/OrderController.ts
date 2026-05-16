@@ -133,17 +133,6 @@ export const updateOrderStatusController = async (req: Request, res: Response) =
     }
 };
 
-export const deleteOrderController = async (req: Request, res: Response) => {
-    try {
-        const id = Number(req.params.id);
-
-        const result = await OrderService.deleteOrderService(id);
-
-        return successResponse(res, result, "Order deleted successfully");
-    } catch (error) {
-        return errorResponse(res, error, "Failed to delete order", 400);
-    }
-};
 
 export const checkoutController = async (req: AuthRequest, res: Response) => {
     try {
@@ -168,6 +157,5 @@ export default {
     getAllOrdersController,
     cancelOrderController,
     updateOrderStatusController,
-    deleteOrderController,
     checkoutController
 };

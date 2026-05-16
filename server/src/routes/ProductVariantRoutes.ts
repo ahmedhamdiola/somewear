@@ -109,26 +109,4 @@ router.get('/variants/:productId', productVariantController.getProductVariantsBy
  */
 router.put('/:id', authMiddleWare,RoleMiddleware("admin"), productVariantController.updateProductVariantController);
 
-/**
- * @swagger
- * /product-variants/{id}:
- *   delete:
- *     summary: Delete product variant by ID
- *     tags: [Product Variants]
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Product variant deleted successfully
- *       403:
- *         description: Forbidden
- */
-router.delete('/:id', authMiddleWare,RoleMiddleware("admin"), productVariantController.deleteProductVariantController);
-
 export default router;
